@@ -1,6 +1,9 @@
 var express = require('express');
 var path = require('path');
 var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
 var favicon = require('serve-favicon');
 var methodOverride = require('method-override');
 var bodyParser = require('body-parser');
@@ -29,10 +32,10 @@ app.use(function(req, res, next) {
 });
 
 
-require('./routes')(app);
+require('./routes')(app,io);
 
 exports.start = function(callback) {
-  var server = app.listen(7788, function() {
+  server.listen(7788, function() {
     callback(server);
   });
 };

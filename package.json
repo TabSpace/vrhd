@@ -7,12 +7,12 @@
     "start": "node index.js"
   },
   "dependencies": {
+  "socket.io":"*",
   "body-parser":"*",
   "connect-flash":"*",
   "serve-static":"*",
   "method-override":"*",
   "serve-favicon":"*",
-  "cookie-session":"*",
   "ejs":"*",
   "express":"4.0",
   "lodash":"*",

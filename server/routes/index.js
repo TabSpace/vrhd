@@ -1,6 +1,6 @@
-module.exports = function(app) {
+module.exports = function(app,io) {
   var routes = ['./main'];
   routes.forEach(function(route) {
-    require(route)(app);
+    require(route)(app,io);
   });
 };

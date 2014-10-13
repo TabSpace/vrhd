@@ -4,7 +4,7 @@ function index(req,res,next){
 
 
 
-module.exports = function(app){
+module.exports = function(app,io){
   app.get('/',index);
   app.get('/index',index);
 };
