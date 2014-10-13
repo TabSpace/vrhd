@@ -1,0 +1,36 @@
+{
+  "name": "vrhd",
+  "version": "0.0.1",
+  "description": "vrhd design",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+  "body-parser":"*",
+  "connect-flash":"*",
+  "serve-static":"*",
+  "method-override":"*",
+  "serve-favicon":"*",
+  "cookie-session":"*",
+  "ejs":"*",
+  "express":"4.0",
+  "lodash":"*",
+  "async":"*"
+  },
+  "engines": {
+    "node": "0.10.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Esoul/vrhd"
+  },
+  "keywords": [
+    "vrhd"
+  ],
+  "author": "vrhd",
+  "contributors": [
+    "Esoul <pillar0514@163.com>",
+    "xiaojue <designsor@gmail.com>"
+  ]
+}
