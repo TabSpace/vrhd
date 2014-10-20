@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Coordinate System Demo</title>
+<meta name="msapplication-tap-highlight" content="no" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<style>
+body{
+	padding: 0;
+	margin: 0;
+	background: #000;
+	color: #fff;
+}
+.box {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	perspective:600px;
+	perspective-origin:center;
+	overflow: hidden;
+}
+
+.coordinate-system{
+	width: 300px;
+	height: 300px;
+	background-color: rgba(255,255,255,0.3);
+	position: absolute;
+	top: 0;
+	left:0;
+	right:0;
+	bottom:0;
+	margin:auto;
+	transform-origin:50% 50%;
+	transform-style:preserve-3d;
+}
+
+.axis{
+	width: 320px;
+	height: 4px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -160px;
+	margin-top: -2px;
+	transform-origin:50% 50%;
+	transform-style:preserve-3d;
+}
+.axis::before{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	transform-origin:50% 50%;
+	transform-style:preserve-3d;
+	transform:rotateX(90deg);
+	content:" ";
+}
+.axis .direction{
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	top:50%;
+	right:5%;
+	margin-top: -14px;
+	transform-origin:50% 50%;
+	transform-style:preserve-3d;
+	transform:rotateY(90deg);
+	border-radius: 50%;
+	border-width: 4px;
+	border-style: solid;
+	border-color: #fff;
+	border-left-color: rgba(0,0,0,0);
+}
+.axis .direction::before{
+	position: absolute;
+	width: 0;
+	height: 0;
+	border-color: rgba(0,0,0,0);
+	border-style: solid;
+	border-bottom-color: #fff;
+	border-bottom-width: 12px;
+	border-left-width: 8px;
+	border-right-width: 8px;
+	content: " ";
+	transform: translateX(-10px) translateY(7px) rotate(-45deg);
+}
+.axis .direction::after{
+	position: absolute;
+	font-weight: bold;
+	width:30px;
+	transform-origin:50% 50%;
+}
+
+.ax{
+	background-color: rgba(255,100,100,0.5);
+}
+.ax::before{
+	background-color: rgba(255,100,100,0.5);
+}
+.ax .direction{
+
+}
+.ax .direction::before{
+
+}
+.ax .direction::after{
+	content : "X/β";
+	transform: translateX(-20px) translateY(-5px) translateZ(20px) rotateX(-90deg) rotateZ(-90deg);
+}
+
+.ay{
+	transform:rotateZ(-90deg);
+	background-color: rgba(100,255,100,0.5);
+}
+.ay::before{
+	background-color: rgba(100,255,100,0.5);
+}
+.ay .direction{
+	transform:rotateY(90deg);
+}
+.ay .direction::before{
+	transform: translateX(-9px) translateY(-8px) rotate(0deg);
+}
+.ay .direction::after{
+	content : "Y/γ";
+	transform: translateX(-25px) translateY(20px) translateZ(15px) rotateZ(-90deg) rotateY(180deg);
+}
+
+.az{
+	transform:rotateY(-90deg);
+	background-color: rgba(100,100,255,0.5);
+}
+.az::before{
+	background-color: rgba(100,100,255,0.5);
+}
+.az .direction{
+	transform:rotateY(-90deg);
+}
+.az .direction::before{
+
+}
+.az .direction::after{
+	content : "Z/α";
+	transform: translateX(-30px) translateZ(-15px) rotateX(90deg) rotateY(180deg);
+}
+
+.surface{
+	position: absolute;
+	width: 200px;
+	height: 200px;
+	background-color: rgba(255,255,255,0.5);
+	color:rgba(255,0,255,0.5);
+	font-size: 32px;
+	line-height: 200px;
+	vertical-align: middle;
+	text-align: center;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	transform-origin:50% 50%;
+}
+.surface.top{
+	transform:translateY(100px) rotateX(-90deg) rotateY(180deg);
+}
+.surface.bottom{
+	transform:translateY(-100px) rotateX(-90deg);
+}
+.surface.left{
+	transform:translateX(-100px) rotateY(90deg) rotateZ(-90deg);
+}
+.surface.right{
+	transform:translateX(100px) rotateY(-90deg) rotateZ(90deg);
+}
+.surface.front{
+	transform:translateZ(100px) rotateX(180deg);
+}
+.surface.behind{
+	transform:translateZ(-100px);
+}
+
+</style>
+</head>
+<body>
+<div class="box">
+<!--
+	参考文献：https://dev.opera.com/articles/w3c-device-orientation-usage/
+-->
+	<div id="coordinate-system" class="coordinate-system">
+		<div class="surface top">top</div>
+		<div class="surface bottom">bottom</div>
+		<div class="surface left">left</div>
+		<div class="surface right">right</div>
+		<div class="surface front">front</div>
+		<div class="surface behind">behind</div>
+		<div class="axis ax">
+			<div class="direction"></div>
+		</div>
+		<div class="axis ay">
+			<div class="direction"></div>
+		</div>
+		<div class="axis az">
+			<div class="direction"></div>
+		</div>
+	</div>
+</div>
+<div id="output" class="log"></div>
+<script src="js/jquery.min.js"></script>
+<script src="js/prefixfree.min.js"></script>
+<script src="js/prefixfree.jquery.js"></script>
+<script>
+(function(){
+
+	var deviceOrientationData = {
+		alpha : 0,
+		beta : 0,
+		gamma : 0
+	};
+	var currentScreenOrientation = 0;
+
+	var degtorad = Math.PI / 180; // Degree-to-Radian conversion
+
+	function getBaseRotationMatrix( alpha, beta, gamma ) {
+		var _x = beta  ? beta  * degtorad : 0; // beta value
+		var _y = gamma ? gamma * degtorad : 0; // gamma value
+		var _z = alpha ? alpha * degtorad : 0; // alpha value
+
+		var cX = Math.cos( _x );
+		var cY = Math.cos( _y );
+		var cZ = Math.cos( _z );
+		var sX = Math.sin( _x );
+		var sY = Math.sin( _y );
+		var sZ = Math.sin( _z );
+
+		//
+		// ZXY-ordered rotation matrix construction.
+		//
+
+		var m11 = cZ * cY - sZ * sX * sY;
+		var m12 = - cX * sZ;
+		var m13 = cY * sZ * sX + cZ * sY;
+
+		var m21 = cY * sZ + cZ * sX * sY;
+		var m22 = cZ * cX;
+		var m23 = sZ * sY - cZ * cY * sX;
+
+		var m31 = - cX * sY;
+		var m32 = sX;
+		var m33 = cX * cY;
+
+		return [
+			m11,    m12,    m13,
+			m21,    m22,    m23,
+			m31,    m32,    m33
+		];
+	};
+
+	function getScreenTransformationMatrix( screenOrientation ) {
+		var orientationAngle = screenOrientation ? screenOrientation * degtorad : 0;
+
+		var cA = Math.cos( orientationAngle );
+		var sA = Math.sin( orientationAngle );
+
+		// Construct our screen transformation matrix
+		var r_s = [
+			cA,    -sA,    0,
+			sA,    cA,     0,
+			0,     0,      1
+		];
+
+		return r_s;
+	}
+
+	function getWorldTransformationMatrix() {
+		var x = 90 * degtorad;
+
+		var cA = Math.cos( x );
+		var sA = Math.sin( x );
+
+		// Construct our world transformation matrix
+		var r_w = [
+			1,     0,    0,
+			0,     cA,   -sA,
+			0,     sA,   cA
+		];
+
+		return r_w;
+	}
+
+	function matrixMultiply( a, b ) {
+		var final = [];
+
+		final[0] = a[0] * b[0] + a[1] * b[3] + a[2] * b[6];
+		final[1] = a[0] * b[1] + a[1] * b[4] + a[2] * b[7];
+		final[2] = a[0] * b[2] + a[1] * b[5] + a[2] * b[8];
+
+		final[3] = a[3] * b[0] + a[4] * b[3] + a[5] * b[6];
+		final[4] = a[3] * b[1] + a[4] * b[4] + a[5] * b[7];
+		final[5] = a[3] * b[2] + a[4] * b[5] + a[5] * b[8];
+
+		final[6] = a[6] * b[0] + a[7] * b[3] + a[8] * b[6];
+		final[7] = a[6] * b[1] + a[7] * b[4] + a[8] * b[7];
+		final[8] = a[6] * b[2] + a[7] * b[5] + a[8] * b[8];
+
+		return final;
+	}
+
+	function computeMatrix() {
+		var rotationMatrix = getBaseRotationMatrix(
+			deviceOrientationData.alpha,
+			deviceOrientationData.beta,
+			deviceOrientationData.gamma
+		); // R
+
+		var screenTransform = getScreenTransformationMatrix( currentScreenOrientation ); // r_s
+
+		var screenAdjustedMatrix = matrixMultiply( rotationMatrix, screenTransform ); // R_s
+
+		var worldTransform = getWorldTransformationMatrix(); // r_w
+
+		var finalMatrix = matrixMultiply( screenAdjustedMatrix, worldTransform ); // R_w
+
+		return finalMatrix; // [ m11, m12, m13, m21, m22, m23, m31, m32, m33 ]
+	}
+
+	function getBaseQuaternion( alpha, beta, gamma ) {
+		var _x = beta  ? beta- degtorad : 0; // beta value
+		var _y = gamma ? gamma * degtorad : 0; // gamma value
+		var _z = alpha ? alpha * degtorad : 0; // alpha value
+
+		var cX = Math.cos( _x/2 );
+		var cY = Math.cos( _y/2 );
+		var cZ = Math.cos( _z/2 );
+		var sX = Math.sin( _x/2 );
+		var sY = Math.sin( _y/2 );
+		var sZ = Math.sin( _z/2 );
+
+		//
+		// ZXY quaternion construction.
+		//
+
+		var w = cX * cY * cZ - sX * sY * sZ;
+		var x = sX * cY * cZ - cX * sY * sZ;
+		var y = cX * sY * cZ + sX * cY * sZ;
+		var z = cX * cY * sZ + sX * sY * cZ;
+
+		return [ w, x, y, z ];
+	}
+
+	function getScreenTransformationQuaternion( screenOrientation ) {
+		var orientationAngle = screenOrientation ? screenOrientation * degtorad : 0;
+
+		var minusHalfAngle = - orientationAngle / 2;
+
+		// Construct the screen transformation quaternion
+		var q_s = [
+			Math.cos( minusHalfAngle ),
+			0,
+			0,
+			Math.sin( minusHalfAngle )
+		];
+
+		return q_s;
+	}
+
+	function getWorldTransformationQuaternion() {
+		var worldAngle = 90 * degtorad;
+
+		var minusHalfAngle = - worldAngle / 2;
+
+		// Construct the world transformation quaternion
+		var q_w = [
+			Math.cos( minusHalfAngle ),
+			Math.sin( minusHalfAngle ),
+			0,
+			0
+		];
+
+		return q_w;
+	}
+
+	function quaternionMultiply( a, b ) {
+		var w = a[0] * b[0] - a[1] * b[1] - a[2] * b[2] - a[3] * b[3];
+		var x = a[1] * b[0] + a[0] * b[1] + a[2] * b[3] - a[3] * b[2];
+		var y = a[2] * b[0] + a[0] * b[2] + a[3] * b[1] - a[1] * b[3];
+		var z = a[3] * b[0] + a[0] * b[3] + a[1] * b[2] - a[2] * b[1];
+
+		return [ w, x, y, z ];
+	}
+
+	function computeQuaternion() {
+		var quaternion = getBaseQuaternion(
+			deviceOrientationData.alpha,
+			deviceOrientationData.beta,
+			deviceOrientationData.gamma
+		); // q
+
+		var worldTransform = getWorldTransformationQuaternion(); // q_w
+
+		var worldAdjustedQuaternion = quaternionMultiply( quaternion, worldTransform ); // q'_w
+
+		var screenTransform = getScreenTransformationQuaternion( currentScreenOrientation ); // q_s
+
+		var finalQuaternion = quaternionMultiply( worldAdjustedQuaternion, screenTransform ); // q'_s
+
+		return finalQuaternion; // [ w, x, y, z ]
+	}
+
+	var logo = $('#logo');
+	var coordinateSystem = $('#coordinate-system');
+	var output = $('#output');
+
+	//IOS:
+	//alpha [0,360]
+	//beta [-90, 90]
+	//gamma [-180, 180]
+
+	var orientationHandler = function(event){
+		var html = [];
+		var transform = [];
+		['alpha', 'beta', 'gamma'].forEach(function(name){
+			html.push(name + ' : ' + event[name]);
+		});
+		deviceOrientationData.alpha = event.alpha;
+		deviceOrientationData.beta = event.beta;
+		deviceOrientationData.gamma = event.gamma;
+		output.html(html.join('<br/>'));
+
+		var matrix = computeMatrix();
+		var quaternion = computeQuaternion();
+
+		//原公式计算出的坐标是反的，所以这里进行一些变换，将坐标系转换过来。
+		var cssMatrix = [
+			-matrix[0],	-matrix[1],	-matrix[2],	0,
+			-matrix[3],	-matrix[4],	-matrix[5],	0,
+			-matrix[6],	-matrix[7],	-matrix[8],	0,
+			0,			0,			0,			1
+		];
+
+		//幸好transform支持多属性整合，否则还必须得折腾矩阵。
+		//现在的数值是正确的。
+		//rotateX(90deg) rotateY(0deg) rotateZ(180deg) matrix 全负值
+		coordinateSystem.css('transform', 'rotateX(90deg) rotateY(0deg) rotateZ(180deg) matrix3d(' + cssMatrix.join(',') + ')');
+
+	};
+
+	if (window.DeviceOrientationEvent) {
+		window.addEventListener('deviceorientation', orientationHandler);
+	}
+})();
+</script>
+</body>
+</html>

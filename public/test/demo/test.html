@@ -1,0 +1,51 @@
+<html>  
+<head>  
+<title>DeviceOrientationEvent</title>  
+<meta charset="UTF-8" />
+<meta name="msapplication-tap-highlight" content="no" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<style>
+body{margin:0;padding: 0; font-size: 12px;}
+.main{padding: 10px; margin:10px; border:1px solid #ddd;}
+#output{padding: 10px; margin:10px; border:1px solid #ddd;}
+p{margin: 0;}
+</style>
+</head>
+<body>
+<div class="main">
+    <p>左右：<span id="alpha">0</span></p>
+    <p>前后：<span id="beta">0</span></p>
+    <p>扭转：<span id="gamma">0</span></p>
+    <p>指北针指向：<span id="heading">0</span>度</p>
+    <p>指北针精度：<span id="accuracy">0</span>度</p>
+</div>
+<div id="output"></div>
+<script type="text/javascript">  
+function orientationHandler(event) {
+    document.getElementById("alpha").innerHTML = event.alpha;  
+    document.getElementById("beta").innerHTML = event.beta;  
+    document.getElementById("gamma").innerHTML = event.gamma;  
+    document.getElementById("heading").innerHTML = event.webkitCompassHeading;  
+    document.getElementById("accuracy").innerHTML = event.webkitCompassAccuracy;
+
+    var html = [];
+    for(var key in event){
+        if(typeof event[key] !== 'function'){
+            html.push('<p>' + key + ' : ' + event[key] + '</p>');
+        }
+    }
+    document.getElementById("output").innerHTML = html.join('');
+}  
+  
+if (window.DeviceOrientationEvent) {  
+  window.addEventListener("deviceorientation", orientationHandler, false);
+} else {  
+  document.body.innerHTML = "What user agent u r using???";  
+}  
+</script>
+</body>
+</html>
+
