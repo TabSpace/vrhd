@@ -67,7 +67,6 @@ body{
 	margin-top: -14px;
 	transform-origin:50% 50%;
 	transform-style:preserve-3d;
-	transform:rotateY(90deg);
 	border-radius: 50%;
 	border-width: 4px;
 	border-style: solid;
@@ -101,18 +100,18 @@ body{
 	background-color: rgba(255,100,100,0.5);
 }
 .ax .direction{
-
+	transform:rotateY(-90deg) rotateZ(180deg);
 }
 .ax .direction::before{
 
 }
 .ax .direction::after{
 	content : "X/β";
-	transform: translateX(-20px) translateY(-5px) translateZ(20px) rotateX(-90deg) rotateZ(-90deg);
+	transform: translateX(-20px) translateY(-5px) translateZ(-20px) rotateX(90deg) rotateZ(-90deg);
 }
 
 .ay{
-	transform:rotateZ(-90deg);
+	transform:rotateZ(90deg);
 	background-color: rgba(100,255,100,0.5);
 }
 .ay::before{
@@ -126,7 +125,7 @@ body{
 }
 .ay .direction::after{
 	content : "Y/γ";
-	transform: translateX(-25px) translateY(20px) translateZ(15px) rotateZ(-90deg) rotateY(180deg);
+	transform: translateX(-25px) translateY(20px) translateZ(15px) rotateZ(-90deg);
 }
 
 .az{
@@ -137,14 +136,14 @@ body{
 	background-color: rgba(100,100,255,0.5);
 }
 .az .direction{
-	transform:rotateY(-90deg);
+	transform:rotateY(90deg);
 }
 .az .direction::before{
 
 }
 .az .direction::after{
 	content : "Z/α";
-	transform: translateX(-30px) translateZ(-15px) rotateX(90deg) rotateY(180deg);
+	transform: translateX(-30px) translateZ(15px) rotateX(-90deg);
 }
 
 .surface{
