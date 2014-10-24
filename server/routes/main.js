@@ -6,14 +6,14 @@ function sight(req,res,next){
   res.render('sight');
 }
 
-function scene(req,res,next){
-  res.render('scene');
+function vision(req,res,next){
+  res.render('vision');
 }
 
 module.exports = function(app,io){
   app.get('/',index);
   app.get('/index',index);
   app.get('/sight',sight);
-  app.get('/scene',scene);
+  app.get('/vision',vision);
 };
 
