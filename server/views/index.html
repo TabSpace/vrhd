@@ -13,8 +13,47 @@
 <title>控制台</title>
 </head>
 <body>
-
-
+<div class="backstage">
+	<div class="backstage-left">
+		<div class="scene-box">
+			<div class="scene" id="vr-scene" type="front"></div>
+		</div>
+		<div class="element-info">
+			<h3>场景信息</h3>
+			<div class="info-list" id="info-list">
+				<p>将场景信息输出到这里，用p标签分隔</p>
+				<p>将场景信息输出到这里，用p标签分隔</p>
+				<p>将场景信息输出到这里，用p标签分隔</p>
+				<p>将场景信息输出到这里，用p标签分隔</p>
+			</div>
+		</div>
+	</div>
+	<div class="backstage-right">
+		<div class="info-box">
+			<h3>选中物体的名称</h3>
+			<div class="info-list">
+				<p>将选中物体的信息输出到这里，用p标签分隔</p>
+				<p>将选中物体的信息输出到这里，用p标签分隔</p>
+				<p>将选中物体的信息输出到这里，用p标签分隔</p>
+				<p>将选中物体的信息输出到这里，用p标签分隔</p>
+			</div>
+		</div>
+		<div class="ctrl-box">
+			<h3>操作</h3>
+			<div class="ctrl-list">
+				<div class="ctrl-panel">
+					对物体可能有多个操作属性，界面用 div.ctrl-panel 分隔
+				</div>
+				<div class="ctrl-panel">
+					对物体可能有多个操作属性，界面用 div.ctrl-panel 分隔
+				</div>
+				<div class="ctrl-panel">
+					对物体可能有多个操作属性，界面用 div.ctrl-panel 分隔
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <script src="js/lithe.js" data-config="/config.js"></script>
 <script>
 lithe.use('conf/global', function(){

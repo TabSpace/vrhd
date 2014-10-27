@@ -1,7 +1,26 @@
 @charset "utf-8";
 @import url(../mods/reset.css);
+@import url(../mods/scene.css);
 
 /* for index */
+body{background-color: #ededed; font-size: 12px;}
+h3{font-size:16px; margin-bottom: 10px; font-weight: bold;}
 
+.backstage{width: 990px; overflow: hidden; margin: 0 auto; border:1px solid #999;}
+.backstage-left{width:480px; min-height:300px; float: left; border-right: 1px solid #999;}
+.backstage-right{width:500px; float: right; min-height: 300px;}
+
+/* VR场景 */
+.scene-box{width: 480px; height: 300px;}
+
+/* VR场景的数据信息 */
+.info-box{border-bottom:1px solid #999; margin-right:10px; padding: 10px 0;}
+.info-list p{height: 16px; line-height: 16px; vertical-align: bottom;}
+.ctrl-box{margin-right: 10px; padding: 10px 0;}
+.ctrl-panel{border: 1px solid #ccc; padding: 10px; margin-bottom: 5px;}
+.ctrl-panel:last-child{margin-bottom: 0;}
+
+/* 选中物体的信息 */
+.element-info{margin: 10px;}
 
 
