@@ -11,7 +11,7 @@ h3{font-size:16px; margin-bottom: 10px; font-weight: bold;}
 .backstage-right{width:500px; float: right; min-height: 300px;}
 
 /* VR场景 */
-.scene-box{width: 480px; height: 300px;}
+.scene-box{width: 480px; height: 300px; border-bottom: 1px solid #999;}
 
 /* VR场景的数据信息 */
 .info-box{border-bottom:1px solid #999; margin-right:10px; padding: 10px 0;}
