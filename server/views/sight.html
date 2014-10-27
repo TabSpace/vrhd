@@ -10,7 +10,15 @@
 <meta name="format-detection" content="telephone=no">
 <link rel="stylesheet" type="text/css" href="css/page/sight.css" />
 <script src="/socket.io/socket.io.js"></script>
-<title>vrhd sight</title> 
+<title>视线</title> 
 </head>
-<body>vrhd sight</body>
+<body>
+	
+<script src="js/lithe.js" data-config="/config.js"></script>
+<script>
+lithe.use('conf/global', function(){
+	lithe.use('conf/page/sight');
+});
+</script>
+</body>
 </html>
