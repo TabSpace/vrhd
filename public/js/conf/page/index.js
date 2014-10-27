@@ -8,6 +8,16 @@ define('conf/page/index',function(require,exports,module){
 
 	require('conf/global');
 
+	var $scene = require('mods/view/scene');
+
+	$('.vrscene').each(function(){
+		var el = $(this);
+		var type = el.attr('type');
+		new $scene({
+			node : el,
+			type : type
+		});
+	});
 
 });
 
