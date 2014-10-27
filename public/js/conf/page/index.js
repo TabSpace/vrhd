@@ -8,6 +8,7 @@ define('conf/page/index',function(require,exports,module){
 
 	require('conf/global');
 
+	var $ = require('lib');
 	var $scene = require('mods/view/scene');
 
 	$('.vrscene').each(function(){

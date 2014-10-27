@@ -6,6 +6,7 @@
  */
 define('conf/global',function(require,exports,module){
 
+	var $ = require('lib');
 
 });
 

@@ -16,7 +16,7 @@ define('mods/view/coordinateSystem',function(require,exports,module){
 	var TPL = $tpl({
 		box : [
 			'<div class="coordinate-system">',
-				'<div class="box-cs">',
+				'<div class="box-cs"  data-role="axis-box">',
 					'<div class="axis ax">',
 						'<div class="direction"></div>',
 					'</div>',
@@ -35,13 +35,19 @@ define('mods/view/coordinateSystem',function(require,exports,module){
 		defaults : {
 			//是否为视线设备
 			isSightDevice : true,
+			//是否显示坐标轴
+			showAxis : true,
 			template : TPL.box,
 			parent : null
 		},
 		build : function(){
-			this.model = new $CoordinateSystemModel();
+			var conf = this.conf;
+			this.model = new $CoordinateSystemModel({
+				showAxis : conf.showAxis
+			});
 			this.insert();
 			this.setStyles();
+			this.checkAxis();
 		},
 		insert : function(){
 			this.role('root').appendTo(this.conf.parent);
@@ -92,6 +98,18 @@ define('mods/view/coordinateSystem',function(require,exports,module){
 			var model = this.model;
 			var transform = model.get('transform');
 			this.role('root').css('transform', transform);
+		},
+		toggleAxis : function(){
+			var model = this.model;
+			model.set(!model.get('showAxis'));
+		},
+		checkAxis : function(){
+			var axisBox = this.role('axis-box');
+			if(this.model.get('showAxis')){
+				axisBox.show();
+			}else{
+				axisBox.hide();
+			}
 		}
 	});
 

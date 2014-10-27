@@ -8,5 +8,16 @@ define('conf/page/sight',function(require,exports,module){
 
 	require('conf/global');
 
+	var $ = require('lib');
+	var $scene = require('mods/view/scene');
+
+	$('.vrscene').each(function(){
+		var el = $(this);
+		var type = el.attr('type');
+		new $scene({
+			node : el,
+			type : type
+		});
+	});
 
 });
