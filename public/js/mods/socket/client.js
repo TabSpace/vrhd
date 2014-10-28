@@ -11,7 +11,6 @@ define('mods/socket/client', function(require, exports, module) {
   server.prototype = {
     constructor: server,
     init: function(model) {
-      var self = this;
       this.vrhd = io(this.iourl);
       this.set(model);
     },
