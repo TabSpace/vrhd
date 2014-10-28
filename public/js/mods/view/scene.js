@@ -10,6 +10,7 @@ define('mods/view/scene',function(require,exports,module){
 	var $view = require('lib/mvc/view');
 	var $sceneModel = require('mods/model/scene');
 	var $CoordinateSystem = require('mods/view/coordinateSystem');
+	var $House = require('mods/view/house');
 
 	var Scene = $view.extend({
 		defaults : {
@@ -24,6 +25,7 @@ define('mods/view/scene',function(require,exports,module){
 			});
 			this.setPerspective();
 			this.buildCoordinateSystem();
+			this.buildHouse();
 		},
 		setEvents : function(action){
 			this.delegate(action);
@@ -39,11 +41,18 @@ define('mods/view/scene',function(require,exports,module){
 				'perspective-origin' : model.get('perspectiveOrigin')
 			});
 		},
+		//构建空间坐标系
 		buildCoordinateSystem : function(){
 			var conf = this.conf;
 			this.coordinateSystem = new $CoordinateSystem({
 				isSightDevice : conf.isSightDevice,
 				parent : this.role('root')
+			});
+		},
+		//构建房间
+		buildHouse : function(){
+			this.house = new $House({
+				coordinateSystem : this.coordinateSystem
 			});
 		}
 	});
