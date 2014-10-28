@@ -1,19 +1,29 @@
-function index(req,res,next){
-  res.render('index');
-}
+var globalModel;
 
-function sight(req,res,next){
-  res.render('sight');
-}
+module.exports = function(app, io) {
 
-function vision(req,res,next){
-  res.render('vision');
-}
+  io.on('connection', function(socket) {
+    socket.on('set', function(data) {
+      if(data) globalModel = data;
+      if(globalModel) io.emit('update', globalModel);
+    });
+  });
 
-module.exports = function(app,io){
-  app.get('/',index);
-  app.get('/index',index);
-  app.get('/sight',sight);
-  app.get('/vision',vision);
+  function index(req, res, next) {
+    res.render('index');
+  }
+
+  function sight(req, res, next) {
+    res.render('sight');
+  }
+
+  function vision(req, res, next) {
+    res.render('vision');
+  }
+
+  app.get('/', index);
+  app.get('/index', index);
+  app.get('/sight', sight);
+  app.get('/vision', vision);
 };
 
