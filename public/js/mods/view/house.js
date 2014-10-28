@@ -12,17 +12,20 @@ define('mods/view/house',function(require,exports,module){
 
 	var House = $view.extend({
 		defaults : {
+			//任务模型
+			personModel : null,
 			//房子所在的坐标系
 			coordinateSystem : null
 		},
 		build : function(){
+			this.personModel = this.conf.personModel;
 			this.coordinateSystem = this.conf.coordinateSystem;
 			this.buildRooms();
 		},
 		buildRooms : function(){
-			var conf = this.conf;
 			this.room = new $Room({
-				coordinateSystem : conf.coordinateSystem
+				personModel : this.personModel,
+				coordinateSystem : this.coordinateSystem
 			});
 		}
 	});

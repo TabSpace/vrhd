@@ -11,6 +11,7 @@ define('mods/view/scene',function(require,exports,module){
 	var $sceneModel = require('mods/model/scene');
 	var $CoordinateSystem = require('mods/view/coordinateSystem');
 	var $House = require('mods/view/house');
+	var $personModel = require('mods/model/person');
 
 	var Scene = $view.extend({
 		defaults : {
@@ -23,6 +24,7 @@ define('mods/view/scene',function(require,exports,module){
 			this.model = new $sceneModel({
 				type : conf.type
 			});
+			this.personModel = new $personModel();
 			this.setPerspective();
 			this.buildCoordinateSystem();
 			this.buildHouse();
@@ -46,12 +48,14 @@ define('mods/view/scene',function(require,exports,module){
 			var conf = this.conf;
 			this.coordinateSystem = new $CoordinateSystem({
 				isSightDevice : conf.isSightDevice,
+				personModel : this.personModel,
 				parent : this.role('root')
 			});
 		},
 		//构建房间
 		buildHouse : function(){
 			this.house = new $House({
+				personModel : this.personModel,
 				coordinateSystem : this.coordinateSystem
 			});
 		}

@@ -11,9 +11,6 @@ define('mods/model/coordinateSystem',function(require,exports,module){
 
 	var CoordinateSystem = $model.extend({
 		defaults : {
-			alpha : 0,
-			beta : 0,
-			gamma : 0,
 			transform : ''
 		},
 		events : {

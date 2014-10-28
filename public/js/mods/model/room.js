@@ -12,17 +12,17 @@ define('mods/model/room',function(require,exports,module){
 	var Room = $model.extend({
 		defaults : {
 			//单位米转化为像素的比例
-			ratio : 20,
+			ratio : 200,
 			//长宽高，单位为米
-			length : 4,
+			extent : 4,
 			width : 3,
-			height : 2.5,
-			lengthPx : 800,
+			height : 2.8,
+			extentPx : 800,
 			widthPx : 600,
 			heightPx : 500
 		},
 		events : {
-			'change:length' : 'computeSize',
+			'change:extent' : 'computeSize',
 			'change:width' : 'computeSize',
 			'change:height' : 'computeSize'
 		},
@@ -30,13 +30,13 @@ define('mods/model/room',function(require,exports,module){
 			this.computeSize();
 		},
 		computeSize : function(){
-			var length = this.get('length');
+			var extent = this.get('extent');
 			var width = this.get('width');
 			var height = this.get('height');
 
 			var pxSize = {};
 			var ratio = this.get('ratio');
-			pxSize.lengthPx = length * ratio;
+			pxSize.extentPx = extent * ratio;
 			pxSize.widthPx = width * ratio;
 			pxSize.heightPx = height * ratio;
 

@@ -12,7 +12,7 @@ define('mods/model/scene',function(require,exports,module){
 	var Scene = $model.extend({
 		defaults : {
 			type : 'front',
-			perspective : 150,
+			perspective : 200,
 			perspectiveOrigin : '50% 50%'
 		},
 		events : {

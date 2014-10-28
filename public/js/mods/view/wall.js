@@ -8,14 +8,10 @@ define('mods/view/wall',function(require,exports,module){
 
 	var $ = require('lib');
 	var $plane = require('mods/view/plane');
+	var $wallModel = require('mods/model/wall');
 
 	var Wall = $plane.extend({
-		defaults : {
 
-		},
-		build : function(){
-
-		}
 	});
 
 	module.exports = Wall;

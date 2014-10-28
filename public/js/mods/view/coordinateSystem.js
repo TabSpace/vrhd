@@ -38,6 +38,7 @@ define('mods/view/coordinateSystem',function(require,exports,module){
 			//是否显示坐标轴
 			showAxis : true,
 			template : TPL.box,
+			personModel : null,
 			parent : null
 		},
 		build : function(){
@@ -45,9 +46,19 @@ define('mods/view/coordinateSystem',function(require,exports,module){
 			this.model = new $CoordinateSystemModel({
 				showAxis : conf.showAxis
 			});
+			this.personModel = conf.personModel;
 			this.insert();
 			this.setStyles();
 			this.checkAxis();
+
+			//构建初始化场景
+			setTimeout(function(){
+				this.compute({
+					'alpha' : 0,
+					'beta' : 89,
+					'gamma' : 0
+				});
+			}.bind(this));
 		},
 		insert : function(){
 			this.role('root').appendTo(this.conf.parent);
@@ -77,12 +88,17 @@ define('mods/view/coordinateSystem',function(require,exports,module){
 				'gamma' : event.gamma,
 				'transform' : transform
 			};
-			this.model.set(data);
 			$socket.trigger('deviceorientation', data);
+			this.sync(data);
 		},
 		//同步坐标系数据
 		sync : function(data){
-			this.model.set(data);
+			this.model.set('transform', data.transform);
+			this.personModel.set({
+				'alpha' : data.alpha,
+				'beta' : data.beta,
+				'gamma' : data.gamma
+			});
 		},
 		setStyles : function(){
 			var root = this.role('root');
