@@ -73,8 +73,7 @@ define('mods/view/plane',function(require,exports,module){
 			root.css({
 				'backface-visibility' : 'hidden',
 				'transform-style' : 'preserve-3d',
-				'transform-origin' : '50% 50%',
-				'background-color' : 'rgba(100,150,150,0.5)'
+				'transform-origin' : '50% 50%'
 			});
 		},
 		buildSurface : function(){

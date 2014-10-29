@@ -43,7 +43,7 @@ define('mods/view/room',function(require,exports,module){
 			personModel.on('change:eyeHeight', proxy('updateEyePos'));
 		},
 		buildGround : function(){
-			this.ground = $('<div></div>').css({
+			this.ground = $('<div name="ground"></div>').css({
 				'position': 'absolute',
 				'top':'50%',
 				'left': '50%',
@@ -67,10 +67,6 @@ define('mods/view/room',function(require,exports,module){
 			var extent = model.get('extentPx');
 			var width = model.get('widthPx');
 			var height = model.get('heightPx');
-
-			console.log('width:', width);
-			console.log('height', height);
-			console.log('extent', extent);
 
 			this.left = new $wall({
 				ground : this.ground,

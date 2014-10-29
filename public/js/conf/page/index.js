@@ -22,13 +22,15 @@ define('conf/page/index', function(require, exports, module) {
 		console.log('socket update', data);
 	});
 
-	$('.vrscene').each(function() {
+	$('.vrscene').each(function(){
 		var el = $(this);
 		var type = el.attr('type');
-		new $scene({
+		var scene = new $scene({
 			node: el,
 			type: type
 		});
+		var sceneData = scene.toJSON();
+		console.log('sceneData:', sceneData);
 	});
 
 });

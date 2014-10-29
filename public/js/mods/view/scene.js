@@ -58,6 +58,15 @@ define('mods/view/scene',function(require,exports,module){
 				personModel : this.personModel,
 				coordinateSystem : this.coordinateSystem
 			});
+		},
+		//更新场景数据
+		updateData : function(data){
+			
+		},
+		toJSON : function(){
+			var data = {};
+
+			return data;
 		}
 	});
 
