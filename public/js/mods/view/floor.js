@@ -31,7 +31,9 @@ define('mods/view/floor',function(require,exports,module){
 			});
 		},
 		setPos : function(){
-			console.log('set floor pos');
+			//地面的位置无需变更
+			var root = this.role('root');
+			root.attr('name', 'floor');
 		},
 		buildSurface : function(){
 			
@@ -41,3 +43,6 @@ define('mods/view/floor',function(require,exports,module){
 	module.exports = Floor;
 
 });
+
+
+

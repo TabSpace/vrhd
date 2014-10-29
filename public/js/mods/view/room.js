@@ -55,43 +55,59 @@ define('mods/view/room',function(require,exports,module){
 			this.ground.appendTo(this.coordinateSystem.role('root'));
 		},
 		buildFloor : function(){
+			var model = this.model;
 			this.floor = new $floor({
 				ground : this.ground,
-				width : 0,
-				height : 0
+				width : model.get('widthPx'),
+				height : model.get('extentPx')
 			});
 		},
 		buildWalls : function(){
+			var model = this.model;
+			var extent = model.get('extentPx');
+			var width = model.get('widthPx');
+			var height = model.get('heightPx');
+
+			console.log('width:', width);
+			console.log('height', height);
+			console.log('extent', extent);
+
 			this.left = new $wall({
 				ground : this.ground,
-				width : 0,
-				height : 0,
+				distance : width / 2,
+				width : extent,
+				height : height,
 				type : 'left'
 			});
 			this.right = new $wall({
 				ground : this.ground,
-				width : 0,
-				height : 0,
+				distance : width / 2,
+				width : extent,
+				height : height,
 				type : 'right'
 			});
 			this.front = new $wall({
 				ground : this.ground,
-				width : 0,
-				height : 0,
+				distance : extent / 2,
+				width : width,
+				height : height,
 				type : 'front'
 			});
 			this.behind = new $wall({
 				ground : this.ground,
-				width : 0,
-				height : 0,
+				distance : extent / 2,
+				width : width,
+				height : height,
 				type : 'behind'
 			});
 		},
 		buildCeiling : function(){
+			var model = this.model;
 			this.ceiling = new $ceiling({
 				ground : this.ground,
-				width : 0,
-				height : 0
+				distance : model.get('heightPx'),
+				width : model.get('widthPx'),
+				height : model.get('extentPx')
 			});
 		},
 		updateEyePos : function(){

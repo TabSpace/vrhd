@@ -24,14 +24,13 @@ define('mods/view/plane',function(require,exports,module){
 			template : TPL.box
 		},
 		build : function(){
-
 			var conf = this.conf;
-			console.log(conf);
 			this.ground = conf.ground;
 			this.getModel();
 			this.create();
 			this.setSize();
 			this.setPos();
+			this.setStyle();
 			this.buildSurface();
 		},
 		setEvents : function(action){
@@ -54,16 +53,32 @@ define('mods/view/plane',function(require,exports,module){
 		setSize : function(){
 			var model = this.model;
 			var root = this.role('root');
+			var width = model.get('width');
+			var height = model.get('height');
 			root.css({
-				width : model.get('width') + 'px',
-				height : model.get('height') + 'px'
+				'position' : 'absolute',
+				'top' : '50%',
+				'left' : '50%',
+				'width' : width + 'px',
+				'height' : height + 'px',
+				'margin-left' : 0 - width / 2 + 'px',
+				'margin-top' : 0 - height / 2 + 'px'
 			});
 		},
 		setPos : function(){
-
+			//一个房间的所有平面都是基于地面的坐标系设置位置的
+		},
+		setStyle : function(){
+			var root = this.role('root');
+			root.css({
+				'backface-visibility' : 'hidden',
+				'transform-style' : 'preserve-3d',
+				'transform-origin' : '50% 50%',
+				'background-color' : 'rgba(100,150,150,0.5)'
+			});
 		},
 		buildSurface : function(){
-
+			//每个面由多个层组成，调整构建的顺序，可修改层叠的顺序
 		}
 	});
 

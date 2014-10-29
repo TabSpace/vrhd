@@ -17,9 +17,9 @@ define('mods/model/room',function(require,exports,module){
 			extent : 4,
 			width : 3,
 			height : 2.8,
-			extentPx : 800,
-			widthPx : 600,
-			heightPx : 500
+			extentPx : 0,
+			widthPx : 0,
+			heightPx : 0
 		},
 		events : {
 			'change:extent' : 'computeSize',
@@ -47,3 +47,6 @@ define('mods/model/room',function(require,exports,module){
 	module.exports = Room;
 
 });
+
+
+

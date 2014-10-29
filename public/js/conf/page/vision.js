@@ -6,24 +6,26 @@
  */
 define('conf/page/vision', function(require, exports, module) {
 
-  require('conf/global');
+	require('conf/global');
 
-  var $ = require('lib');
-  var $scene = require('mods/view/scene');
-  var $socket = require('mods/socket/client');
+	var $ = require('lib');
+	var $scene = require('mods/view/scene');
+	var $socket = require('mods/socket/client');
 
-  $socket.init();
+	$socket.init();
 
-  $socket.on('update',function(data) {
-    $('.vrscene').each(function() {
-      var el = $(this);
-      var type = el.attr('type');
-      new $scene({
-        node: el,
-        type: type
-      });
-    });
-  });
+	$socket.on('update', function(data) {
+		console.log('socket update', data);
+	});
+
+	$('.vrscene').each(function() {
+		var el = $(this);
+		var type = el.attr('type');
+		new $scene({
+			node: el,
+			type: type
+		});
+	});
 
 });
 
