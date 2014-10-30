@@ -29,8 +29,12 @@ define('conf/page/index', function(require, exports, module) {
 			node: el,
 			type: type
 		});
-		var sceneData = scene.toJSON();
-		console.log('sceneData:', sceneData);
+
+		setTimeout(function(){
+			var sceneData = scene.toJSON();
+			console.log('sceneData:', sceneData);
+		});
+
 	});
 
 });

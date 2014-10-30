@@ -26,6 +26,9 @@ define('mods/model/person',function(require,exports,module){
 		},
 		build : function(){
 
+		},
+		toJSON : function(){
+			return this.get();
 		}
 	});
 

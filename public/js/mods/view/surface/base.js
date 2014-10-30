@@ -48,6 +48,13 @@ define('mods/view/surface/base',function(require,exports,module){
 		},
 		setStyles : function(){
 
+		},
+		update : function(data){
+			this.model.set(data);
+		},
+		toJSON : function(){
+			var data = this.model.get();
+			return data;
 		}
 	});
 

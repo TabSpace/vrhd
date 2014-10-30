@@ -130,6 +130,15 @@ define('mods/view/room',function(require,exports,module){
 				'width' : width + 'px',
 				'height' : extent + 'px',
 			});
+		},
+		update : function(data){
+			data = data || {};
+			this.model.set(data.room);
+		},
+		toJSON : function(){
+			var data = {};
+			data.room = this.model.get();
+			return data;
 		}
 	});
 

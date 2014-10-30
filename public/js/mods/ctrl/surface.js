@@ -16,7 +16,7 @@ define('mods/ctrl/surface',function(require,exports,module){
 		build : function(){
 			this.children = {};
 		},
-		load : function(name, options){
+		load : function(name, options, callback){
 			var conf = this.conf;
 			var that = this;
 			lithe.use('mods/view/surface/' + name, function(ChildSurface){
@@ -24,7 +24,33 @@ define('mods/ctrl/surface',function(require,exports,module){
 				options.parent = conf.parent;
 				var surface = new ChildSurface(options);
 				that.children[name] = surface;
+				if($.type(callback) === 'function'){
+					callback();
+				}
 			});
+		},
+		update : function(data){
+			var that = this;
+			var children = this.children;
+			data = data || {};
+			$.each(data, function(name, options){
+				if(children[name] && children[name].update){
+					children[name].update(options);
+				}else{
+					that.load(name, options, function(){
+						if(children[name] && children[name].update){
+							children[name].update(options);
+						}
+					});
+				}
+			});
+		},
+		toJSON : function(){
+			var data = {};
+			$.each(this.children, function(name, obj){
+				data[name] = obj.toJSON();
+			});
+			return data;
 		}
 	});
 

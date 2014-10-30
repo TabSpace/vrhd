@@ -46,6 +46,9 @@ define('mods/view/plane',function(require,exports,module){
 				width : conf.width,
 				height : conf.height
 			});
+			this.surface = new $surface({
+				parent : this.role('root')
+			});
 		},
 		create : function(){
 			this.role('root').appendTo(this.ground);
@@ -78,6 +81,15 @@ define('mods/view/plane',function(require,exports,module){
 		},
 		buildSurface : function(){
 			//每个面由多个层组成，调整构建的顺序，可修改层叠的顺序
+		},
+		update : function(data){
+			data = data || {};
+			this.surface.update(data.surface);
+		},
+		toJSON : function(){
+			var data = {};
+			data.surface = this.surface.toJSON();
+			return data;
 		}
 	});
 

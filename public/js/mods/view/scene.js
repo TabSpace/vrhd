@@ -59,13 +59,17 @@ define('mods/view/scene',function(require,exports,module){
 				coordinateSystem : this.coordinateSystem
 			});
 		},
-		//更新场景数据
-		updateData : function(data){
-			
+		update : function(data){
+			data = data || {};
+			this.personModel.set(data.person);
+			this.coordinateSystem.update(data.coordinateSystem);
+			this.house.update(data.house);
 		},
 		toJSON : function(){
 			var data = {};
-
+			data.person = this.personModel.toJSON();
+			data.coordinateSystem = this.coordinateSystem.toJSON();
+			data.house = this.house.toJSON();
 			return data;
 		}
 	});

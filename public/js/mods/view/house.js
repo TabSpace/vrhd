@@ -27,6 +27,15 @@ define('mods/view/house',function(require,exports,module){
 				personModel : this.personModel,
 				coordinateSystem : this.coordinateSystem
 			});
+		},
+		update : function(data){
+			data = data || {};
+			this.room.update(data.room);
+		},
+		toJSON : function(){
+			var data = {};
+			data.room = this.room.toJSON();
+			return data;
 		}
 	});
 

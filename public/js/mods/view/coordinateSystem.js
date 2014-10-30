@@ -126,6 +126,12 @@ define('mods/view/coordinateSystem',function(require,exports,module){
 			}else{
 				axisBox.hide();
 			}
+		},
+		update : function(data){
+			this.model.set(data);
+		},
+		toJSON : function(){
+			return this.model.get();
 		}
 	});
 
