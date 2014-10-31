@@ -31,9 +31,7 @@ define('mods/view/surface/base',function(require,exports,module){
 			this.delegate(action);
 		},
 		getModel : function(){
-			this.model = new $baseModel({
-
-			});
+			this.model = new $baseModel();
 		},
 		insert : function(){
 			this.role('root').appendTo(this.conf.parent);
@@ -47,7 +45,7 @@ define('mods/view/surface/base',function(require,exports,module){
 			});
 		},
 		setStyles : function(){
-
+			//设置样式
 		},
 		update : function(data){
 			this.model.set(data);

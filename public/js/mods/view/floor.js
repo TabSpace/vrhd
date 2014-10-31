@@ -10,7 +10,6 @@ define('mods/view/floor',function(require,exports,module){
 	var $tpl = require('lib/kit/util/template');
 	var $plane = require('mods/view/plane');
 	var $floorModel = require('mods/model/floor');
-	var $surface = require('mods/ctrl/surface');
 
 	var TPL = $tpl({
 		box : '<div></div>'
@@ -30,9 +29,6 @@ define('mods/view/floor',function(require,exports,module){
 				width : conf.width,
 				height : conf.height
 			});
-			this.surface = new $surface({
-				parent : this.role('root')
-			});
 		},
 		setPos : function(){
 			//地面的位置无需变更
@@ -40,9 +36,10 @@ define('mods/view/floor',function(require,exports,module){
 			root.attr('name', 'floor');
 		},
 		buildSurface : function(){
-			this.surface.load('background', {
-
-			});
+			var surface = this.surface;
+			surface.load('background');
+			surface.load('light');
+			surface.load('animate');
 		}
 	});
 

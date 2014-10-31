@@ -22,8 +22,30 @@ define('mods/view/surface/background',function(require,exports,module){
 		},
 		getModel : function(){
 			this.model = new $backgroundModel({
-				
+				color : '#ddd',
+				image : ''
 			});
+		},
+		setEvents : function(action){
+			this.delegate(action);
+			var proxy = this.proxy();
+			var model = this.model;
+			model.on('change:color', proxy('setStyles'));
+			model.on('change:image', proxy('setStyles'));
+		},
+		setStyles : function(){
+			var model = this.model;
+			var color = model.get('color');
+			var image = model.get('image');
+			var root = this.role('root');
+			if(color){
+				root.css('background-color', color);
+			}
+			if(image){
+				root.css({
+					'background-image' : 'url(' + image + ')'
+				});
+			}
 		}
 	});
 

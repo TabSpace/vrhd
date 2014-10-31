@@ -16,6 +16,12 @@ define('mods/ctrl/surface',function(require,exports,module){
 		build : function(){
 			this.children = {};
 		},
+		get : function(name){
+			var children = this.children;
+			if(children[name]){
+				return children[name];
+			}
+		},
 		load : function(name, options, callback){
 			var conf = this.conf;
 			var that = this;

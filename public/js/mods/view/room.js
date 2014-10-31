@@ -132,12 +132,26 @@ define('mods/view/room',function(require,exports,module){
 			});
 		},
 		update : function(data){
+			var that = this;
 			data = data || {};
 			this.model.set(data.room);
+			[
+				'floor', 'ceiling', 'front',
+				'behind', 'left', 'right'
+			].forEach(function(name){
+				that[name].update(data[name]);
+			});
 		},
 		toJSON : function(){
+			var that = this;
 			var data = {};
 			data.room = this.model.get();
+			[
+				'floor', 'ceiling', 'front',
+				'behind', 'left', 'right'
+			].forEach(function(name){
+				data[name] = that[name].toJSON();
+			});
 			return data;
 		}
 	});

@@ -33,7 +33,7 @@ define('conf/page/index', function(require, exports, module) {
 		setTimeout(function(){
 			var sceneData = scene.toJSON();
 			console.log('sceneData:', sceneData);
-		});
+		}, 1000);
 
 	});
 

@@ -12,7 +12,7 @@ define('mods/view/surface/outerScene',function(require,exports,module){
 	var $outerSceneModel = require('mods/model/surface/outerScene');
 
 	var TPL = $tpl({
-		box : '<div></div>'
+		box : '<div name="outer-scene"></div>'
 	});
 
 	var OuterScene = $base.extend({

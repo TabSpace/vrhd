@@ -10,6 +10,7 @@ define('mods/view/plane',function(require,exports,module){
 	var $view = require('lib/mvc/view');
 	var $tpl = require('lib/kit/util/template');
 	var $planeModel = require('mods/model/plane');
+	var $surface = require('mods/ctrl/surface');
 
 	var TPL = $tpl({
 		box : '<div></div>'
@@ -27,6 +28,7 @@ define('mods/view/plane',function(require,exports,module){
 			var conf = this.conf;
 			this.ground = conf.ground;
 			this.getModel();
+			this.getSurface();
 			this.create();
 			this.setSize();
 			this.setPos();
@@ -46,6 +48,8 @@ define('mods/view/plane',function(require,exports,module){
 				width : conf.width,
 				height : conf.height
 			});
+		},
+		getSurface : function(){
 			this.surface = new $surface({
 				parent : this.role('root')
 			});
@@ -81,6 +85,10 @@ define('mods/view/plane',function(require,exports,module){
 		},
 		buildSurface : function(){
 			//每个面由多个层组成，调整构建的顺序，可修改层叠的顺序
+			var surface = this.surface;
+			surface.load('background');
+			surface.load('light');
+			surface.load('animate');
 		},
 		update : function(data){
 			data = data || {};

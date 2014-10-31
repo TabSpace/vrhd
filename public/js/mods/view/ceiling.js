@@ -44,7 +44,10 @@ define('mods/view/ceiling',function(require,exports,module){
 			});
 		},
 		buildSurface : function(){
-			
+			var surface = this.surface;
+			surface.load('background');
+			surface.load('light');
+			surface.load('animate');
 		}
 	});
 

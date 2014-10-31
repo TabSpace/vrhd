@@ -12,7 +12,7 @@ define('mods/view/surface/animate',function(require,exports,module){
 	var $animateModel = require('mods/model/surface/animate');
 
 	var TPL = $tpl({
-		box : '<div></div>'
+		box : '<div name="animate"></div>'
 	});
 
 	var Animate = $base.extend({
