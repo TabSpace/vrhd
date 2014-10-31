@@ -24,6 +24,17 @@ define('mods/view/surface/light',function(require,exports,module){
 			this.model = new $lightModel({
 
 			});
+		},
+		setStyles : function(){
+			var model = this.model;
+			var root = this.role('root');
+			root.css({
+				'background' : 'radial-gradient(' + [
+					'farthest-corner at 60% 55%',
+					'rgba(255,255,255,0.5)',
+					'rgba(0,0,0,0.5)'
+				].join() + ')'
+			});
 		}
 	});
 

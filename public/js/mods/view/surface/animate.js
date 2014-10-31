@@ -24,6 +24,17 @@ define('mods/view/surface/animate',function(require,exports,module){
 			this.model = new $animateModel({
 
 			});
+		},
+		setStyles : function(){
+			var model = this.model;
+			var root = this.role('root');
+
+		},
+		fxIn : function(){
+
+		},
+		fxOut : function(){
+			
 		}
 	});
 
