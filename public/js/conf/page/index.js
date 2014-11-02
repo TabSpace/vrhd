@@ -10,17 +10,6 @@ define('conf/page/index', function(require, exports, module) {
 
 	var $ = require('lib');
 	var $scene = require('mods/view/scene');
-	var $socket = require('mods/socket/client');
-
-	//只在index初始化数据
-	$socket.init({
-		a: 1,
-		b: 2
-	});
-
-	$socket.on('update', function(data) {
-		console.log('socket update', data);
-	});
 
 	$('.vrscene').each(function(){
 		var el = $(this);
