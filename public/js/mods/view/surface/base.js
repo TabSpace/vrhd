@@ -17,10 +17,14 @@ define('mods/view/surface/base',function(require,exports,module){
 
 	var Base = $view.extend({
 		defaults : {
+			name : 'name',
+			path : '',
 			template : TPL.box,
 			parent : null
 		},
 		build : function(){
+			var conf = this.conf;
+			this.path = [conf.path, conf.name].join('.');
 			this.getModel();
 			this.insert();
 			this.setSize();

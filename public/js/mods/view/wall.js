@@ -17,6 +17,8 @@ define('mods/view/wall',function(require,exports,module){
 
 	var Wall = $plane.extend({
 		defaults : {
+			name : 'wall',
+			path : '',
 			//地面
 			ground : null,
 			width : 0,

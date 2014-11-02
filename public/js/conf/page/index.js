@@ -16,6 +16,7 @@ define('conf/page/index', function(require, exports, module) {
 		var type = el.attr('type');
 		var scene = new $scene({
 			node: el,
+			path : 'vr',
 			type: type
 		});
 

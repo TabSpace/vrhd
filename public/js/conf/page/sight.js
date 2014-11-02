@@ -14,8 +14,9 @@ define('conf/page/sight', function(require, exports, module) {
 	$('.vrscene').each(function() {
 		var el = $(this);
 		var type = el.attr('type');
-		new $scene({
+		var scene = new $scene({
 			node: el,
+			path : 'vr',
 			type: type
 		});
 	});

@@ -17,6 +17,8 @@ define('mods/view/surface/outerScene',function(require,exports,module){
 
 	var OuterScene = $base.extend({
 		defaults : {
+			name : 'outerScene',
+			path : '',
 			template : TPL.box,
 			parent : null
 		},

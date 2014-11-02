@@ -17,6 +17,8 @@ define('mods/view/surface/animate',function(require,exports,module){
 
 	var Animate = $base.extend({
 		defaults : {
+			name : 'animate',
+			path : '',
 			template : TPL.box,
 			parent : null
 		},

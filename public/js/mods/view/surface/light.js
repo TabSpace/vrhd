@@ -17,6 +17,8 @@ define('mods/view/surface/light',function(require,exports,module){
 
 	var Light = $base.extend({
 		defaults : {
+			name : 'light',
+			path : '',
 			template : TPL.box,
 			parent : null
 		},

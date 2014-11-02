@@ -33,6 +33,8 @@ define('mods/view/coordinateSystem',function(require,exports,module){
 
 	var CoordinateSystem = $view.extend({
 		defaults : {
+			name : 'coordinate',
+			path : '',
 			//是否为视线设备
 			isSightDevice : true,
 			//是否显示坐标轴
@@ -43,6 +45,7 @@ define('mods/view/coordinateSystem',function(require,exports,module){
 		},
 		build : function(){
 			var conf = this.conf;
+			this.path = [conf.path, conf.name].join('.');
 			this.model = new $CoordinateSystemModel({
 				showAxis : conf.showAxis
 			});

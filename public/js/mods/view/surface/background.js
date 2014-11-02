@@ -17,6 +17,8 @@ define('mods/view/surface/background',function(require,exports,module){
 
 	var Background = $base.extend({
 		defaults : {
+			name : 'background',
+			path : '',
 			template : TPL.box,
 			parent : null
 		},

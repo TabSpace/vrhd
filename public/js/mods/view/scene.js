@@ -15,12 +15,15 @@ define('mods/view/scene',function(require,exports,module){
 
 	var Scene = $view.extend({
 		defaults : {
+			name : 'scene',
+			path : '',
 			node : null,
 			isSightDevice : true,
 			type : 'front'
 		},
 		build : function(){
 			var conf = this.conf;
+			this.path = [conf.path, conf.name].join('.');
 			this.model = new $sceneModel({
 				type : conf.type
 			});
@@ -47,6 +50,7 @@ define('mods/view/scene',function(require,exports,module){
 		buildCoordinateSystem : function(){
 			var conf = this.conf;
 			this.coordinateSystem = new $CoordinateSystem({
+				path : this.path,
 				isSightDevice : conf.isSightDevice,
 				personModel : this.personModel,
 				parent : this.role('root')
@@ -55,6 +59,7 @@ define('mods/view/scene',function(require,exports,module){
 		//构建房间
 		buildHouse : function(){
 			this.house = new $House({
+				path : this.path,
 				personModel : this.personModel,
 				coordinateSystem : this.coordinateSystem
 			});

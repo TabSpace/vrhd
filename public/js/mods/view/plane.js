@@ -18,6 +18,8 @@ define('mods/view/plane',function(require,exports,module){
 
 	var Plane = $view.extend({
 		defaults : {
+			name : 'plane',
+			path : '',
 			//地面
 			ground : null,
 			width : 0,
@@ -26,6 +28,7 @@ define('mods/view/plane',function(require,exports,module){
 		},
 		build : function(){
 			var conf = this.conf;
+			this.path = [conf.path, conf.name].join('.');
 			this.ground = conf.ground;
 			this.getModel();
 			this.getSurface();
@@ -51,6 +54,7 @@ define('mods/view/plane',function(require,exports,module){
 		},
 		getSurface : function(){
 			this.surface = new $surface({
+				path : this.path,
 				parent : this.role('root')
 			});
 		},

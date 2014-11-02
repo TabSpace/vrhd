@@ -17,6 +17,8 @@ define('mods/view/floor',function(require,exports,module){
 
 	var Floor = $plane.extend({
 		defaults : {
+			name : 'floor',
+			path : '',
 			//地面
 			ground : null,
 			width : 0,

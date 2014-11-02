@@ -17,6 +17,8 @@ define('mods/view/ceiling',function(require,exports,module){
 
 	var Ceiling = $plane.extend({
 		defaults : {
+			name : 'ceiling',
+			path : '',
 			//地面
 			ground : null,
 			width : 0,
@@ -31,6 +33,7 @@ define('mods/view/ceiling',function(require,exports,module){
 				height : conf.height,
 				distance : conf.distance
 			});
+			console.log(this.path);
 		},
 		setPos : function(){
 			//天花板的位置基于房高计算

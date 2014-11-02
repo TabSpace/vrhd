@@ -11,9 +11,13 @@ define('mods/ctrl/surface',function(require,exports,module){
 
 	var Surface = $controller.extend({
 		defaults : {
+			name : 'surface',
+			path : '',
 			parent : null
 		},
 		build : function(){
+			var conf = this.conf;
+			this.path = [conf.path, conf.name].join('.');
 			this.children = {};
 		},
 		get : function(name){
@@ -27,6 +31,7 @@ define('mods/ctrl/surface',function(require,exports,module){
 			var that = this;
 			lithe.use('mods/view/surface/' + name, function(ChildSurface){
 				options = options || {};
+				options.path = that.path;
 				options.parent = conf.parent;
 				var surface = new ChildSurface(options);
 				that.children[name] = surface;
@@ -39,13 +44,13 @@ define('mods/ctrl/surface',function(require,exports,module){
 			var that = this;
 			var children = this.children;
 			data = data || {};
-			$.each(data, function(name, options){
+			$.each(data, function(name, item){
 				if(children[name] && children[name].update){
-					children[name].update(options);
+					children[name].update(item);
 				}else{
-					that.load(name, options, function(){
+					that.load(name, item, function(){
 						if(children[name] && children[name].update){
-							children[name].update(options);
+							children[name].update(item);
 						}
 					});
 				}
