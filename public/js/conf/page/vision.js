@@ -17,6 +17,7 @@ define('conf/page/vision', function(require, exports, module) {
 		var scene = new $scene({
 			node: el,
 			path : 'vr',
+			isSightDevice : false,
 			type: type
 		});
 	});

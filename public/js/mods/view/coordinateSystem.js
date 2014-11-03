@@ -31,6 +31,10 @@ define('mods/view/coordinateSystem',function(require,exports,module){
 		]
 	});
 
+	//视线设备通常有2个场景，应该只让一个场景发送视线指向广播
+	//所以这里提供这个变量用于标记主要的视线场景对象
+	var mainSightDevice  = null;
+
 	var CoordinateSystem = $view.extend({
 		defaults : {
 			name : 'coordinate',
@@ -53,6 +57,9 @@ define('mods/view/coordinateSystem',function(require,exports,module){
 			this.insert();
 			this.setStyles();
 			this.checkAxis();
+			if(conf.isSightDevice && !mainSightDevice){
+				mainSightDevice = this;
+			}
 
 			//构建初始化场景
 			setTimeout(function(){
@@ -91,7 +98,10 @@ define('mods/view/coordinateSystem',function(require,exports,module){
 				'gamma' : event.gamma,
 				'transform' : transform
 			};
-			$socket.trigger('deviceorientation', data);
+			if(mainSightDevice === this){
+				//视线设备的2个场景，仅有一个可以发送广播
+				$socket.trigger('deviceorientation', data);
+			}
 			this.sync(data);
 		},
 		//同步坐标系数据

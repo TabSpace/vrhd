@@ -17,6 +17,7 @@ define('conf/page/sight', function(require, exports, module) {
 		var scene = new $scene({
 			node: el,
 			path : 'vr',
+			isSightDevice : true,
 			type: type
 		});
 	});
