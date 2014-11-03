@@ -131,14 +131,16 @@ define('mods/util/computeOrientationToTransform',function(require,exports,module
 
 		var matrix = computeMatrix();
 
+		//下面的矩阵变换，是通过数据对比得出的
 		var cssMatrix = [
-			matrix[0],	matrix[1],	matrix[2],	0,
-			matrix[3],	matrix[4],	matrix[5],	0,
-			matrix[6],	matrix[7],	matrix[8],	0,
+			-matrix[0],	-matrix[2],	-matrix[1],	0,
+			-matrix[3],	-matrix[5],	-matrix[4],	0,
+			-matrix[6],	-matrix[8],	-matrix[7],	0,
 			0,			0,			0,			1
 		];
 
-		var transform = 'rotateX(90deg) rotateY(0deg) rotateZ(180deg) matrix3d(' + cssMatrix.join(',') + ')';
+		var transform = 'matrix3d(' + cssMatrix.join(',') + ')';
+
 		return transform;
 	};
 
