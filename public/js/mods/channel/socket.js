@@ -8,19 +8,28 @@ define('mods/channel/socket',function(require,exports,module){
 	var $ = require('lib');
 	var $events = require('lib/more/events');
 	var $socket = require('mods/socket/client');
+	var $timer = require('lib/kit/util/timer');
 
 	$socket.init();
 
 	var proxy = new $events();
 	var Socket = {};
+	var cacheData = null;
+
+	$timer.setInterval(function(){
+		if(cacheData){
+			$socket.set(cacheData);
+		}
+		cacheData = null;
+	});
 
 	Socket.trigger = function(name, data){
 		name = name || '';
 		data = data || {};
-		$socket.set({
-			name : name,
-			data : data
-		});
+		if(!cacheData){
+			cacheData = {};
+		}
+		cacheData[name] = data;
 	};
 
 	Socket.on = function(){
@@ -33,11 +42,12 @@ define('mods/channel/socket',function(require,exports,module){
 
 	$socket.on('update', function(rs) {
 		rs = rs || {};
-		var name = rs.name || '';
-		var data = rs.data || {};
-		if(name){
-			proxy.trigger(name, data);
-		}
+		$.each(rs, function(name, data){
+			data = data || {};
+			if(name){
+				proxy.trigger(name, data);
+			}
+		});
 	});
 
 	module.exports = Socket;

@@ -4,6 +4,6 @@
 
 /* for sight */
 body{background-color: #ededed; font-size: 12px;}
-.scene-left{width: 100%;height: 50%;position: absolute;top: 0;}
-.scene-right{width: 100%;height: 50%;position: absolute;top: 50%;}
+.scene-left{width: 100%;height: 50%;position: absolute;top: 0; overflow: hidden;}
+.scene-right{width: 100%;height: 50%;position: absolute;top: 50%; overflow: hidden;}
 

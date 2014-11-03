@@ -73,6 +73,13 @@ define('mods/view/scene',function(require,exports,module){
 			var width = root.width();
 			var height = root.height();
 			var size = Math.min(width, height);
+			var scale = 1;
+			if(size <= 300){
+				scale = 1;
+			}else{
+				scale = size / 300;
+				size = 300;
+			}
 			root.css({
 				'position' : 'absolute',
 				'top' : 0,
@@ -81,9 +88,9 @@ define('mods/view/scene',function(require,exports,module){
 				'right' : 0,
 				'margin' : 'auto',
 				'width' : size + 'px',
-				'height' : size + 'px',
+				'height' : Math.floor(4 * size / 3) + 'px',
 				'transform-origin' : '50% 50%',
-				'transform' : 'rotateZ(-90deg)'
+				'transform' : 'rotateZ(-90deg) scale(' + scale + ')'
 			});
 			parent.css({
 				'position' : 'absolute'

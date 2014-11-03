@@ -4,5 +4,5 @@
 
 /* for vision */
 body{background-color: #ededed; font-size: 12px;}
-.scene-box{width: 100%;height: 100%;position: absolute;top: 0;}
+.scene-box{width: 100%;height: 100%;position: absolute;top: 0; overflow: hidden;}
 
