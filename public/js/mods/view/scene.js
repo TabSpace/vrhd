@@ -31,6 +31,7 @@ define('mods/view/scene',function(require,exports,module){
 			this.setPerspective();
 			this.buildCoordinateSystem();
 			this.buildHouse();
+			this.setStyles();
 		},
 		setEvents : function(action){
 			this.delegate(action);
@@ -62,6 +63,30 @@ define('mods/view/scene',function(require,exports,module){
 				path : this.path,
 				personModel : this.personModel,
 				coordinateSystem : this.coordinateSystem
+			});
+		},
+		setStyles : function(){
+			var conf = this.conf;
+			if(conf.isSightDevice){return;}
+			var root = this.role('root');
+			var parent = root.parent();
+			var width = root.width();
+			var height = root.height();
+			var size = Math.min(width, height);
+			root.css({
+				'position' : 'absolute',
+				'top' : 0,
+				'left' : 0,
+				'bottom' : 0,
+				'right' : 0,
+				'margin' : 'auto',
+				'width' : size + 'px',
+				'height' : size + 'px',
+				'transform-origin' : '50% 50%',
+				'transform' : 'rotateZ(-90deg)'
+			});
+			parent.css({
+				'position' : 'absolute'
 			});
 		},
 		update : function(data){
