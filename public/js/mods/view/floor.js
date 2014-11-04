@@ -10,6 +10,7 @@ define('mods/view/floor',function(require,exports,module){
 	var $tpl = require('lib/kit/util/template');
 	var $plane = require('mods/view/plane');
 	var $floorModel = require('mods/model/floor');
+	var $touchPadModel = require('mods/model/touchPad');
 
 	var TPL = $tpl({
 		box : '<div></div>'
@@ -42,6 +43,19 @@ define('mods/view/floor',function(require,exports,module){
 			surface.load('background');
 			surface.load('light');
 			surface.load('animate');
+		},
+		//获取顶点坐标
+		getVertex : function(){
+			var data = {};
+			var model = this.model;
+			var width = model.get('width');
+			var height = model.get('height');
+			var eyeHeight = $touchPadModel.get('eyeHeight');
+			data.leftTop = [- width / 2, - height / 2, - eyeHeight];
+			data.rightTop = [width / 2, - height / 2, - eyeHeight];
+			data.rightBottom = [width / 2, height / 2, - eyeHeight];
+			data.leftBottom = [- width / 2, height / 2, - eyeHeight];
+			return data;
 		}
 	});
 

@@ -11,7 +11,10 @@ define('mods/model/touchPad',function(require,exports,module){
 
 	var TouchPad = $model.extend({
 		defaults : {
-
+			'eyeHeight' : 0,
+			'alpha' : 0,
+			'beta' : 0,
+			'gamma' : 0
 		},
 		events : {
 

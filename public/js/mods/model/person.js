@@ -16,7 +16,7 @@ define('mods/model/person',function(require,exports,module){
 			beta : 0,
 			gamma : 0,
 			//眼睛在空间中的高度，单位为米
-			eyeHeight : 1.4,
+			eyeHeight : 1.7,
 			//人在房间地面的坐标
 			groundX : 0,
 			groundY : 0

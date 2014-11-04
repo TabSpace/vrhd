@@ -4,7 +4,7 @@
   Tony.Liang <pillar0514@gmail.com>
  * @description 模拟激光笔的原理与VR场景交互
  */
-define('conf/page/index', function(require, exports, module) {
+define('conf/page/touch', function(require, exports, module) {
 
 	require('conf/global');
 

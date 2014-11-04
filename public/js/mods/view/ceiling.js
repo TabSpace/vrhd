@@ -33,7 +33,6 @@ define('mods/view/ceiling',function(require,exports,module){
 				height : conf.height,
 				distance : conf.distance
 			});
-			console.log(this.path);
 		},
 		setPos : function(){
 			//天花板的位置基于房高计算
@@ -51,6 +50,20 @@ define('mods/view/ceiling',function(require,exports,module){
 			surface.load('background');
 			surface.load('light');
 			surface.load('animate');
+		},
+		//获取顶点坐标
+		getVertex : function(){
+			var data = {};
+			var model = this.model;
+			var width = model.get('width');
+			var height = model.get('height');
+			var distance = model.get('distance');
+			var eyeHeight = $touchPadModel.get('eyeHeight');
+			data.leftTop = [- width / 2, - height / 2, distance - eyeHeight];
+			data.rightTop = [width / 2, - height / 2, distance - eyeHeight];
+			data.rightBottom = [width / 2, height / 2, distance - eyeHeight];
+			data.leftBottom = [- width / 2, height / 2, distance - eyeHeight];
+			return data;
 		}
 	});
 

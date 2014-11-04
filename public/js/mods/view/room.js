@@ -12,6 +12,7 @@ define('mods/view/room',function(require,exports,module){
 	var $floor = require('mods/view/floor');
 	var $ceiling = require('mods/view/ceiling');
 	var $roomModel = require('mods/model/room');
+	var $touchPadModel = require('mods/model/touchPad');
 
 	var Room = $view.extend({
 		defaults : {
@@ -55,6 +56,16 @@ define('mods/view/room',function(require,exports,module){
 				'transform-style':'preserve-3d',
 				'background-color' : 'rgba(0,0,0,0.5)'
 			});
+			var testDiv = $('<div/>').css({
+				'width': '100px',
+				'height': '100px',
+				'background': 'rgba(255,0,0,0.7)',
+				'position': 'absolute',
+				'top': '50%',
+				'left': '50%',
+				'margin-left': '-50px',
+				'margin-top': '-50px',
+			}).appendTo(this.coordinateSystem.role('root'));
 			this.ground.appendTo(this.coordinateSystem.role('root'));
 		},
 		buildFloor : function(){
@@ -129,6 +140,9 @@ define('mods/view/room',function(require,exports,module){
 				'translateZ' : eyeHeightPx + 'px',
 				'rotateX' : '180deg',
 				'rotateZ' : '180deg'
+			});
+			$touchPadModel.set({
+				'eyeHeight' : eyeHeightPx
 			});
 		},
 		updateSize : function(){
