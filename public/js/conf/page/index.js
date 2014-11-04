@@ -10,6 +10,11 @@ define('conf/page/index', function(require, exports, module) {
 
 	var $ = require('lib');
 	var $scene = require('mods/view/scene');
+	var $touchPad = require('mods/view/touchPad');
+
+	var touchPad = new $touchPad({
+		node : null
+	});
 
 	$('.vrscene').each(function(){
 		var el = $(this);
@@ -25,7 +30,6 @@ define('conf/page/index', function(require, exports, module) {
 			var sceneData = scene.toJSON();
 			console.log('sceneData:', sceneData);
 		}, 1000);
-
 	});
 
 });

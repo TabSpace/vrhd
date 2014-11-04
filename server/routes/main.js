@@ -21,9 +21,14 @@ module.exports = function(app, io) {
     res.render('vision');
   }
 
+  function touch(req, res, next) {
+    res.render('touch');
+  }
+
   app.get('/', index);
   app.get('/index', index);
   app.get('/sight', sight);
   app.get('/vision', vision);
+  app.get('/touch', touch);
 };
 
