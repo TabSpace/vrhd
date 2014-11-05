@@ -12,7 +12,7 @@ define('mods/view/surface/animate',function(require,exports,module){
 	var $animateModel = require('mods/model/surface/animate');
 
 	var TPL = $tpl({
-		box : '<div name="animate"></div>'
+		box : '<div class="surface" name="animate"></div>'
 	});
 
 	var Animate = $base.extend({
@@ -22,15 +22,23 @@ define('mods/view/surface/animate',function(require,exports,module){
 			template : TPL.box,
 			parent : null
 		},
+		build : function(){
+			Animate.superclass.build.apply(this,arguments);
+			this.setCursor();
+		},
 		getModel : function(){
 			this.model = new $animateModel({
 
 			});
 		},
 		setStyles : function(){
+
+		},
+		setCursor : function(){
+			var conf = this.conf;
 			var model = this.model;
 			var root = this.role('root');
-
+			this.cursor = $('<div class="laser-aiming-point"/>').appendTo(root);
 		},
 		fxIn : function(){
 

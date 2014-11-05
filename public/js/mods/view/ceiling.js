@@ -12,7 +12,7 @@ define('mods/view/ceiling',function(require,exports,module){
 	var $ceilingModel = require('mods/model/ceiling');
 
 	var TPL = $tpl({
-		box : '<div></div>'
+		box : '<div class="plane"></div>'
 	});
 
 	var Ceiling = $plane.extend({
@@ -58,11 +58,11 @@ define('mods/view/ceiling',function(require,exports,module){
 			var width = model.get('width');
 			var height = model.get('height');
 			var distance = model.get('distance');
-			var eyeHeight = $touchPadModel.get('eyeHeight');
-			data.leftTop = [- width / 2, - height / 2, distance - eyeHeight];
-			data.rightTop = [width / 2, - height / 2, distance - eyeHeight];
-			data.rightBottom = [width / 2, height / 2, distance - eyeHeight];
-			data.leftBottom = [- width / 2, height / 2, distance - eyeHeight];
+			var padHeight = $touchPadModel.get('padHeight');
+			data.leftTop = [- width / 2, - height / 2, distance - padHeight];
+			data.rightTop = [width / 2, - height / 2, distance - padHeight];
+			data.rightBottom = [width / 2, height / 2, distance - padHeight];
+			data.leftBottom = [- width / 2, height / 2, distance - padHeight];
 			return data;
 		}
 	});

@@ -12,7 +12,7 @@ define('mods/view/surface/base',function(require,exports,module){
 	var $baseModel = require('mods/model/surface/base');
 
 	var TPL = $tpl({
-		box : '<div></div>'
+		box : '<div class="surface"></div>'
 	});
 
 	var Base = $view.extend({
@@ -38,18 +38,17 @@ define('mods/view/surface/base',function(require,exports,module){
 			this.model = new $baseModel();
 		},
 		insert : function(){
-			this.role('root').appendTo(this.conf.parent);
+			var parent = this.conf.parent;
+			this.role('root').appendTo(parent.role('root'));
 		},
 		setSize : function(){
-			var parent = this.conf.parent;
-			this.role('root').css({
-				'position' : 'absolute',
-				'width' : '100%',
-				'height' : '100%'
-			});
+			//设置大小
 		},
 		setStyles : function(){
 			//设置样式
+		},
+		start : function(){
+
 		},
 		update : function(data){
 			this.model.set(data);

@@ -12,7 +12,7 @@ define('mods/view/surface/background',function(require,exports,module){
 	var $backgroundModel = require('mods/model/surface/background');
 
 	var TPL = $tpl({
-		box : '<div name="background"></div>'
+		box : '<div class="surface" name="background"></div>'
 	});
 
 	var Background = $base.extend({

@@ -12,7 +12,7 @@ define('mods/view/surface/light',function(require,exports,module){
 	var $lightModel = require('mods/model/surface/light');
 
 	var TPL = $tpl({
-		box : '<div name="light"></div>'
+		box : '<div class="surface" name="light"></div>'
 	});
 
 	var Light = $base.extend({

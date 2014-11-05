@@ -47,25 +47,7 @@ define('mods/view/room',function(require,exports,module){
 			personModel.on('change:eyeHeight', proxy('updateEyePos'));
 		},
 		buildGround : function(){
-			this.ground = $('<div name="ground"></div>').css({
-				'position': 'absolute',
-				'top':'50%',
-				'left': '50%',
-				'backface-visibility':'hidden',
-				'transform-origin':'50% 50%',
-				'transform-style':'preserve-3d',
-				'background-color' : 'rgba(0,0,0,0.5)'
-			});
-			var testDiv = $('<div/>').css({
-				'width': '100px',
-				'height': '100px',
-				'background': 'rgba(255,0,0,0.7)',
-				'position': 'absolute',
-				'top': '50%',
-				'left': '50%',
-				'margin-left': '-50px',
-				'margin-top': '-50px',
-			}).appendTo(this.coordinateSystem.role('root'));
+			this.ground = $('<div class="ground" name="ground"></div>');
 			this.ground.appendTo(this.coordinateSystem.role('root'));
 		},
 		buildFloor : function(){
@@ -132,8 +114,10 @@ define('mods/view/room',function(require,exports,module){
 		},
 		updateEyePos : function(){
 			var eyeHeight = this.personModel.get('eyeHeight');
+			var padHeight = this.personModel.get('padHeight');
 			var ratio = this.model.get('ratio');
-			eyeHeightPx = eyeHeight * ratio;
+			var eyeHeightPx = eyeHeight * ratio;
+			var padHeightPx = padHeight * ratio;
 			this.ground.transform({
 				'translateX' : '0',
 				'translateY' : '0',
@@ -142,6 +126,7 @@ define('mods/view/room',function(require,exports,module){
 				'rotateZ' : '180deg'
 			});
 			$touchPadModel.set({
+				'padHeight' : padHeightPx,
 				'eyeHeight' : eyeHeightPx
 			});
 		},

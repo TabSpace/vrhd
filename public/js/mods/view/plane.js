@@ -13,7 +13,7 @@ define('mods/view/plane',function(require,exports,module){
 	var $surface = require('mods/ctrl/surface');
 
 	var TPL = $tpl({
-		box : '<div></div>'
+		box : '<div class="plane"></div>'
 	});
 
 	var Plane = $view.extend({
@@ -55,7 +55,7 @@ define('mods/view/plane',function(require,exports,module){
 		getSurface : function(){
 			this.surface = new $surface({
 				path : this.path,
-				parent : this.role('root')
+				parent : this
 			});
 		},
 		create : function(){
@@ -67,9 +67,6 @@ define('mods/view/plane',function(require,exports,module){
 			var width = model.get('width');
 			var height = model.get('height');
 			root.css({
-				'position' : 'absolute',
-				'top' : '50%',
-				'left' : '50%',
 				'width' : width + 'px',
 				'height' : height + 'px',
 				'margin-left' : 0 - width / 2 + 'px',
@@ -80,12 +77,7 @@ define('mods/view/plane',function(require,exports,module){
 			//一个房间的所有平面都是基于地面的坐标系设置位置的
 		},
 		setStyle : function(){
-			var root = this.role('root');
-			root.css({
-				'backface-visibility' : 'hidden',
-				'transform-style' : 'preserve-3d',
-				'transform-origin' : '50% 50%'
-			});
+			//设置平面的样式
 		},
 		buildSurface : function(){
 			//每个面由多个层组成，调整构建的顺序，可修改层叠的顺序

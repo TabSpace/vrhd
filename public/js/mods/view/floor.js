@@ -13,7 +13,7 @@ define('mods/view/floor',function(require,exports,module){
 	var $touchPadModel = require('mods/model/touchPad');
 
 	var TPL = $tpl({
-		box : '<div></div>'
+		box : '<div class="plane"></div>'
 	});
 
 	var Floor = $plane.extend({
@@ -50,11 +50,11 @@ define('mods/view/floor',function(require,exports,module){
 			var model = this.model;
 			var width = model.get('width');
 			var height = model.get('height');
-			var eyeHeight = $touchPadModel.get('eyeHeight');
-			data.leftTop = [- width / 2, - height / 2, - eyeHeight];
-			data.rightTop = [width / 2, - height / 2, - eyeHeight];
-			data.rightBottom = [width / 2, height / 2, - eyeHeight];
-			data.leftBottom = [- width / 2, height / 2, - eyeHeight];
+			var padHeight = $touchPadModel.get('padHeight');
+			data.leftTop = [- width / 2, - height / 2, - padHeight];
+			data.rightTop = [width / 2, - height / 2, - padHeight];
+			data.rightBottom = [width / 2, height / 2, - padHeight];
+			data.leftBottom = [- width / 2, height / 2, - padHeight];
 			return data;
 		}
 	});

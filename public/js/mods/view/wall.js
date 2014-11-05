@@ -13,7 +13,7 @@ define('mods/view/wall',function(require,exports,module){
 	var $touchPadModel = require('mods/model/touchPad');
 
 	var TPL = $tpl({
-		box : '<div></div>'
+		box : '<div class="plane"></div>'
 	});
 
 	var Wall = $plane.extend({
@@ -93,28 +93,28 @@ define('mods/view/wall',function(require,exports,module){
 			var width = model.get('width');
 			var height = model.get('height');
 			var distance = model.get('distance');
-			var eyeHeight = $touchPadModel.get('eyeHeight');
+			var padHeight = $touchPadModel.get('padHeight');
 
 			if(type === 'left'){
-				data.leftTop = [- distance, width / 2, height - eyeHeight];
-				data.rightTop = [- distance, - width / 2, height - eyeHeight];
-				data.rightBottom = [- distance, - width / 2, - eyeHeight];
-				data.leftBottom = [- distance, width / 2, - eyeHeight];
+				data.leftTop = [- distance, width / 2, height - padHeight];
+				data.rightTop = [- distance, - width / 2, height - padHeight];
+				data.rightBottom = [- distance, - width / 2, - padHeight];
+				data.leftBottom = [- distance, width / 2, - padHeight];
 			}else if(type === 'right'){
-				data.leftTop = [distance, - width / 2, height - eyeHeight];
-				data.rightTop = [distance, width / 2, height - eyeHeight];
-				data.rightBottom = [distance, width / 2, - eyeHeight];
-				data.leftBottom = [distance, - width / 2, - eyeHeight];
+				data.leftTop = [distance, - width / 2, height - padHeight];
+				data.rightTop = [distance, width / 2, height - padHeight];
+				data.rightBottom = [distance, width / 2, - padHeight];
+				data.leftBottom = [distance, - width / 2, - padHeight];
 			}else if(type === 'behind'){
-				data.leftTop = [width / 2, distance, height - eyeHeight];
-				data.rightTop = [- width / 2, distance, height - eyeHeight];
-				data.rightBottom = [- width / 2, distance, - eyeHeight];
-				data.leftBottom = [width / 2, distance, - eyeHeight];
+				data.leftTop = [width / 2, distance, height - padHeight];
+				data.rightTop = [- width / 2, distance, height - padHeight];
+				data.rightBottom = [- width / 2, distance, - padHeight];
+				data.leftBottom = [width / 2, distance, - padHeight];
 			}else if(type === 'front'){
-				data.leftTop = [- width / 2, - distance, height - eyeHeight];
-				data.rightTop = [width / 2, - distance, height - eyeHeight];
-				data.rightBottom = [width / 2, - distance, - eyeHeight];
-				data.leftBottom = [- width / 2, - distance, - eyeHeight];
+				data.leftTop = [- width / 2, - distance, height - padHeight];
+				data.rightTop = [width / 2, - distance, height - padHeight];
+				data.rightBottom = [width / 2, - distance, - padHeight];
+				data.leftBottom = [- width / 2, - distance, - padHeight];
 			}
 
 			return data;

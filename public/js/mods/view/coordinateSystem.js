@@ -114,14 +114,7 @@ define('mods/view/coordinateSystem',function(require,exports,module){
 			});
 		},
 		setStyles : function(){
-			var root = this.role('root');
-			root.css({
-				'width' : '100%',
-				'height' : '100%',
-				'position' : 'absolute',
-				'transform-origin' : '50% 50%',
-				'transform-style' : 'preserve-3d'
-			});
+			//设置坐标系的特殊样式
 		},
 		setCoordinateSystem : function(){
 			var model = this.model;
