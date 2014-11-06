@@ -8,7 +8,12 @@ define('mods/view/plane',function(require,exports,module){
 
 	var $ = require('lib');
 	var $view = require('lib/mvc/view');
+
+	var $limit = require('lib/kit/num/limit');
 	var $tpl = require('lib/kit/util/template');
+	var $arcToDeg = require('lib/kit/math/arcToDeg');
+	var $degToArc = require('lib/kit/math/degToArc');
+
 	var $planeModel = require('mods/model/plane');
 	var $surface = require('mods/ctrl/surface');
 	var $pointerModel = require('mods/model/pointer');
@@ -59,7 +64,6 @@ define('mods/view/plane',function(require,exports,module){
 		//获取指针模型
 		getPointerModel : function(){
 			this.pointerModel = new $pointerModel({
-				bePointed : true,
 				x : 0,
 				y : 0
 			});
@@ -93,16 +97,49 @@ define('mods/view/plane',function(require,exports,module){
 		},
 		//判断该平面是否被触控板指向
 		bePointedTo : function(){
-			return true;
+			var angle = this.getDeltaDeg();
+			var limits = this.getLimitDeg();
+			console.log(this.conf.name, 'bePointedTo angle:', angle, 'limits', limits);
+			return (
+				angle.alpha > limits.alphaMin &&
+				angle.alpha < limits.alphaMax &&
+				angle.beta > limits.betaMin &&
+				angle.beta < limits.betaMax
+			);
+		},
+		//获取指向平面的极限角度关键点
+		getLimitDeg : function(){
+			return {
+				alphaMin : -180,
+				alphaMax : 180,
+				betaMin : -90,
+				betaMax : 90
+			};
+		},
+		//从原点到面做垂线，求垂线的角度
+		getVerticalDeg : function(){
+			return {
+				alpha : 0,
+				beta : 0
+			};
+		},
+		//获取指向平面的差额角度
+		getDeltaDeg : function(){
+			return $touchPadModel.get();
 		},
 		//触控板指在平面上的位置
 		getPadPointPos : function(){
-			var data = $touchPadModel.get();
+			var model = this.model;
+			var width = model.get('width');
+			var height = model.get('height');
+			var angle = this.getDeltaDeg();
 			var center = this.getVerticalPos();
 			var pos = {x : 0, y : 0};
 			var verticalDistance = this.getVerticalDistance();
-			pos.x = Math.tan(Math.PI * data.alpha / 180) * verticalDistance;
-			pos.y = Math.tan(Math.PI * data.beta / 180) * verticalDistance;
+			pos.x = center.x - Math.tan($degToArc(angle.alpha)) * verticalDistance;
+			pos.y = center.y - Math.tan($degToArc(angle.beta)) * verticalDistance;
+			pos.x = $limit(pos.x, 0, width);
+			pos.y = $limit(pos.y, 0, height);
 			return pos;
 		},
 		//获取中心点到墙面的垂线与面相交的位置
@@ -121,14 +158,14 @@ define('mods/view/plane',function(require,exports,module){
 		updatePointer : function(){
 			var pointerModel = this.pointerModel;
 			var bePointed = this.bePointedTo();
-			var pos = {x : 0, y : 0};
+			this.model.set('bePointed', bePointed);
 
+			var pos = {x : 0, y : 0};
+			console.log(this.conf.name, 'bePointed:', bePointed);
 			if(bePointed){
 				pos = this.getPadPointPos();
 			}
-
 			pointerModel.set({
-				bePointed : bePointed,
 				x : pos.x,
 				y : pos.y
 			});

@@ -8,6 +8,9 @@ define('mods/view/wall',function(require,exports,module){
 
 	var $ = require('lib');
 	var $tpl = require('lib/kit/util/template');
+	var $arcToDeg = require('lib/kit/math/arcToDeg');
+	var $degToArc = require('lib/kit/math/degToArc');
+
 	var $plane = require('mods/view/plane');
 	var $wallModel = require('mods/model/wall');
 	var $touchPadModel = require('mods/model/touchPad');
@@ -86,6 +89,50 @@ define('mods/view/wall',function(require,exports,module){
 			surface.load('background');
 			surface.load('light');
 			surface.load('animate');
+		},
+		//获取指向平面的极限角度关键点
+		getLimitDeg : function(){
+			var model = this.model;
+			var width = model.get('width');
+			var height = model.get('height');
+			var distance = model.get('distance');
+			var padHeight = $touchPadModel.get('padHeight');
+			var limits = {};
+			limits.alphaMin = $arcToDeg( Math.atan((- width / 2) / distance) );
+			limits.alphaMax = $arcToDeg( Math.atan((width / 2) / distance) );
+			limits.betaMin = $arcToDeg( Math.atan(- padHeight / distance) );
+			limits.betaMax = $arcToDeg( Math.atan((height - padHeight) / distance) );
+			return limits;
+		},
+		//从原点到面做垂线，求垂线的角度
+		getVerticalDeg : function(){
+			var model = this.model;
+			var type = model.get('type');
+			var angle = {};
+			if(type === 'left'){
+				angle.alpha = 270;
+				angle.beta = 0;
+			}else if(type === 'right'){
+				angle.alpha = 90;
+				angle.beta = 0;
+			}else if(type === 'behind'){
+				angle.alpha = 180;
+				angle.beta = 0;
+			}else if(type === 'front'){
+				angle.alpha = 0;
+				angle.beta = 0;
+			}
+			return angle;
+		},
+		//获取指向平面的差额角度
+		getDeltaDeg : function(){
+			var angle = $touchPadModel.get();
+			var verticalDeg = this.getVerticalDeg();
+			var alpha = angle.alpha - verticalDeg.alpha;
+			alpha = alpha > 180 ? alpha - 360 : alpha;
+			alpha = alpha < -180 ? 360 + alpha : alpha;
+			angle.alpha = alpha;
+			return angle;
 		},
 		//获取中心点到墙面的垂线与面相交的位置
 		getVerticalPos : function(){

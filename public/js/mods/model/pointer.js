@@ -11,7 +11,6 @@ define('mods/model/pointer',function(require,exports,module){
 
 	var Pointer = $model.extend({
 		defaults : {
-			bePointed : false,
 			x : 0,
 			y : 0
 		},

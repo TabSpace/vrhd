@@ -24,10 +24,15 @@ define('mods/view/surface/animate',function(require,exports,module){
 		},
 		build : function(){
 			Animate.superclass.build.apply(this,arguments);
+			this.buildCursor();
+			this.setCursorVisibility();
 			this.setCursor();
 		},
 		setEvents : function(){
-			
+			var proxy = this.proxy();
+			var parent = this.parent;
+			parent.pointerModel.on('change', proxy('setCursor'));
+			parent.model.on('change:bePointed', proxy('setCursorVisibility'));
 		},
 		getModel : function(){
 			this.model = new $animateModel({
@@ -37,28 +42,42 @@ define('mods/view/surface/animate',function(require,exports,module){
 		setStyles : function(){
 
 		},
-		setCursor : function(){
-			var conf = this.conf;
-			var model = this.model;
+		buildCursor : function(){
 			var root = this.role('root');
-			var parent = conf.parent;
-			this.cursor = $('<div class="laser-aiming-point"/>').appendTo(root);
-
-			var parentName = parent.conf.name;
-			var pos = parent.getVerticalPos();
-			this.cursor.transform({
-				'translateX' : pos.x + 'px',
-				'translateY' : pos.y + 'px'
-			});
+			if(!this.cursor){
+				this.cursor = $('<div class="laser-aiming-point"/>').appendTo(root);
+				this.cursor.hide();
+			}
+		},
+		setCursorVisibility : function(){
+			var parentModel = this.parent.model;
+			this.cursorVisible = parentModel.get('bePointed');
+			if(this.cursorVisible){
+				this.cursor.show();
+			}else{
+				this.cursor.hide();
+			}
+		},
+		setCursor : function(){
+			var parent = this.parent;
+			var pointerModel = parent.pointerModel;
+			if(this.cursorVisible){
+				this.cursor.transform({
+					'translateX' : pointerModel.get('x') + 'px',
+					'translateY' : pointerModel.get('y') + 'px'
+				});
+			}
 		},
 		fxIn : function(){
 
 		},
 		fxOut : function(){
-			
+
 		}
 	});
 
 	module.exports = Animate;
 
 });
+
+

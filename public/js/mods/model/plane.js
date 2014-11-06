@@ -13,6 +13,7 @@ define('mods/model/plane',function(require,exports,module){
 		defaults : {
 			name : 'plane',
 			type : '',
+			bePointed : false,
 			distance : 0,
 			width : 0,
 			height : 0,

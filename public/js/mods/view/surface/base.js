@@ -25,6 +25,7 @@ define('mods/view/surface/base',function(require,exports,module){
 		build : function(){
 			var conf = this.conf;
 			this.path = [conf.path, conf.name].join('.');
+			this.parent = conf.parent;
 			this.getModel();
 			this.insert();
 			this.setSize();
