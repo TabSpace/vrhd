@@ -10,6 +10,7 @@ define('mods/view/ceiling',function(require,exports,module){
 	var $tpl = require('lib/kit/util/template');
 	var $plane = require('mods/view/plane');
 	var $ceilingModel = require('mods/model/ceiling');
+	var $touchPadModel = require('mods/model/touchPad');
 
 	var TPL = $tpl({
 		box : '<div class="plane"></div>'
@@ -29,6 +30,7 @@ define('mods/view/ceiling',function(require,exports,module){
 		getModel : function(){
 			var conf = this.conf;
 			this.model = new $ceilingModel({
+				name : conf.name,
 				width : conf.width,
 				height : conf.height,
 				distance : conf.distance
@@ -50,6 +52,10 @@ define('mods/view/ceiling',function(require,exports,module){
 			surface.load('background');
 			surface.load('light');
 			surface.load('animate');
+		},
+		getVerticalDistance : function(){
+			var distance = this.model.get('distance');
+			return distance - $touchPadModel.get('padHeight');
 		},
 		//获取顶点坐标
 		getVertex : function(){

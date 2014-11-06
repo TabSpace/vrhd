@@ -31,6 +31,7 @@ define('mods/view/wall',function(require,exports,module){
 		getModel : function(){
 			var conf = this.conf;
 			this.model = new $wallModel({
+				name : conf.name,
 				type : conf.type,
 				distance : conf.distance,
 				width : conf.width,
@@ -40,10 +41,11 @@ define('mods/view/wall',function(require,exports,module){
 		},
 		setPos : function(){
 			//墙面的位置基于方向计算
+			var conf = this.conf;
 			var model = this.model;
 			var root = this.role('root');
 			var type = model.get('type');
-			root.attr('name', type);
+			root.attr('name', conf.name);
 
 			var width = model.get('width');
 			var height = model.get('height');
@@ -85,7 +87,16 @@ define('mods/view/wall',function(require,exports,module){
 			surface.load('light');
 			surface.load('animate');
 		},
-		//获取顶点坐标
+		//获取中心点到墙面的垂线与面相交的位置
+		getVerticalPos : function(){
+			var padHeight = $touchPadModel.get('padHeight');
+			var model = this.model;
+			return {
+				x : model.get('width') / 2,
+				y : model.get('height') - padHeight
+			};
+		},
+		//获取顶点坐标，该坐标相对于遥控器的位置
 		getVertex : function(){
 			var data = {};
 			var model = this.model;

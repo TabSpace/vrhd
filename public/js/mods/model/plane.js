@@ -11,7 +11,11 @@ define('mods/model/plane',function(require,exports,module){
 
 	var Plane = $model.extend({
 		defaults : {
-
+			name : 'plane',
+			type : '',
+			distance : 0,
+			width : 0,
+			height : 0,
 		},
 		events : {
 

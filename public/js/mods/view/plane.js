@@ -11,6 +11,8 @@ define('mods/view/plane',function(require,exports,module){
 	var $tpl = require('lib/kit/util/template');
 	var $planeModel = require('mods/model/plane');
 	var $surface = require('mods/ctrl/surface');
+	var $pointerModel = require('mods/model/pointer');
+	var $touchPadModel = require('mods/model/touchPad');
 
 	var TPL = $tpl({
 		box : '<div class="plane"></div>'
@@ -31,6 +33,7 @@ define('mods/view/plane',function(require,exports,module){
 			this.path = [conf.path, conf.name].join('.');
 			this.ground = conf.ground;
 			this.getModel();
+			this.getPointerModel();
 			this.getSurface();
 			this.create();
 			this.setSize();
@@ -44,12 +47,21 @@ define('mods/view/plane',function(require,exports,module){
 			this.delegate(action);
 			model.on('change:width', proxy('setSize'));
 			model.on('change:height', proxy('setSize'));
+			$touchPadModel.on('change', proxy('updatePointer'));
 		},
 		getModel : function(){
 			var conf = this.conf;
 			this.model = new $planeModel({
 				width : conf.width,
 				height : conf.height
+			});
+		},
+		//获取指针模型
+		getPointerModel : function(){
+			this.pointerModel = new $pointerModel({
+				bePointed : true,
+				x : 0,
+				y : 0
 			});
 		},
 		getSurface : function(){
@@ -78,6 +90,48 @@ define('mods/view/plane',function(require,exports,module){
 		},
 		setStyle : function(){
 			//设置平面的样式
+		},
+		//判断该平面是否被触控板指向
+		bePointedTo : function(){
+			return true;
+		},
+		//触控板指在平面上的位置
+		getPadPointPos : function(){
+			var data = $touchPadModel.get();
+			var center = this.getVerticalPos();
+			var pos = {x : 0, y : 0};
+			var verticalDistance = this.getVerticalDistance();
+			pos.x = Math.tan(Math.PI * data.alpha / 180) * verticalDistance;
+			pos.y = Math.tan(Math.PI * data.beta / 180) * verticalDistance;
+			return pos;
+		},
+		//获取中心点到墙面的垂线与面相交的位置
+		getVerticalPos : function(){
+			var model = this.model;
+			return {
+				x : model.get('width') / 2,
+				y : model.get('height') / 2
+			};
+		},
+		//获取垂线长度
+		getVerticalDistance : function(){
+			return this.model.get('distance');
+		},
+		//更新指针状态
+		updatePointer : function(){
+			var pointerModel = this.pointerModel;
+			var bePointed = this.bePointedTo();
+			var pos = {x : 0, y : 0};
+
+			if(bePointed){
+				pos = this.getPadPointPos();
+			}
+
+			pointerModel.set({
+				bePointed : bePointed,
+				x : pos.x,
+				y : pos.y
+			});
 		},
 		buildSurface : function(){
 			//每个面由多个层组成，调整构建的顺序，可修改层叠的顺序

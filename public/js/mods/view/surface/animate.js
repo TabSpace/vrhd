@@ -26,6 +26,9 @@ define('mods/view/surface/animate',function(require,exports,module){
 			Animate.superclass.build.apply(this,arguments);
 			this.setCursor();
 		},
+		setEvents : function(){
+			
+		},
 		getModel : function(){
 			this.model = new $animateModel({
 
@@ -38,7 +41,15 @@ define('mods/view/surface/animate',function(require,exports,module){
 			var conf = this.conf;
 			var model = this.model;
 			var root = this.role('root');
+			var parent = conf.parent;
 			this.cursor = $('<div class="laser-aiming-point"/>').appendTo(root);
+
+			var parentName = parent.conf.name;
+			var pos = parent.getVerticalPos();
+			this.cursor.transform({
+				'translateX' : pos.x + 'px',
+				'translateY' : pos.y + 'px'
+			});
 		},
 		fxIn : function(){
 

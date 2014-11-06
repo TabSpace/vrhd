@@ -162,7 +162,6 @@
 	position:absolute;
 	top:50%;
 	left:50%;
-	background-color:rgba(0,0,0,0.5);
 	-webkit-backface-visibility:hidden;
 	-webkit-transform-origin:50% 50%;
 	-webkit-transform-style:preserve-3d;

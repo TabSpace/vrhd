@@ -29,6 +29,7 @@ define('mods/view/floor',function(require,exports,module){
 		getModel : function(){
 			var conf = this.conf;
 			this.model = new $floorModel({
+				name : conf.name,
 				width : conf.width,
 				height : conf.height
 			});
@@ -43,6 +44,9 @@ define('mods/view/floor',function(require,exports,module){
 			surface.load('background');
 			surface.load('light');
 			surface.load('animate');
+		},
+		getVerticalDistance : function(){
+			return $touchPadModel.get('padHeight');
 		},
 		//获取顶点坐标
 		getVertex : function(){
