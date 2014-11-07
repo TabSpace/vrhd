@@ -128,13 +128,6 @@ define('mods/view/plane',function(require,exports,module){
 				betaMax : 90
 			};
 		},
-		//从原点到面做垂线，求垂线的角度
-		getVerticalDeg : function(){
-			return {
-				alpha : 0,
-				beta : 0
-			};
-		},
 		//获取指向平面的差额角度
 		getDeltaDeg : function(){
 			return $touchPadModel.get();

@@ -65,18 +65,10 @@ define('mods/view/floor',function(require,exports,module){
 			limits.betaMin = 0;
 			return limits;
 		},
-		//从原点到面做垂线，求垂线的角度
-		getVerticalDeg : function(){
-			return {
-				alpha : 0,
-				beta : 90
-			};
-		},
 		//获取指向平面的差额角度
 		getDeltaDeg : function(){
 			var angle = $touchPadModel.get();
-			var verticalDeg = this.getVerticalDeg();
-			var alpha = angle.alpha - verticalDeg.alpha;
+			var alpha = angle.alpha;
 			var beta = 90 - Math.abs(angle.beta);
 			alpha = alpha > 180 ? alpha - 360 : alpha;
 			alpha = alpha < -180 ? 360 + alpha : alpha;
