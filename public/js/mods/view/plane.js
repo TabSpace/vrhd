@@ -173,11 +173,11 @@ define('mods/view/plane',function(require,exports,module){
 			var pos = {x : 0, y : 0};
 			if(bePointed){
 				pos = this.getPointerPos();
+				pointerModel.set({
+					x : pos.x,
+					y : pos.y
+				});
 			}
-			pointerModel.set({
-				x : pos.x,
-				y : pos.y
-			});
 		},
 		buildSurface : function(){
 			//每个面由多个层组成，调整构建的顺序，可修改层叠的顺序

@@ -61,29 +61,28 @@ define('mods/view/floor',function(require,exports,module){
 			var limits = {};
 			limits.alphaMin = -180;
 			limits.alphaMax = 180;
-			limits.betaMax = $arcToDeg(Math.atan(Math.max(width, height) / verticalDistance));
-			limits.betaMin = 0;
+			limits.betaMax = $arcToDeg(Math.atan(Math.max(width, height) / verticalDistance)) - 90;
+			limits.betaMin = - 90;
 			return limits;
 		},
 		//获取指向平面的差额角度
 		getDeltaDeg : function(){
 			var angle = $touchPadModel.get();
 			var alpha = angle.alpha;
-			var beta = 90 - Math.abs(angle.beta);
 			alpha = alpha > 180 ? alpha - 360 : alpha;
 			alpha = alpha < -180 ? 360 + alpha : alpha;
 			angle.alpha = alpha;
-			angle.beta = beta;
 			return angle;
 		},
 		//获取触控板指在平面上的位置
 		getPadPointPos : function(){
 			var angle = this.getDeltaDeg();
 			var center = this.getVerticalPos();
+			var beta = 90 - Math.abs(angle.beta);
 			var pos = {x : 0, y : 0};
 			var verticalDistance = this.getVerticalDistance();
-			pos.x = center.x - verticalDistance * Math.tan($degToArc(angle.beta)) * Math.sin($degToArc(angle.alpha));
-			pos.y = center.y - verticalDistance * Math.tan($degToArc(angle.beta)) * Math.cos($degToArc(angle.alpha));
+			pos.x = center.x - verticalDistance * Math.tan($degToArc(beta)) * Math.sin($degToArc(angle.alpha));
+			pos.y = center.y - verticalDistance * Math.tan($degToArc(beta)) * Math.cos($degToArc(angle.alpha));
 			return pos;
 		},
 		//获取顶点坐标
