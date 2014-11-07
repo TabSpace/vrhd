@@ -6,8 +6,6 @@
  */
 define('conf/page/vision', function(require, exports, module) {
 
-	require('conf/global');
-
 	var $ = require('lib');
 	var $scene = require('mods/view/scene');
 	var $touchPad = require('mods/view/touchPad');

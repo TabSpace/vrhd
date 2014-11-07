@@ -46,10 +46,12 @@ define('mods/view/room',function(require,exports,module){
 			model.on('change:extentPx', proxy('updateSize'));
 			personModel.on('change:eyeHeight', proxy('updateEyePos'));
 		},
+		//构建地面
 		buildGround : function(){
 			this.ground = $('<div class="ground" name="ground"></div>');
 			this.ground.appendTo(this.coordinateSystem.role('root'));
 		},
+		//构建地板
 		buildFloor : function(){
 			var model = this.model;
 			this.floor = new $floor({
@@ -59,6 +61,7 @@ define('mods/view/room',function(require,exports,module){
 				height : model.get('extentPx')
 			});
 		},
+		//构建墙面
 		buildWalls : function(){
 			var model = this.model;
 			var extent = model.get('extentPx');
@@ -102,6 +105,7 @@ define('mods/view/room',function(require,exports,module){
 				type : 'behind'
 			});
 		},
+		//构建天花板
 		buildCeiling : function(){
 			var model = this.model;
 			this.ceiling = new $ceiling({
@@ -112,6 +116,7 @@ define('mods/view/room',function(require,exports,module){
 				height : model.get('extentPx')
 			});
 		},
+		//更新眼镜和触控板所在的位置
 		updateEyePos : function(){
 			var eyeHeight = this.personModel.get('eyeHeight');
 			var padHeight = this.personModel.get('padHeight');
@@ -130,6 +135,7 @@ define('mods/view/room',function(require,exports,module){
 				'eyeHeight' : eyeHeightPx
 			});
 		},
+		//更新房间大小
 		updateSize : function(){
 			var model = this.model;
 			var extent = model.get('extentPx');

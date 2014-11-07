@@ -99,13 +99,25 @@ define('mods/view/plane',function(require,exports,module){
 		bePointedTo : function(){
 			var angle = this.getDeltaDeg();
 			var limits = this.getLimitDeg();
-			console.log(this.conf.name, 'bePointedTo angle:', angle, 'limits', limits);
-			return (
+			if(
 				angle.alpha > limits.alphaMin &&
 				angle.alpha < limits.alphaMax &&
 				angle.beta > limits.betaMin &&
 				angle.beta < limits.betaMax
-			);
+			){
+				var model = this.model;
+				var pos = this.getPadPointPos();
+				var width = model.get('width');
+				var height = model.get('height');
+				return (
+					pos.x > 0 &&
+					pos.x < width &&
+					pos.y > 0 &&
+					pos.y < height
+				);
+			}else{
+				return false;
+			}
 		},
 		//获取指向平面的极限角度关键点
 		getLimitDeg : function(){
@@ -127,17 +139,22 @@ define('mods/view/plane',function(require,exports,module){
 		getDeltaDeg : function(){
 			return $touchPadModel.get();
 		},
-		//触控板指在平面上的位置
+		//获取触控板指在平面上的位置
 		getPadPointPos : function(){
-			var model = this.model;
-			var width = model.get('width');
-			var height = model.get('height');
 			var angle = this.getDeltaDeg();
 			var center = this.getVerticalPos();
 			var pos = {x : 0, y : 0};
 			var verticalDistance = this.getVerticalDistance();
-			pos.x = center.x - Math.tan($degToArc(angle.alpha)) * verticalDistance;
-			pos.y = center.y - Math.tan($degToArc(angle.beta)) * verticalDistance;
+			pos.x = center.x - verticalDistance * Math.tan($degToArc(angle.alpha));
+			pos.y = center.y - verticalDistance * Math.tan($degToArc(angle.beta)) / Math.abs(Math.cos($degToArc(angle.alpha)));
+			return pos;
+		},
+		//获取触控板指在可视平面上的位置，格式化位置避免超出范围
+		getPointerPos : function(){
+			var model = this.model;
+			var pos = this.getPadPointPos();
+			var width = model.get('width');
+			var height = model.get('height');
 			pos.x = $limit(pos.x, 0, width);
 			pos.y = $limit(pos.y, 0, height);
 			return pos;
@@ -161,9 +178,8 @@ define('mods/view/plane',function(require,exports,module){
 			this.model.set('bePointed', bePointed);
 
 			var pos = {x : 0, y : 0};
-			console.log(this.conf.name, 'bePointed:', bePointed);
 			if(bePointed){
-				pos = this.getPadPointPos();
+				pos = this.getPointerPos();
 			}
 			pointerModel.set({
 				x : pos.x,

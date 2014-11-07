@@ -6,8 +6,6 @@
  */
 define('conf/page/touch', function(require, exports, module) {
 
-	require('conf/global');
-
 	var $ = require('lib');
 	var $touchPad = require('mods/view/touchPad');
 

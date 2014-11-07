@@ -95,13 +95,13 @@ define('mods/view/wall',function(require,exports,module){
 			var model = this.model;
 			var width = model.get('width');
 			var height = model.get('height');
-			var distance = model.get('distance');
+			var verticalDistance = this.getVerticalDistance();
 			var padHeight = $touchPadModel.get('padHeight');
 			var limits = {};
-			limits.alphaMin = $arcToDeg( Math.atan((- width / 2) / distance) );
-			limits.alphaMax = $arcToDeg( Math.atan((width / 2) / distance) );
-			limits.betaMin = $arcToDeg( Math.atan(- padHeight / distance) );
-			limits.betaMax = $arcToDeg( Math.atan((height - padHeight) / distance) );
+			limits.alphaMin = $arcToDeg( Math.atan((- width / 2) / verticalDistance) );
+			limits.alphaMax = $arcToDeg( Math.atan((width / 2) / verticalDistance) );
+			limits.betaMin = $arcToDeg( Math.atan(- padHeight / verticalDistance) );
+			limits.betaMax = $arcToDeg( Math.atan((height - padHeight) / verticalDistance) );
 			return limits;
 		},
 		//从原点到面做垂线，求垂线的角度
@@ -110,10 +110,10 @@ define('mods/view/wall',function(require,exports,module){
 			var type = model.get('type');
 			var angle = {};
 			if(type === 'left'){
-				angle.alpha = 270;
+				angle.alpha = 90;
 				angle.beta = 0;
 			}else if(type === 'right'){
-				angle.alpha = 90;
+				angle.alpha = 270;
 				angle.beta = 0;
 			}else if(type === 'behind'){
 				angle.alpha = 180;
