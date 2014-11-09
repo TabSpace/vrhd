@@ -24,9 +24,9 @@ define('mods/model/person',function(require,exports,module){
 			gamma : 0,
 			posture : 'standing',
 			//触控板离地面的高度，单位为米
-			padHeight : 1.1,
+			padHeight : 0.7,
 			//眼睛离地面的高度，单位为米
-			eyeHeight : 1.6,
+			eyeHeight : 1.1,
 			//人在房间地面的坐标
 			groundX : 0,
 			groundY : 0
