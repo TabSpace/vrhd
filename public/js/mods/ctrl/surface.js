@@ -50,6 +50,9 @@ define('mods/ctrl/surface',function(require,exports,module){
 				}else{
 					that.load(name, item, function(){
 						if(children[name] && children[name].update){
+							//为了避免toJSON操作时获取到过量数据
+							//更新数据时避免将parent这样的复杂对象传入
+							delete item.parent;
 							children[name].update(item);
 						}
 					});

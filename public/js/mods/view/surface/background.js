@@ -40,13 +40,12 @@ define('mods/view/surface/background',function(require,exports,module){
 			var color = model.get('color');
 			var image = model.get('image');
 			var root = this.role('root');
-			if(color){
-				root.css('background-color', color);
-			}
 			if(image){
 				root.css({
 					'background-image' : 'url(' + image + ')'
 				});
+			}else if(color){
+				root.css('background-color', color);
 			}
 		}
 	});

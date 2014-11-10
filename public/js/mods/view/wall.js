@@ -88,6 +88,7 @@ define('mods/view/wall',function(require,exports,module){
 			var surface = this.surface;
 			surface.load('background');
 			surface.load('light');
+			surface.load('mask');
 			surface.load('content');
 			surface.load('animate');
 		},

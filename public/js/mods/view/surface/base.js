@@ -36,7 +36,7 @@ define('mods/view/surface/base',function(require,exports,module){
 			this.delegate(action);
 		},
 		getModel : function(){
-			this.model = new $baseModel();
+			this.model = new $baseModel({});
 		},
 		insert : function(){
 			var parent = this.conf.parent;
@@ -55,8 +55,7 @@ define('mods/view/surface/base',function(require,exports,module){
 			this.model.set(data);
 		},
 		toJSON : function(){
-			var data = this.model.get();
-			return data;
+			return this.model.get();
 		}
 	});
 

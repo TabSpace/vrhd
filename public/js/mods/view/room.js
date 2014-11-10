@@ -154,8 +154,12 @@ define('mods/view/room',function(require,exports,module){
 			data = data || {};
 			this.model.set(data.room);
 			[
-				'floor', 'ceiling', 'front',
-				'behind', 'left', 'right'
+				'floor',
+				'ceiling',
+				'front',
+				'behind',
+				'left',
+				'right'
 			].forEach(function(name){
 				that[name].update(data[name]);
 			});
@@ -165,8 +169,12 @@ define('mods/view/room',function(require,exports,module){
 			var data = {};
 			data.room = this.model.get();
 			[
-				'floor', 'ceiling', 'front',
-				'behind', 'left', 'right'
+				'floor',
+				'ceiling',
+				'front',
+				'behind',
+				'left',
+				'right'
 			].forEach(function(name){
 				data[name] = that[name].toJSON();
 			});

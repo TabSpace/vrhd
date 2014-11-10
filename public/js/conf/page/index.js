@@ -9,26 +9,31 @@ define('conf/page/index', function(require, exports, module) {
 	var $ = require('lib');
 	var $scene = require('mods/view/scene');
 	var $touchPad = require('mods/view/touchPad');
+	var $demoData = require('mods/data/demo');
+	var $socket = require('mods/channel/socket');
 
 	var touchPad = new $touchPad({
 		node : null
 	});
 
+	var scene;
+
 	$('.vrscene').each(function(){
 		var el = $(this);
 		var type = el.attr('type');
-		var scene = new $scene({
+		scene = new $scene({
 			node: el,
 			path : 'vr',
 			isSightDevice : false,
 			type: type
 		});
-
-		setTimeout(function(){
-			var sceneData = scene.toJSON();
-			console.log('sceneData:', sceneData);
-		}, 1000);
 	});
+
+	scene.update($demoData);
+
+	setTimeout(function(){
+		$socket.trigger('scene:sync', scene.toJSON());
+	}, 1000);
 
 });
 
