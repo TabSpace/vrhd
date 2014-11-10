@@ -31,6 +31,8 @@ define('conf/page/index', function(require, exports, module) {
 
 	scene.update($demoData);
 
+	window.scene = scene;
+
 	setTimeout(function(){
 		$socket.trigger('scene:sync', scene.toJSON());
 	}, 1000);

@@ -36,7 +36,7 @@ define('mods/data/demo',function(require,exports,module){
 					"surface": {
 						"background": {
 							"color": "#ddd",
-							"image": ""
+							"image": "images/floor1.jpg"
 						},
 						"light": {},
 						"mask": {},
@@ -47,8 +47,8 @@ define('mods/data/demo',function(require,exports,module){
 				"ceiling": {
 					"surface": {
 						"background": {
-							"color": "#fdd",
-							"image": ""
+							"color": "#ddd",
+							"image": "images/wall2.jpg"
 						},
 						"light": {},
 						"mask": {},
@@ -60,7 +60,7 @@ define('mods/data/demo',function(require,exports,module){
 					"surface": {
 						"background": {
 							"color": "#ddd",
-							"image": ""
+							"image": "images/wall1.jpg"
 						},
 						"light": {},
 						"mask": {},
@@ -72,7 +72,7 @@ define('mods/data/demo',function(require,exports,module){
 					"surface": {
 						"background": {
 							"color": "#ddd",
-							"image": ""
+							"image": "images/wall3.png"
 						},
 						"light": {},
 						"mask": {},
@@ -84,7 +84,7 @@ define('mods/data/demo',function(require,exports,module){
 					"surface": {
 						"background": {
 							"color": "#ddd",
-							"image": ""
+							"image": "images/wall1.jpg"
 						},
 						"light": {},
 						"mask": {},
@@ -96,7 +96,7 @@ define('mods/data/demo',function(require,exports,module){
 					"surface": {
 						"background": {
 							"color": "#ddd",
-							"image": ""
+							"image": "images/wall1.jpg"
 						},
 						"light": {},
 						"mask": {},
