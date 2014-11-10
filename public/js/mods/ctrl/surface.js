@@ -31,10 +31,12 @@ define('mods/ctrl/surface',function(require,exports,module){
 			var that = this;
 			lithe.use('mods/view/surface/' + name, function(ChildSurface){
 				options = options || {};
-				options.path = that.path;
-				options.parent = conf.parent;
-				var surface = new ChildSurface(options);
-				that.children[name] = surface;
+				if(!that.children[name]){
+					options.path = that.path;
+					options.parent = conf.parent;
+					var surface = new ChildSurface(options);
+					that.children[name] = surface;
+				}
 				if($.type(callback) === 'function'){
 					callback();
 				}
@@ -53,6 +55,7 @@ define('mods/ctrl/surface',function(require,exports,module){
 							//为了避免toJSON操作时获取到过量数据
 							//更新数据时避免将parent这样的复杂对象传入
 							delete item.parent;
+							delete item.path;
 							children[name].update(item);
 						}
 					});
