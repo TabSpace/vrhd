@@ -18,6 +18,7 @@ define('mods/view/plane',function(require,exports,module){
 	var $surface = require('mods/ctrl/surface');
 	var $pointerModel = require('mods/model/pointer');
 	var $touchPadModel = require('mods/model/touchPad');
+	var $socket = require('mods/channel/socket');
 
 	var TPL = $tpl({
 		box : '<div class="plane"></div>'
@@ -47,12 +48,17 @@ define('mods/view/plane',function(require,exports,module){
 			this.buildSurface();
 		},
 		setEvents : function(action){
+			var root = this.role('root');
 			var model = this.model;
 			var proxy = this.proxy();
 			this.delegate(action);
+			model.on('change', proxy('sync'));
 			model.on('change:width', proxy('setSize'));
 			model.on('change:height', proxy('setSize'));
 			$touchPadModel.on('change', proxy('updatePointer'));
+			root.on('mouseenter', proxy('onPointerEnter'));
+			root.on('mouseleave', proxy('onPointerLeave'));
+			$socket.on(this.path + ':sync', proxy('onSync'));
 		},
 		getModel : function(){
 			var conf = this.conf;
@@ -76,6 +82,20 @@ define('mods/view/plane',function(require,exports,module){
 		},
 		create : function(){
 			this.role('root').appendTo(this.ground);
+		},
+		//同步数据模型
+		sync : function(){
+			$socket.trigger(this.path + ':sync', this.model.get());
+		},
+		//获取同步数据更新模型
+		onSync : function(data){
+			this.model.set(data);
+		},
+		onPointerEnter : function(){
+			this.model.set('hover', true);
+		},
+		onPointerLeave : function(){
+			this.model.set('hover', false);
 		},
 		setSize : function(){
 			var model = this.model;

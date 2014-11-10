@@ -63,7 +63,12 @@ define('mods/data/demo',function(require,exports,module){
 							"image": "images/wall1.jpg"
 						},
 						"light": {},
-						"mask": {},
+						"mask": {
+							"door" : {
+								"width" : 1,
+								"height" : 2
+							}
+						},
 						"content": {},
 						"animate": {}
 					}

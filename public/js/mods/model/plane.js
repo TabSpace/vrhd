@@ -17,6 +17,7 @@ define('mods/model/plane',function(require,exports,module){
 			distance : 0,
 			width : 0,
 			height : 0,
+			hover : false
 		},
 		events : {
 
