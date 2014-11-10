@@ -88,6 +88,7 @@ define('mods/view/wall',function(require,exports,module){
 			var surface = this.surface;
 			surface.load('background');
 			surface.load('light');
+			surface.load('content');
 			surface.load('animate');
 		},
 		//获取指向平面的极限角度关键点

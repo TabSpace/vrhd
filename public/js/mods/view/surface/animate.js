@@ -10,9 +10,15 @@ define('mods/view/surface/animate',function(require,exports,module){
 	var $base = require('mods/view/surface/base');
 	var $tpl = require('lib/kit/util/template');
 	var $animateModel = require('mods/model/surface/animate');
+	var $socket = require('mods/channel/socket');
 
 	var TPL = $tpl({
-		box : '<div class="surface" name="animate"></div>'
+		box : '<div class="surface" name="animate"></div>',
+		cursor : [
+			'<div class="laser-aiming-point">',
+				'<div class="laser-ring"></div>',
+			'</div>'
+		]
 	});
 
 	var Animate = $base.extend({
@@ -33,6 +39,7 @@ define('mods/view/surface/animate',function(require,exports,module){
 			var parent = this.parent;
 			parent.pointerModel.on('change', proxy('setCursor'));
 			parent.model.on('change:bePointed', proxy('setCursorVisibility'));
+			$socket.on('touchpad:event', proxy('checkEvent'));
 		},
 		getModel : function(){
 			this.model = new $animateModel({
@@ -45,7 +52,7 @@ define('mods/view/surface/animate',function(require,exports,module){
 		buildCursor : function(){
 			var root = this.role('root');
 			if(!this.cursor){
-				this.cursor = $('<div class="laser-aiming-point"/>').appendTo(root);
+				this.cursor = $(TPL.get('cursor')).appendTo(root);
 				this.cursor.hide();
 			}
 		},
@@ -66,6 +73,17 @@ define('mods/view/surface/animate',function(require,exports,module){
 					'translateX' : pointerModel.get('x') + 'px',
 					'translateY' : pointerModel.get('y') + 'px'
 				});
+			}
+		},
+		checkEvent : function(event){
+			event = event || {};
+			if(!this.cursorVisible){return;}
+			if(!event.type){return;}
+			if(event.type === 'tap'){
+				var ring = this.cursor.find('.laser-ring');
+				ring.hide();
+				ring.reflow();
+				ring.show();
 			}
 		},
 		fxIn : function(){

@@ -46,6 +46,7 @@ define('mods/view/floor',function(require,exports,module){
 			var surface = this.surface;
 			surface.load('background');
 			surface.load('light');
+			surface.load('content');
 			surface.load('animate');
 		},
 		//获取垂线长度

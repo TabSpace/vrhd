@@ -127,18 +127,31 @@
 	-webkit-transform-style:preserve-3d;
 }
 .vrscene .laser-aiming-point{
-	overflow:hidden;
-	width : 100px;
-	height : 100px;
+	width : 10px;
+	height : 10px;
 	border-radius:100%;
 	background-color:rgba(255,0,0,0.5);
 	position:absolute; top:0%;
 	left:0%;
-	margin-top : -50px;
-	margin-left : -50px;
+	margin-top : -5px;
+	margin-left : -5px;
+	box-shadow: rgba(255,0,0,0.5) 0 0 5px 2px;
 	-webkit-backface-visibility:hidden;
 	-webkit-transform-style:preserve-3d;
 	-webkit-transform-origin:50% 50%;
+}
+.vrscene .laser-aiming-point .laser-ring{
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border-width: 3px;
+	border-style: solid;
+	border-color: rgba(255,0,0,0.5);
+	border-radius: 100%;
+	-webkit-transform: translateX(-50%) translateY(-50%);
+	-webkit-animation:ring-spread 0.5s ease-out 1;
 }
 .vrscene .surface{
 	overflow:hidden;
@@ -167,8 +180,10 @@
 	-webkit-transform-style:preserve-3d;
 }
 
-
-
+@-webkit-keyframes ring-spread{
+	0% { width: 0;height: 0; border-color:rgba(255,0,0,0.5); }
+	100% { width: 50px;height: 50px; border-color:rgba(255,0,0,0); }
+}
 
 
 

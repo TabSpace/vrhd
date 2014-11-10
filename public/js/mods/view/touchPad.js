@@ -37,6 +37,7 @@ define('mods/view/touchPad',function(require,exports,module){
 			model.on('change:lockAlpha', proxy('computeOffsetAlpha'));
 			root.on('touchstart', proxy('checkAlphaLock'));
 			root.on('touchend', proxy('checkAlphaLock'));
+			root.on('tap', proxy('triggerTap'));
 		},
 		//计算手机alpha与场景alpha的偏转角度
 		//手机的alpha初始值是随机的，因此需要矫正流程，按下3个指头锁定alpha方向来进行矫正
@@ -65,22 +66,23 @@ define('mods/view/touchPad',function(require,exports,module){
 		orientation : function(event){
 			var model = this.model;
 			var alpha = event.alpha;
+			var data = {
+				'beta' : event.beta,
+				'gamma' : event.gamma
+			};
 			this.curAlpha = alpha;
-			if(model.get('lockAlpha')){
-				this.model.set({
-					'beta' : event.beta,
-					'gamma' : event.gamma
-				});
-			}else{
+			if(!model.get('lockAlpha')){
 				alpha = alpha - this.offsetAlpha;
 				alpha = alpha > 0 ? alpha : 360 + alpha;
 				alpha = alpha < 360 ? alpha : alpha - 360;
-				this.model.set({
-					'alpha' : alpha,
-					'beta' : event.beta,
-					'gamma' : event.gamma
-				});
+				data.alpha = alpha;
 			}
+			this.model.set(data);
+		},
+		triggerTap : function(){
+			$socket.trigger('touchpad:event', {
+				type : 'tap'
+			});
 		},
 		sync : function(){
 			var data = this.model.get();

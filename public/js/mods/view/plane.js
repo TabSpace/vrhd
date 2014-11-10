@@ -184,6 +184,7 @@ define('mods/view/plane',function(require,exports,module){
 			var surface = this.surface;
 			surface.load('background');
 			surface.load('light');
+			surface.load('content');
 			surface.load('animate');
 		},
 		update : function(data){
