@@ -22,6 +22,7 @@ define('mods/model/person',function(require,exports,module){
 			alpha : 0,
 			beta : 0,
 			gamma : 0,
+			//姿态，分为：'standing', 'sitting'
 			posture : 'standing',
 			//触控板离地面的高度，单位为米
 			padHeight : 0.7,

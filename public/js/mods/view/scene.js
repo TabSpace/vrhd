@@ -18,7 +18,7 @@ define('mods/view/scene',function(require,exports,module){
 			name : 'scene',
 			path : '',
 			node : null,
-			isSightDevice : true,
+			isSightDevice : false,
 			type : 'front'
 		},
 		build : function(){
@@ -35,6 +35,7 @@ define('mods/view/scene',function(require,exports,module){
 		},
 		setEvents : function(action){
 			this.delegate(action);
+			var conf = this.conf;
 			var model = this.model;
 			var proxy = this.proxy();
 			model.on('change:perspective', proxy('setPerspective'));

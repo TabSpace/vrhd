@@ -23,9 +23,7 @@ define('mods/view/surface/light',function(require,exports,module){
 			parent : null
 		},
 		getModel : function(){
-			this.model = new $lightModel({
-
-			});
+			this.model = new $lightModel();
 		},
 		setStyles : function(){
 			var model = this.model;

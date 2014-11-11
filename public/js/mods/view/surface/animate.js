@@ -39,6 +39,7 @@ define('mods/view/surface/animate',function(require,exports,module){
 			var parent = this.parent;
 			parent.pointerModel.on('change', proxy('setCursor'));
 			parent.model.on('change:bePointed', proxy('setCursorVisibility'));
+			parent.model.on('change:hover', proxy('checkHover'));
 			$socket.on('touchpad:event', proxy('checkEvent'));
 		},
 		getModel : function(){
@@ -84,6 +85,15 @@ define('mods/view/surface/animate',function(require,exports,module){
 				ring.hide();
 				ring.reflow();
 				ring.show();
+			}
+		},
+		checkHover : function(){
+			var root = this.role('root');
+			var hover = this.parent.model.get('hover');
+			if(hover){
+				root.css('background-color', 'rgba(255,255,255,0.5)');
+			}else{
+				root.css('background-color', 'rgba(255,255,255,0)');
 			}
 		},
 		fxIn : function(){

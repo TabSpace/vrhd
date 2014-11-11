@@ -23,9 +23,7 @@ define('mods/view/surface/content',function(require,exports,module){
 			parent : null
 		},
 		getModel : function(){
-			this.model = new $contentModel({
-				
-			});
+			this.model = new $contentModel();
 		}
 	});
 

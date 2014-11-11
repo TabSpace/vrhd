@@ -13,10 +13,14 @@ define('mods/model/plane',function(require,exports,module){
 		defaults : {
 			name : 'plane',
 			type : '',
+			//是否被触控板指向
 			bePointed : false,
+			//与中心点距离
 			distance : 0,
 			width : 0,
 			height : 0,
+			//鼠标经过
+			hover : false
 		},
 		events : {
 
