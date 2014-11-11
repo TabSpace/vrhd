@@ -9,4 +9,10 @@
 
 .thumbnail-container .show-area li {
     float: left;
+    margin: 5px;
+}
+
+.thumbnail-container .show-area li:hover {
+    float: left;
+    margin: 5px;
 }

@@ -11,7 +11,7 @@ define('mods/model/slide',function(require,exports,module){
 
 	var Slide = $plane.extend({
 		defaults : {
-			pics: ['/images/slide/1.jpg','/images/slide/2.jpg','/images/slide/3.jpg','/images/slide/4.jpg','/images/slide/5.jpg']
+			pics: null
 		}
 	});
 
