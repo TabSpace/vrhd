@@ -11,6 +11,7 @@ define('mods/view/room',function(require,exports,module){
 	var $wall = require('mods/view/wall');
 	var $floor = require('mods/view/floor');
 	var $ceiling = require('mods/view/ceiling');
+	var $slide = require('mods/view/slide');
 	var $roomModel = require('mods/model/room');
 	var $touchPadModel = require('mods/model/touchPad');
 
@@ -33,6 +34,7 @@ define('mods/view/room',function(require,exports,module){
 			this.buildFloor();
 			this.buildWalls();
 			this.buildCeiling();
+			this.buildSlide();
 			this.updateSize();
 			this.updateEyePos();
 		},
@@ -114,6 +116,22 @@ define('mods/view/room',function(require,exports,module){
 				distance : model.get('heightPx'),
 				width : model.get('widthPx'),
 				height : model.get('extentPx')
+			});
+		},
+		//构建幻灯片
+		buildSlide : function(){
+			var model = this.model;
+			var extent = model.get('extentPx');
+			var width = model.get('widthPx');
+			var height = model.get('heightPx');
+
+			this.slide = new $slide({
+				path : this.path,
+				ground : this.ground,
+				distance : extent / 2,
+				width : width,
+				height : height,
+				name: 'slide'
 			});
 		},
 		//更新眼镜和触控板所在的位置

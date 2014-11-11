@@ -1,0 +1,12 @@
+@charset "utf-8";
+.thumbnail-container {
+
+}
+
+.thumbnail-container .show-area {
+
+}
+
+.thumbnail-container .show-area li {
+    float: left;
+}

@@ -9,6 +9,7 @@ define('conf/page/index', function(require, exports, module) {
 	var $ = require('lib');
 	var $scene = require('mods/view/scene');
 	var $touchPad = require('mods/view/touchPad');
+	var $operatorGallery = require('mods/view/operatorGallery');
 
 	var touchPad = new $touchPad({
 		node : null
@@ -28,6 +29,15 @@ define('conf/page/index', function(require, exports, module) {
 			var sceneData = scene.toJSON();
 			console.log('sceneData:', sceneData);
 		}, 1000);
+	});
+
+	$('.gallery-box').each(function(){
+		var el = $(this);
+
+		var gallery = new $operatorGallery({
+			node: el
+		});
+		gallery.show();
 	});
 
 });
