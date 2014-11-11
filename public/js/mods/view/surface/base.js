@@ -19,12 +19,15 @@ define('mods/view/surface/base',function(require,exports,module){
 		defaults : {
 			name : 'name',
 			path : '',
+			//环境对象
+			env : null,
 			template : TPL.box,
 			parent : null
 		},
 		build : function(){
 			var conf = this.conf;
 			this.path = [conf.path, conf.name].join('.');
+			this.env = conf.env;
 			this.parent = conf.parent;
 			this.getModel();
 			this.insert();

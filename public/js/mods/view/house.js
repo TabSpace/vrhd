@@ -14,6 +14,8 @@ define('mods/view/house',function(require,exports,module){
 		defaults : {
 			name : 'house',
 			path : '',
+			//环境对象
+			env : null,
 			//任务模型
 			personModel : null,
 			//房子所在的坐标系
@@ -22,6 +24,7 @@ define('mods/view/house',function(require,exports,module){
 		build : function(){
 			var conf = this.conf;
 			this.path = [conf.path, conf.name].join('.');
+			this.env = conf.env;
 			this.personModel = this.conf.personModel;
 			this.coordinateSystem = this.conf.coordinateSystem;
 			this.buildRooms();
@@ -29,6 +32,7 @@ define('mods/view/house',function(require,exports,module){
 		buildRooms : function(){
 			this.room = new $Room({
 				path : this.path,
+				env : this.env,
 				personModel : this.personModel,
 				coordinateSystem : this.coordinateSystem
 			});

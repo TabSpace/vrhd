@@ -2,13 +2,34 @@
  * @fileoverview 存储环境变量
  * @authors
 	Tony.Liang <pillar0514@gmail.com>
- * @description 代替全局变量，存储多项公共数据
+ * @description 作为每个场景的全局变量，存储多项公共数据
  */
 define('mods/ctrl/env',function(require,exports,module){
 
-	var Env = {
+	var $ctrl = require('lib/mvc/controller');
+	var $bgSelector = require('mods/view/backgroundSelector');
 
-	};
+	var Env = $ctrl.extend({
+		defaults : {
+			scene : null
+		},
+		build : function(){
+			var conf = this.conf;
+			this.scene = conf.scene;
+		},
+		getObjByPath : function(path){
+			return this.scene.getObjByPath(path);
+		},
+		//获取背景选择器
+		getBackgroundSelector : function(){
+			if(!this.bgSelector){
+				this.bgSelector = new $bgSelector({
+					env : this
+				});
+			}
+			return this.bgSelector;
+		}
+	});
 
 	module.exports = Env;
 

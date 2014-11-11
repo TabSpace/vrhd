@@ -154,7 +154,6 @@
 	-webkit-animation:ring-spread 0.5s ease-out 1;
 }
 .vrscene .surface{
-	overflow:hidden;
 	position:absolute;
 	width:100%;
 	height:100%;
@@ -163,7 +162,6 @@
 	-webkit-transform-origin:50% 50%;
 }
 .vrscene .plane{
-	overflow:hidden;
 	position:absolute;
 	top:50%;
 	left:50%;
@@ -182,6 +180,14 @@
 .vrscene .surface[name="animate"]{
 	background-color : rgba(255,255,255,0);
 	-webkit-transition : background-color 0.3s linear;
+}
+.vrscene .bg-selector{
+	position: absolute;
+	left: 50%;
+	bottom: 10%;
+	background-color: rgba(255,255,255,0.5);
+	overflow: hidden;
+	-webkit-transform: translateX(-50%);
 }
 @-webkit-keyframes ring-spread{
 	0% { width: 0;height: 0; border-color:rgba(255,0,0,0.5); }

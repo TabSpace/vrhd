@@ -28,6 +28,8 @@ define('mods/view/plane',function(require,exports,module){
 		defaults : {
 			name : 'plane',
 			path : '',
+			//环境对象
+			env : null,
 			//地面
 			ground : null,
 			width : 0,
@@ -37,6 +39,7 @@ define('mods/view/plane',function(require,exports,module){
 		build : function(){
 			var conf = this.conf;
 			this.path = [conf.path, conf.name].join('.');
+			this.env = conf.env;
 			this.ground = conf.ground;
 			this.getModel();
 			this.getPointerModel();
@@ -59,6 +62,7 @@ define('mods/view/plane',function(require,exports,module){
 			root.on('mouseenter', proxy('onPointerEnter'));
 			root.on('mouseleave', proxy('onPointerLeave'));
 			$socket.on(this.path + ':sync', proxy('onSync'));
+			root.on('click', proxy('toggleBgSelector'));
 		},
 		getModel : function(){
 			var conf = this.conf;
@@ -77,6 +81,7 @@ define('mods/view/plane',function(require,exports,module){
 		getSurface : function(){
 			this.surface = new $surface({
 				path : this.path,
+				env : this.env,
 				parent : this
 			});
 		},
@@ -96,6 +101,11 @@ define('mods/view/plane',function(require,exports,module){
 		},
 		onPointerLeave : function(){
 			this.model.set('hover', false);
+		},
+		//切换背景选择器的显示与隐藏
+		toggleBgSelector : function(){
+			var bgSelector = this.env.getBackgroundSelector();
+			bgSelector.toggle(this);
 		},
 		setSize : function(){
 			var model = this.model;
