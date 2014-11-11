@@ -48,10 +48,7 @@ define('mods/view/surface/animate',function(require,exports,module){
 			});
 		},
 		setStyles : function(){
-			var root = this.role('root');
-			root.css({
-				'background-color' : 'rgba(255,255,255,0)'
-			});
+
 		},
 		buildCursor : function(){
 			var root = this.role('root');
@@ -94,13 +91,9 @@ define('mods/view/surface/animate',function(require,exports,module){
 			var root = this.role('root');
 			var hover = this.parent.model.get('hover');
 			if(hover){
-				root.transit({
-					'background-color' : 'rgba(255,255,255,0.5)'
-				}, 300, 'linear');
+				root.css('background-color', 'rgba(255,255,255,0.5)');
 			}else{
-				root.transit({
-					'background-color' : 'rgba(255,255,255,0)'
-				}, 300, 'linear');
+				root.css('background-color', 'rgba(255,255,255,0)');
 			}
 		},
 		fxIn : function(){
