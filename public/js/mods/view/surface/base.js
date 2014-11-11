@@ -49,7 +49,12 @@ define('mods/view/surface/base',function(require,exports,module){
 			//设置大小
 		},
 		setStyles : function(){
-			//设置样式
+			var root = this.role('root');
+			var parentModel = this.parent.model;
+			root.css({
+				'width' : parentModel.get('width') + 'px',
+				'height' : parentModel.get('height') + 'px'
+			});
 		},
 		start : function(){
 

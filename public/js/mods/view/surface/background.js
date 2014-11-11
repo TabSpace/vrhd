@@ -40,6 +40,11 @@ define('mods/view/surface/background',function(require,exports,module){
 			var color = model.get('color');
 			var image = model.get('image');
 			var root = this.role('root');
+			var parentModel = this.parent.model;
+			root.css({
+				'width' : parentModel.get('width') + 'px',
+				'height' : parentModel.get('height') + 'px'
+			});
 			if(image){
 				root.css({
 					'background-image' : 'url(' + image + ')'

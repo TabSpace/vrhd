@@ -47,9 +47,6 @@ define('mods/view/surface/animate',function(require,exports,module){
 
 			});
 		},
-		setStyles : function(){
-
-		},
 		buildCursor : function(){
 			var root = this.role('root');
 			if(!this.cursor){
