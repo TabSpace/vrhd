@@ -13,11 +13,14 @@ define('mods/ctrl/surface',function(require,exports,module){
 		defaults : {
 			name : 'surface',
 			path : '',
+			//环境对象
+			env : '',
 			parent : null
 		},
 		build : function(){
 			var conf = this.conf;
 			this.path = [conf.path, conf.name].join('.');
+			this.env = conf.env;
 			this.children = {};
 		},
 		get : function(name){
@@ -26,14 +29,16 @@ define('mods/ctrl/surface',function(require,exports,module){
 				return children[name];
 			}
 		},
-		load : function(name, options, callback){
+		load : function(name, spec, callback){
 			var conf = this.conf;
 			var that = this;
 			lithe.use('mods/view/surface/' + name, function(ChildSurface){
-				options = options || {};
+				var options = $.extend({}, spec, {
+					path : that.path,
+					env : that.env,
+					parent : conf.parent
+				});
 				if(!that.children[name]){
-					options.path = that.path;
-					options.parent = conf.parent;
 					var surface = new ChildSurface(options);
 					that.children[name] = surface;
 				}
@@ -54,8 +59,6 @@ define('mods/ctrl/surface',function(require,exports,module){
 						if(children[name] && children[name].update){
 							//为了避免toJSON操作时获取到过量数据
 							//更新数据时避免将parent这样的复杂对象传入
-							delete item.parent;
-							delete item.path;
 							children[name].update(item);
 						}
 					});

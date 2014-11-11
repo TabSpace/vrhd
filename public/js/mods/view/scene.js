@@ -12,6 +12,7 @@ define('mods/view/scene',function(require,exports,module){
 	var $CoordinateSystem = require('mods/view/coordinateSystem');
 	var $House = require('mods/view/house');
 	var $personModel = require('mods/model/person');
+	var $env = require('mods/ctrl/env');
 
 	var Scene = $view.extend({
 		defaults : {
@@ -29,6 +30,7 @@ define('mods/view/scene',function(require,exports,module){
 			});
 			this.personModel = new $personModel();
 			this.setPerspective();
+			this.buildEnv();
 			this.buildCoordinateSystem();
 			this.buildHouse();
 			this.setStyles();
@@ -48,11 +50,18 @@ define('mods/view/scene',function(require,exports,module){
 				'perspective-origin' : model.get('perspectiveOrigin')
 			});
 		},
+		//构建场景环境公共对象
+		buildEnv : function(){
+			this.env = new $env({
+				scene : this
+			});
+		},
 		//构建空间坐标系
 		buildCoordinateSystem : function(){
 			var conf = this.conf;
 			this.coordinateSystem = new $CoordinateSystem({
 				path : this.path,
+				env : this.env,
 				isSightDevice : conf.isSightDevice,
 				personModel : this.personModel,
 				parent : this.role('root')
@@ -62,6 +71,7 @@ define('mods/view/scene',function(require,exports,module){
 		buildHouse : function(){
 			this.house = new $House({
 				path : this.path,
+				env : this.env,
 				personModel : this.personModel,
 				coordinateSystem : this.coordinateSystem
 			});
@@ -96,6 +106,31 @@ define('mods/view/scene',function(require,exports,module){
 			parent.css({
 				'position' : 'absolute'
 			});
+		},
+		//按照路径获取对象
+		getObjByPath : function(path){
+			path = path || '';
+			if(path === this.path){
+				return this;
+			}else{
+				var reg = new RegExp('^' + this.path + '\\.');
+				var curPath = path.replace(reg, '');
+				var arr = curPath.split('.');
+				var obj = this;
+				var name = '';
+				while(arr.length && obj){
+					name = arr.shift();
+					if(obj.get){
+						//surface将子对象存储在children对象，需用get方法获取
+						obj = obj.get(name);
+					}else{
+						obj = obj[name];
+					}
+				}
+				if(obj && obj.path === path){
+					return obj;
+				}
+			}
 		},
 		update : function(data){
 			data = data || {};

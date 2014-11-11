@@ -19,6 +19,8 @@ define('mods/view/room',function(require,exports,module){
 		defaults : {
 			name : 'room',
 			path : '',
+			//环境对象
+			env : null,
 			//人物模型
 			personModel : null,
 			//所在的坐标系
@@ -27,6 +29,7 @@ define('mods/view/room',function(require,exports,module){
 		build : function(){
 			var conf = this.conf;
 			this.path = [conf.path, conf.name].join('.');
+			this.env = conf.env;
 			this.model = new $roomModel();
 			this.personModel = conf.personModel;
 			this.coordinateSystem = conf.coordinateSystem;
@@ -58,6 +61,7 @@ define('mods/view/room',function(require,exports,module){
 			var model = this.model;
 			this.floor = new $floor({
 				path : this.path,
+				env : this.env,
 				ground : this.ground,
 				width : model.get('widthPx'),
 				height : model.get('extentPx')
@@ -73,6 +77,7 @@ define('mods/view/room',function(require,exports,module){
 			this.left = new $wall({
 				name : 'left',
 				path : this.path,
+				env : this.env,
 				ground : this.ground,
 				distance : width / 2,
 				width : extent,
@@ -82,6 +87,7 @@ define('mods/view/room',function(require,exports,module){
 			this.right = new $wall({
 				name : 'right',
 				path : this.path,
+				env : this.env,
 				ground : this.ground,
 				distance : width / 2,
 				width : extent,
@@ -91,6 +97,7 @@ define('mods/view/room',function(require,exports,module){
 			this.front = new $wall({
 				name : 'front',
 				path : this.path,
+				env : this.env,
 				ground : this.ground,
 				distance : extent / 2,
 				width : width,
@@ -100,6 +107,7 @@ define('mods/view/room',function(require,exports,module){
 			this.behind = new $wall({
 				name : 'behind',
 				path : this.path,
+				env : this.env,
 				ground : this.ground,
 				distance : extent / 2,
 				width : width,
@@ -112,6 +120,7 @@ define('mods/view/room',function(require,exports,module){
 			var model = this.model;
 			this.ceiling = new $ceiling({
 				path : this.path,
+				env : this.env,
 				ground : this.ground,
 				distance : model.get('heightPx'),
 				width : model.get('widthPx'),
@@ -159,7 +168,6 @@ define('mods/view/room',function(require,exports,module){
 			var extent = model.get('extentPx');
 			var width = model.get('widthPx');
 			var height = model.get('heightPx');
-
 			this.ground.css({
 				'margin-left' : 0 - width / 2 + 'px',
 				'margin-top' : 0 - extent / 2 + 'px',
