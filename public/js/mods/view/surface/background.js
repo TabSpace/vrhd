@@ -46,9 +46,7 @@ define('mods/view/surface/background',function(require,exports,module){
 				'height' : parentModel.get('height') + 'px'
 			});
 			if(image){
-				root.css({
-					'background-image' : 'url(' + image + ')'
-				});
+				root.css('background-image', 'url(' + image + ')');
 			}else if(color){
 				root.css('background-color', color);
 			}
