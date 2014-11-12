@@ -28,6 +28,7 @@ define('mods/view/surface/mask',function(require,exports,module){
 		defaults : {
 			name : 'mask',
 			path : '',
+			zIndex : 1,
 			//环境对象
 			env : null,
 			template : TPL.box,

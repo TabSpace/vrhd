@@ -10,6 +10,8 @@ define('mods/view/tv',function(require,exports,module){
 	var $model = require('lib/mvc/model');
 	var $view = require('lib/mvc/view');
 	var $tpl = require('lib/kit/util/template');
+	var $socket = require('mods/channel/socket');
+	var $channel = require('lib/common/channel');
 
 	var TPL = $tpl({
 		'box' : [
@@ -61,6 +63,8 @@ define('mods/view/tv',function(require,exports,module){
 			model.on('change', proxy('setStyles'));
 			state.on('change:hover', proxy('checkHoverStyle'));
 			plane.pointerModel.on('change', proxy('checkHover'));
+			plane.model.on('change:bePointed', proxy('checkHover'));
+			$socket.on('touchpad:event', proxy('checkEvent'));
 		},
 		setStyles : function(){
 			var root = this.role('root');
@@ -116,6 +120,7 @@ define('mods/view/tv',function(require,exports,module){
 			var pos = plane.pointerModel.get();
 			var coordinates = this.state.get();
 			if(
+				plane.model.get('bePointed') &&
 				pos.x > coordinates.left &&
 				pos.x < coordinates.right &&
 				pos.y > coordinates.top &&
@@ -128,10 +133,19 @@ define('mods/view/tv',function(require,exports,module){
 		},
 		checkHoverStyle : function(){
 			var state = this.state;
+			var plane = this.conf.plane;
 			if(state.get('hover')){
 				this.inner.css('opacity', 1);
 			}else{
 				this.inner.css('opacity', 0);
+			}
+		},
+		checkEvent : function(event){
+			event = event || {};
+			if(!this.state.get('hover')){return;}
+			if(!event.type){return;}
+			if(event.type === 'tap'){
+				$channel.trigger('on-tv-tap');
 			}
 		},
 		update : function(data){

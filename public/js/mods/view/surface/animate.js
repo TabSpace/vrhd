@@ -25,6 +25,7 @@ define('mods/view/surface/animate',function(require,exports,module){
 		defaults : {
 			name : 'animate',
 			path : '',
+			zIndex : 1,
 			//环境对象
 			env : null,
 			template : TPL.box,
