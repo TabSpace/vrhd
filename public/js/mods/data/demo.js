@@ -65,7 +65,9 @@ define('mods/data/demo',function(require,exports,module){
 						"light": {},
 						"mask": {
 							"door" : {
-								"width" : 1,
+								"style" : "images/door2.jpg",
+								"left" : 2,
+								"width" : 0.85,
 								"height" : 2
 							}
 						},
@@ -77,10 +79,19 @@ define('mods/data/demo',function(require,exports,module){
 					"surface": {
 						"background": {
 							"color": "#ddd",
-							"image": "images/wall3.png"
+							"image": "images/wall1.jpg"
 						},
 						"light": {},
-						"mask": {},
+						"mask": {
+							"window" : {
+								"style" : "images/win1.png",
+								"outer" : "images/outer2.gif",
+								"top" : 0.175,
+								"left" : 0.175,
+								"width" : 2.645,
+								"height" : 1.55
+							}
+						},
 						"content": {},
 						"animate": {}
 					}
@@ -104,7 +115,16 @@ define('mods/data/demo',function(require,exports,module){
 							"image": "images/wall1.jpg"
 						},
 						"light": {},
-						"mask": {},
+						"mask": {
+							"tv" : {
+								"style" : "images/tv1.png",
+								"top" : 1,
+								"left" : 0,
+								"width" : 1.092,
+								"height" : 0.64,
+								"screenHeight" : 0.62
+							}
+						},
 						"content": {},
 						"animate": {}
 					}

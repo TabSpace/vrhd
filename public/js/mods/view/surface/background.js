@@ -19,6 +19,8 @@ define('mods/view/surface/background',function(require,exports,module){
 		defaults : {
 			name : 'background',
 			path : '',
+			//环境对象
+			env : null,
 			template : TPL.box,
 			parent : null
 		},

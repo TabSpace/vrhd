@@ -17,6 +17,11 @@ define('mods/ctrl/env',function(require,exports,module){
 			var conf = this.conf;
 			this.scene = conf.scene;
 		},
+		//获取场景比例
+		getRatio : function(){
+			return 200;
+		},
+		//根据路径获取对象
 		getObjByPath : function(path){
 			return this.scene.getObjByPath(path);
 		},

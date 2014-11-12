@@ -19,6 +19,8 @@ define('mods/view/surface/light',function(require,exports,module){
 		defaults : {
 			name : 'light',
 			path : '',
+			//环境对象
+			env : null,
 			template : TPL.box,
 			parent : null
 		},
