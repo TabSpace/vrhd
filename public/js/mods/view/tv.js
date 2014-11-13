@@ -145,11 +145,18 @@ define('mods/view/tv',function(require,exports,module){
 			if(!this.state.get('hover')){return;}
 			if(!event.type){return;}
 			if(event.type === 'tap'){
+				this.hide();
 				$channel.trigger('on-tv-tap');
 			}
 		},
 		update : function(data){
 			this.model.set(data);
+		},
+		show : function(){
+			this.role('root').show();
+		},
+		hide : function(){
+			this.role('root').hide();
 		}
 	});
 
