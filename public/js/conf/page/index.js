@@ -11,6 +11,7 @@ define('conf/page/index', function(require, exports, module) {
 	var $touchPad = require('mods/view/touchPad');
 	var $demoData = require('mods/data/demo');
 	var $socket = require('mods/channel/socket');
+	var $sceneInfo = require('mods/view/sceneInfo');
 
 	var touchPad = new $touchPad({
 		node : null
@@ -30,6 +31,11 @@ define('conf/page/index', function(require, exports, module) {
 	});
 
 	scene.update($demoData);
+
+	var sceneInfo = new $sceneInfo({
+		parent : $('.scene-info'),
+		scene : scene
+	});
 
 	window.scene = scene;
 
