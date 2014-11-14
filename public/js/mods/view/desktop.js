@@ -67,6 +67,7 @@ define('mods/view/desktop',function(require,exports,module){
 				'height' : height + 'px',
 				'left' : 0,
 				'top' : 0,
+				'backface-visibility' : 'hidden',
 				'transform-style' : 'preserve-3d'
 			});
 
@@ -76,6 +77,7 @@ define('mods/view/desktop',function(require,exports,module){
 				'height' : height + 'px',
 				'left' : 0,
 				'top' : 0,
+				'backface-visibility' : 'hidden',
 				'transform-style' : 'preserve-3d'
 			});
 		},
@@ -84,9 +86,9 @@ define('mods/view/desktop',function(require,exports,module){
 			if(!this.model.get('visible')){return;}
 			if(!event.type){return;}
 			if(event.type === 'pinch-out'){
-				if(this.plane.model.get('bePointed')){
+			//	if(this.plane.model.get('bePointed')){
 					this.hide();
-				}
+			//	}
 			}
 		},
 		fillIcons : function(){
@@ -144,7 +146,7 @@ define('mods/view/desktop',function(require,exports,module){
 			}).transform({
 				'translateX' : tvLeft + 'px',
 				'translateY' : tvTop + 'px',
-				'translateZ' : '1px',
+				'translateZ' : '10px',
 				'scaleX' : scaleX,
 				'scaleY' : scaleY
 			});
@@ -152,7 +154,7 @@ define('mods/view/desktop',function(require,exports,module){
 			root.transit({
 				'translateX' : 0,
 				'translateY' : 0,
-				'translateZ' : '1px',
+				'translateZ' : '10px',
 				'scaleX' : 1,
 				'scaleY' : 1
 			}, 1000, 'ease-out', function(){
@@ -180,7 +182,7 @@ define('mods/view/desktop',function(require,exports,module){
 			}).transform({
 				'translateX' : 0,
 				'translateY' : 0,
-				'translateZ' : '1px',
+				'translateZ' : '10px',
 				'scaleX' : 1,
 				'scaleY' : 1
 			});
@@ -188,7 +190,7 @@ define('mods/view/desktop',function(require,exports,module){
 			root.transit({
 				'translateX' : tvLeft + 'px',
 				'translateY' : tvTop + 'px',
-				'translateZ' : '1px',
+				'translateZ' : '10px',
 				'scaleX' : scaleX,
 				'scaleY' : scaleY
 			}, 1000, 'ease-out', function(){
