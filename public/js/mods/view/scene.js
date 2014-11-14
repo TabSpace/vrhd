@@ -8,11 +8,28 @@ define('mods/view/scene',function(require,exports,module){
 
 	var $ = require('lib');
 	var $view = require('lib/mvc/view');
+	var $tpl = require('lib/kit/util/template');
 	var $sceneModel = require('mods/model/scene');
 	var $CoordinateSystem = require('mods/view/coordinateSystem');
 	var $House = require('mods/view/house');
 	var $personModel = require('mods/model/person');
 	var $env = require('mods/ctrl/env');
+	var $preload = require('mods/ctrl/preload');
+
+	var TPL = $tpl({
+		loading : [
+			'<div class="logo-loading" data-role="loading">',
+				'<div class="logo-box">',
+					'<img src="images/logo/sina.png"/>',
+				'</div>',
+				'<div data-role="loading-info">',
+					'<span data-role="loading-cur"></span>',
+						' / ',
+					'<span data-role="loading-all"></span>',
+				'</div>',
+			'</div>'
+		]
+	});
 
 	var Scene = $view.extend({
 		defaults : {
@@ -32,8 +49,9 @@ define('mods/view/scene',function(require,exports,module){
 			this.setPerspective();
 			this.buildEnv();
 			this.buildCoordinateSystem();
-			this.buildHouse();
 			this.setStyles();
+			this.buildHouse();
+			this.startPreload();
 		},
 		setEvents : function(action){
 			this.delegate(action);
@@ -55,6 +73,9 @@ define('mods/view/scene',function(require,exports,module){
 			this.env = new $env({
 				scene : this
 			});
+		},
+		startPreload : function(){
+			$preload.start();
 		},
 		//构建空间坐标系
 		buildCoordinateSystem : function(){
@@ -134,15 +155,27 @@ define('mods/view/scene',function(require,exports,module){
 		},
 		update : function(data){
 			data = data || {};
-			this.personModel.set(data.person);
-			this.coordinateSystem.update(data.coordinateSystem);
-			this.house.update(data.house);
+			if(this.personModel){
+				this.personModel.set(data.person);
+			}
+			if(this.coordinateSystem){
+				this.coordinateSystem.update(data.coordinateSystem);
+			}
+			if(this.house){
+				this.house.update(data.house);
+			}
 		},
 		toJSON : function(){
 			var data = {};
-			data.person = this.personModel.toJSON();
-			data.coordinateSystem = this.coordinateSystem.toJSON();
-			data.house = this.house.toJSON();
+			if(this.personModel){
+				data.person = this.personModel.toJSON();
+			}
+			if(this.coordinateSystem){
+				data.coordinateSystem = this.coordinateSystem.toJSON();
+			}
+			if(this.house){
+				data.house = this.house.toJSON();
+			}
 			return data;
 		}
 	});

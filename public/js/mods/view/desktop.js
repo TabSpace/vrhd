@@ -10,6 +10,8 @@ define('mods/view/desktop',function(require,exports,module){
 	var $model = require('lib/mvc/model');
 	var $view = require('lib/mvc/view');
 	var $tpl = require('lib/kit/util/template');
+	var $socket = require('mods/channel/socket');
+	var $channel = require('lib/common/channel');
 
 	var TPL = $tpl({
 		box : [
@@ -43,6 +45,7 @@ define('mods/view/desktop',function(require,exports,module){
 			var proxy = this.proxy();
 			var model = this.model;
 			model.on('change:visible', proxy('checkVisible'));
+			$socket.on('touchpad:event', proxy('checkEvent'));
 		},
 		setStyles : function(){
 			var root = this.role('root');
@@ -57,7 +60,7 @@ define('mods/view/desktop',function(require,exports,module){
 			root.css({
 				'background-repeat' : 'no-repeat',
 				'background-size' : 'cover',
-				'background-image' : 'url(images/wp1.jpg)',
+				'background-image' : 'url(images/wallpaper/wp1.jpg)',
 				'position' : 'absolute',
 				'width' : width + 'px',
 				'height' : height + 'px',
@@ -65,6 +68,16 @@ define('mods/view/desktop',function(require,exports,module){
 				'top' : 0,
 				'transform-style' : 'preserve-3d'
 			});
+		},
+		checkEvent : function(event){
+			event = event || {};
+			if(!this.model.get('visible')){return;}
+			if(!event.type){return;}
+			if(event.type === 'pinch-out'){
+				if(this.plane.model.get('bePointed')){
+					this.hide();
+				}
+			}
 		},
 		show : function(){
 			this.model.set('visible', true);
@@ -92,7 +105,7 @@ define('mods/view/desktop',function(require,exports,module){
 			var scaleX = tvWidth / model.get('width');
 			var scaleY  = tvHeight / model.get('height');
 
-			root.css({
+			root.show().css({
 				'transform-origin' : '0% 0%'
 			}).transform({
 				'translateX' : tvLeft + 'px',
@@ -100,7 +113,7 @@ define('mods/view/desktop',function(require,exports,module){
 				'translateZ' : '1px',
 				'scaleX' : scaleX,
 				'scaleY' : scaleY
-			}).show();
+			});
 
 			root.transit({
 				'translateX' : 0,
@@ -144,6 +157,7 @@ define('mods/view/desktop',function(require,exports,module){
 				'scaleX' : scaleX,
 				'scaleY' : scaleY
 			}, 1000, 'ease-out', function(){
+				$channel.trigger('on-desktop-hide');
 				root.transform({
 					'translateZ' : 0
 				}).hide();

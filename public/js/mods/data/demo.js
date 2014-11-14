@@ -36,7 +36,7 @@ define('mods/data/demo',function(require,exports,module){
 					"surface": {
 						"background": {
 							"color": "#ddd",
-							"image": "images/floor1.jpg"
+							"image": "images/floor/floor1.jpg"
 						},
 						"light": {},
 						"mask": {},
@@ -59,12 +59,12 @@ define('mods/data/demo',function(require,exports,module){
 					"surface": {
 						"background": {
 							"color": "#ddd",
-							"image": "images/wall4.jpg"
+							"image": "images/wall/wall4.jpg"
 						},
 						"light": {},
 						"mask": {
 							"door" : {
-								"style" : "images/door2.jpg",
+								"style" : "images/door/door2.jpg",
 								"left" : 2,
 								"width" : 0.85,
 								"height" : 2
@@ -78,13 +78,13 @@ define('mods/data/demo',function(require,exports,module){
 					"surface": {
 						"background": {
 							"color": "#ddd",
-							"image": "images/wall4.jpg"
+							"image": "images/wall/wall4.jpg"
 						},
 						"light": {},
 						"mask": {
 							"window" : {
-								"style" : "images/win1.png",
-								"outer" : "images/outer2.gif",
+								"style" : "images/window/win1.png",
+								"outer" : "images/outer/outer1.gif",
 								"top" : 0.175,
 								"left" : 0.175,
 								"width" : 2.645,
@@ -99,7 +99,7 @@ define('mods/data/demo',function(require,exports,module){
 					"surface": {
 						"background": {
 							"color": "#ddd",
-							"image": "images/wall4.jpg"
+							"image": "images/wall/wall4.jpg"
 						},
 						"light": {},
 						"mask": {},
@@ -111,12 +111,12 @@ define('mods/data/demo',function(require,exports,module){
 					"surface": {
 						"background": {
 							"color": "#ddd",
-							"image": "images/wall4.jpg"
+							"image": "images/wall/wall4.jpg"
 						},
 						"light": {},
 						"mask": {
 							"tv" : {
-								"style" : "images/tv1.png",
+								"style" : "images/tv/tv1.png",
 								"top" : 1,
 								"left" : 0,
 								"width" : 1.092,

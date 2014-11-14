@@ -65,6 +65,7 @@ define('mods/view/tv',function(require,exports,module){
 			plane.pointerModel.on('change', proxy('checkHover'));
 			plane.model.on('change:bePointed', proxy('checkHover'));
 			$socket.on('touchpad:event', proxy('checkEvent'));
+			$channel.on('on-desktop-hide', proxy('show'));
 		},
 		setStyles : function(){
 			var root = this.role('root');
@@ -93,7 +94,7 @@ define('mods/view/tv',function(require,exports,module){
 				'top' :0,
 				'left' : 0,
 				'opacity' : 0,
-				'background-image' : 'url(images/inner4.gif)',
+				'background-image' : 'url(images/inner/inner1.gif)',
 				'transition' : 'opacity 0.3s ease',
 				'width' : data.width * ratio + 'px',
 				'height' : data.screenHeight * ratio + 'px'

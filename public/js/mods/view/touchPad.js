@@ -115,9 +115,13 @@ define('mods/view/touchPad',function(require,exports,module){
 			this.model.set(data);
 		},
 		checkZoomOut : function(evt){
-			if(evt.scale < 0.7){
+			if(evt.scale < 0.5){
 				$socket.trigger('touchpad:event', {
 					type : 'pinch-out'
+				});
+			}else if(evt.scale > 2){
+				$socket.trigger('touchpad:event', {
+					type : 'pinch-in'
 				});
 			}
 		},

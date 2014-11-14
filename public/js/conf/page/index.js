@@ -30,18 +30,17 @@ define('conf/page/index', function(require, exports, module) {
 		});
 	});
 
+	window.scene = scene;
+
 	scene.update($demoData);
+	setTimeout(function(){
+		$socket.trigger('scene:sync', scene.toJSON());
+	}, 1000);
 
 	var sceneInfo = new $sceneInfo({
 		parent : $('.scene-info'),
 		scene : scene
 	});
-
-	window.scene = scene;
-
-	setTimeout(function(){
-		$socket.trigger('scene:sync', scene.toJSON());
-	}, 1000);
 
 });
 
