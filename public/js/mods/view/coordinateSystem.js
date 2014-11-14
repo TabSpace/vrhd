@@ -42,7 +42,7 @@ define('mods/view/coordinateSystem',function(require,exports,module){
 			//是否为视线设备
 			isSightDevice : true,
 			//是否显示坐标轴
-			showAxis : true,
+			showAxis : false,
 			template : TPL.box,
 			personModel : null,
 			parent : null

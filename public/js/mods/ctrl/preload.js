@@ -9,10 +9,6 @@ define('mods/ctrl/preload',function(require,exports,module){
 	var $ctrl = require('lib/mvc/controller');
 
 	var preLoadImages = [
-		'door/door1.jpg',
-		'door/door2.jpg',
-		'door/door3.jpg',
-		'floor/floor1.jpg',
 		'icon/icon1.png',
 		'icon/icon2.png',
 		'icon/icon3.png',
@@ -22,17 +18,7 @@ define('mods/ctrl/preload',function(require,exports,module){
 		'icon/icon7.png',
 		'icon/icon8.png',
 		'icon/icon9.png',
-		'inner/inner1.gif',
-		'outer/outer1.gif',
-		'pic/pic1.jpg',
-		'pic/pic2.png',
-		'tv/tv1.png',
-		'wall/wall1.jpg',
-		'wall/wall2.jpg',
-		'wall/wall3.png',
-		'wall/wall4.jpg',
-		'wallpaper/wp1.jpg',
-		'window/win1.png'
+		'wallpaper/wp1.jpg'
 	];
 
 	var Preloader = $ctrl.extend({

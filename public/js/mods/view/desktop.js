@@ -16,7 +16,7 @@ define('mods/view/desktop',function(require,exports,module){
 	var TPL = $tpl({
 		box : [
 			'<div class="desktop">',
-
+				'<div class="icon-box" data-role="icon-box" style="display:none;"></div>',
 			'</div>'
 		]
 	});
@@ -40,6 +40,7 @@ define('mods/view/desktop',function(require,exports,module){
 				this.plane.surface.get('content').role('root')
 			);
 			this.setStyles();
+			this.fillIcons();
 		},
 		setEvents : function(){
 			var proxy = this.proxy();
@@ -68,6 +69,15 @@ define('mods/view/desktop',function(require,exports,module){
 				'top' : 0,
 				'transform-style' : 'preserve-3d'
 			});
+
+			this.role('icon-box').css({
+				'position' : 'absolute',
+				'width' : width + 'px',
+				'height' : height + 'px',
+				'left' : 0,
+				'top' : 0,
+				'transform-style' : 'preserve-3d'
+			});
 		},
 		checkEvent : function(event){
 			event = event || {};
@@ -78,6 +88,23 @@ define('mods/view/desktop',function(require,exports,module){
 					this.hide();
 				}
 			}
+		},
+		fillIcons : function(){
+			var i = 1;
+			var src = '';
+			var html = [];
+			var iconBox = this.role('icon-box');
+			for(i = 1; i < 10; i++){
+				src = 'images/icon/icon' + i + '.png';
+				html.push('<div class="icon" iconid="icon' + i + '" style="background-image:url(' + src + ');"></div>');
+			}
+			iconBox.html(html.join(''));
+			iconBox.find('.icon').each(function(){
+				$(this).css({
+					'animation' : 'drop-down 1s ease-out 1 ' + Math.random() + 's',
+					'transform-style' : 'preserve-3d'
+				});
+			});
 		},
 		show : function(){
 			this.model.set('visible', true);
@@ -93,7 +120,14 @@ define('mods/view/desktop',function(require,exports,module){
 				this.fxOut();
 			}
 		},
+		showIconBox : function(){
+			this.role('icon-box').show();
+		},
+		hideIconBox : function(){
+			this.role('icon-box').hide();
+		},
 		fxIn : function(){
+			var that = this;
 			var tv = this.tv;
 			var model = this.model;
 			var root = this.role('root');
@@ -125,6 +159,7 @@ define('mods/view/desktop',function(require,exports,module){
 				root.transform({
 					'translateZ' : 0
 				});
+				that.showIconBox();
 			});
 		},
 		fxOut : function(){
@@ -161,6 +196,7 @@ define('mods/view/desktop',function(require,exports,module){
 				root.transform({
 					'translateZ' : 0
 				}).hide();
+				that.hideIconBox();
 			});
 		}
 	});
