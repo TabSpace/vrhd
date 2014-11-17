@@ -34,7 +34,7 @@ define('conf/page/index', function(require, exports, module) {
 		var el = $(this);
 		var pics = ['/images/slide/1.jpg','/images/slide/2.jpg','/images/slide/3.jpg','/images/slide/4.jpg','/images/slide/5.jpg'];
 		var gallery = new $operatorGallery({
-			node: el,
+			parent: el,
 			pics: pics
 		});
 		gallery.show();

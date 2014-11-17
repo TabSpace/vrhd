@@ -7,37 +7,46 @@ define('mods/view/operatorGallery', function(require,exports,module){
 
 	var $ = require('lib');
 	var $view = require('lib/mvc/view');
-	var $mustache = require('lib/more/mustache');
+	$mustache = require('lib/more/mustache');
+	var $view = require('lib/mvc/view');
+
+	var $limit = require('lib/kit/num/limit');
+	var $tpl = require('lib/kit/util/template');
 
 	var $slideModel = require('mods/model/slide');
 
 	var TPL = $tpl({
 		box : '<div class="thumbnail-container">\
-					<ul class="show-area">\
-						<li><img src="/images/slide/1.jpg" width="85" height="85" alt="Marsa Alam" /></li>\
-						<li><img src="/images/slide/2.jpg" width="85" height="85" alt="Turrimetta Beach" /></li>\
-						<li><img src="/images/slide/3.jpg" width="85" height="85" alt="Power Station" /></li>\
-						<li><img src="/images/slide/4.jpg" width="85" height="85" alt="Colors of Nature" /></li>\
+					<ul data-role="showArea" class="show-area">\
 					</ul>\
 					<span class="arrow previous"></span>\
 					<span class="arrow next"></span>\
-				</div>'
+				</div>',
+		item : '{{#.}}<li><img class="thl-image" src="{{.}}" width="85" height="85" alt="Marsa Alam" /><div class="thl-frame"/></li>{{/.}}'
 	});
 
 	var OperatorGallery = $view.extend({
 		defaults : {
-			node: null
+			parent: null,
+			template: TPL.box
 		},
 		build: function(){
 			var conf = this.conf;
-			var html = TPL.box;
+			var root = this.role('root');
+			var showArea = this.role('showArea');
 			this.mode = new $slideModel({
 				pics: conf.pics
 			});
-			html = $substitute(html, {city:'北京'}); //return '北京欢迎您'
-			conf.node.html(html);
+
+			var itemsHtml = $mustache.render(TPL.get('item'), conf.pics);
+//			html = $substitute(html, {city:'北京'}); //return '北京欢迎您'
+			$(showArea).html(itemsHtml);
+			$(conf.parent).append(root);
 		},
 		setEvents: function(){
+
+		},
+		show: function(){
 
 		}
 	});
