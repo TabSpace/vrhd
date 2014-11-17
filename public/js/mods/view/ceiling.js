@@ -94,20 +94,6 @@ define('mods/view/ceiling',function(require,exports,module){
 			pos.x = center.x - verticalDistance * Math.tan($degToArc(beta)) * Math.sin($degToArc(angle.alpha));
 			pos.y = center.y + verticalDistance * Math.tan($degToArc(beta)) * Math.cos($degToArc(angle.alpha));
 			return pos;
-		},
-		//获取顶点坐标
-		getVertex : function(){
-			var data = {};
-			var model = this.model;
-			var width = model.get('width');
-			var height = model.get('height');
-			var distance = model.get('distance');
-			var padHeight = $touchPadModel.get('padHeight');
-			data.leftTop = [- width / 2, - height / 2, distance - padHeight];
-			data.rightTop = [width / 2, - height / 2, distance - padHeight];
-			data.rightBottom = [width / 2, height / 2, distance - padHeight];
-			data.leftBottom = [- width / 2, height / 2, distance - padHeight];
-			return data;
 		}
 	});
 

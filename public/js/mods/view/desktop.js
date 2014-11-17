@@ -15,9 +15,7 @@ define('mods/view/desktop',function(require,exports,module){
 
 	var TPL = $tpl({
 		box : [
-			'<div class="desktop">',
-				'<div class="icon-box" data-role="icon-box" style="display:none;"></div>',
-			'</div>'
+			'<div class="desktop"></div>'
 		]
 	});
 
@@ -60,24 +58,13 @@ define('mods/view/desktop',function(require,exports,module){
 
 			root.css({
 				'background-repeat' : 'no-repeat',
-				'background-size' : 'cover',
 				'background-image' : 'url(images/wallpaper/wp1.jpg)',
 				'position' : 'absolute',
 				'width' : width + 'px',
 				'height' : height + 'px',
 				'left' : 0,
 				'top' : 0,
-				'backface-visibility' : 'hidden',
-				'transform-style' : 'preserve-3d'
-			});
-
-			this.role('icon-box').css({
-				'position' : 'absolute',
-				'width' : width + 'px',
-				'height' : height + 'px',
-				'left' : 0,
-				'top' : 0,
-				'backface-visibility' : 'hidden',
+				'transform-origin' : '0% 0%',
 				'transform-style' : 'preserve-3d'
 			});
 		},
@@ -95,17 +82,22 @@ define('mods/view/desktop',function(require,exports,module){
 			var i = 1;
 			var src = '';
 			var html = [];
-			var iconBox = this.role('icon-box');
+			var root = this.role('root');
 			for(i = 1; i < 10; i++){
 				src = 'images/icon/icon' + i + '.png';
-				html.push('<div class="icon" iconid="icon' + i + '" style="background-image:url(' + src + ');"></div>');
+				html.push('<img class="icon" iconid="icon' + i + '" src="images/icon/icon' + i + '.png"/>');
 			}
-			iconBox.html(html.join(''));
-			iconBox.find('.icon').each(function(){
-				$(this).css({
-					'animation' : 'drop-down 1s ease-out 1 ' + Math.random() + 's',
-					'transform-style' : 'preserve-3d'
-				});
+			root.html(html.join(''));
+			root.find('.icon').css({
+				'background-repeat' : 'no-repeat',
+				'display' : 'inline-block',
+				'width' : '72px',
+				'height' : '72px',
+				'float' : 'left',
+				'margin' : '36px',
+				'opacity' : 0
+			}).transform({
+				'translateZ' : '150px'
 			});
 		},
 		show : function(){
@@ -122,11 +114,25 @@ define('mods/view/desktop',function(require,exports,module){
 				this.fxOut();
 			}
 		},
-		showIconBox : function(){
-			this.role('icon-box').show();
+		showIcons : function(){
+			this.role('root').find('.icon').each(function(){
+				var el = $(this);
+				setTimeout(function(){
+					el.transit({
+						'opacity' : 1,
+						'translateZ' : 0
+					}, 1000, 'ease-out', function(){
+						el.css('transform', '');
+					});
+				}, Math.random() * 1000);
+			});
 		},
-		hideIconBox : function(){
-			this.role('icon-box').hide();
+		hideIcons : function(){
+			this.role('root').find('.icon').css({
+				'opacity' : 0
+			}).transform({
+				'translateZ' : '150px'
+			});
 		},
 		fxIn : function(){
 			var that = this;
@@ -141,12 +147,10 @@ define('mods/view/desktop',function(require,exports,module){
 			var scaleX = tvWidth / model.get('width');
 			var scaleY  = tvHeight / model.get('height');
 
-			root.show().css({
-				'transform-origin' : '0% 0%'
-			}).transform({
+			root.show().transform({
 				'translateX' : tvLeft + 'px',
 				'translateY' : tvTop + 'px',
-				'translateZ' : '10px',
+				'translateZ' : '1px',
 				'scaleX' : scaleX,
 				'scaleY' : scaleY
 			});
@@ -154,14 +158,14 @@ define('mods/view/desktop',function(require,exports,module){
 			root.transit({
 				'translateX' : 0,
 				'translateY' : 0,
-				'translateZ' : '10px',
+				'translateZ' : '1px',
 				'scaleX' : 1,
 				'scaleY' : 1
 			}, 1000, 'ease-out', function(){
 				root.transform({
-					'translateZ' : 0
+					'translateZ' : 0,
 				});
-				that.showIconBox();
+				that.showIcons();
 			});
 		},
 		fxOut : function(){
@@ -177,12 +181,10 @@ define('mods/view/desktop',function(require,exports,module){
 			var scaleX = tvWidth / model.get('width');
 			var scaleY  = tvHeight / model.get('height');
 
-			root.css({
-				'transform-origin' : '0% 0%',
-			}).transform({
+			root.transform({
 				'translateX' : 0,
 				'translateY' : 0,
-				'translateZ' : '10px',
+				'translateZ' : '1px',
 				'scaleX' : 1,
 				'scaleY' : 1
 			});
@@ -190,15 +192,13 @@ define('mods/view/desktop',function(require,exports,module){
 			root.transit({
 				'translateX' : tvLeft + 'px',
 				'translateY' : tvTop + 'px',
-				'translateZ' : '10px',
+				'translateZ' : '1px',
 				'scaleX' : scaleX,
 				'scaleY' : scaleY
 			}, 1000, 'ease-out', function(){
+				that.hideIcons();
+				root.hide();
 				$channel.trigger('on-desktop-hide');
-				root.transform({
-					'translateZ' : 0
-				}).hide();
-				that.hideIconBox();
 			});
 		}
 	});

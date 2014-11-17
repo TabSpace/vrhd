@@ -29,38 +29,51 @@ define('mods/ctrl/surface',function(require,exports,module){
 				return children[name];
 			}
 		},
-		getZindex : function(name){
-			if(!this.zIndexHash){
-				this.zIndexHash = {};
+		prepare : function(name){
+			if(!this.prepared){
+				this.prepared = {};
 			}
-			if(!this.zIndexHash[name]){
-				if(!this.curZindex){
-					this.curZindex = 1;
-				}else{
-					this.curZindex ++;
-				}
-				this.zIndexHash[name] = this.curZindex;
+			if(this.prepared[name]){
+				return;
+			}else{
+				this.prepared[name] = true;
 			}
-			return this.zIndexHash[name];
+			if(!this.prepareCache){
+				this.prepareCache = [];
+			}
+			this.prepareCache.push(name);
 		},
 		load : function(name, spec, callback){
 			var conf = this.conf;
 			var that = this;
-			var zIndex = that.getZindex(name);
+			that.prepare(name);
 			lithe.use('mods/view/surface/' + name, function(ChildSurface){
-				var options = $.extend({}, spec, {
-					zIndex : zIndex,
-					path : that.path,
-					env : that.env,
-					parent : conf.parent
+				that.prepared[name] = function(){
+					var options = $.extend({}, spec, {
+						path : that.path,
+						env : that.env,
+						parent : conf.parent
+					});
+					if(!that.children[name]){
+						var surface = new ChildSurface(options);
+						that.children[name] = surface;
+					}
+					if($.type(callback) === 'function'){
+						callback();
+					}
+				};
+
+				$.each(that.prepareCache, function(index, childName){
+					var item = that.prepared[childName];
+					if(item === 'ready'){
+						return;
+					}else if(item === true){
+						return false;
+					}if($.type(item) === 'function'){
+						item();
+						that.prepared[childName] = 'ready';
+					}
 				});
-				if(!that.children[name]){
-					var surface = new ChildSurface(options);
-					that.children[name] = surface;
-				}
-				if($.type(callback) === 'function'){
-					callback();
-				}
 			});
 		},
 		update : function(data){
