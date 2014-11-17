@@ -13,6 +13,8 @@ define('mods/view/desktop',function(require,exports,module){
 	var $socket = require('mods/channel/socket');
 	var $channel = require('lib/common/channel');
 
+	var $browser = require('mods/view/browser');
+
 	var ICON_SIZE = 72;
 	var ICON_MARGIN = 36;
 
@@ -48,7 +50,9 @@ define('mods/view/desktop',function(require,exports,module){
 			this.plane = conf.plane;
 			this.env = this.plane.env;
 			this.model = new $model({
-				'visible' : false
+				'visible' : false,
+				'width' : this.plane.model.get('width'),
+				'height' : this.plane.model.get('height')
 			});
 			var root = this.role('root');
 			root.appendTo(
@@ -68,8 +72,8 @@ define('mods/view/desktop',function(require,exports,module){
 		},
 		setStyles : function(){
 			var root = this.role('root');
-			var width = this.plane.model.get('width');
-			var height = this.plane.model.get('height');
+			var width = this.model.get('width');
+			var height = this.model.get('height');
 
 			this.model.set({
 				width : width,
@@ -88,11 +92,23 @@ define('mods/view/desktop',function(require,exports,module){
 				'transform-style' : 'preserve-3d'
 			});
 		},
+		getBrowser : function(){
+			if(!this.browser){
+				this.browser = new $browser({
+					plane : this.plane,
+					parent : this.role('root')
+				});
+			}
+			return this.browser;
+		},
+		openBrowser : function(){
+			this.getBrowser().open();
+		},
 		checkHover : function(){
 			var plane = this.conf.plane;
 			var pos = plane.pointerModel.get();
-			var planeWidth = plane.model.get('width');
-			var planeHeight = plane.model.get('height');
+			var planeWidth = this.model.get('width');
+			var planeHeight = this.model.get('height');
 
 			if(
 				!plane.model.get('bePointed') ||
@@ -169,7 +185,9 @@ define('mods/view/desktop',function(require,exports,module){
 			}else if(event.type === 'tap'){
 				if(this.curHover){
 					var name = this.curHover.attr('iconname');
-					console.log(name,'tapped');
+					if(name === 'chrome'){
+						this.openBrowser();
+					}
 				}
 			}
 		},
@@ -180,7 +198,7 @@ define('mods/view/desktop',function(require,exports,module){
 			var size = ICON_SIZE;
 			var margin = ICON_MARGIN;
 			var plane = this.plane;
-			var planeWidth = plane.model.get('width');
+			var planeWidth = this.model.get('width');
 			var rowSize = Math.floor( planeWidth / (size + margin) );
 			var rowPos = 0;
 			var colPos = 0;

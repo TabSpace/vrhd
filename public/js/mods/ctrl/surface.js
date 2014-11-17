@@ -8,6 +8,20 @@ define('mods/ctrl/surface',function(require,exports,module){
 
 	var $ = require('lib');
 	var $controller = require('lib/mvc/controller');
+	
+	var $background = require('mods/view/surface/background');
+	var $light = require('mods/view/surface/light');
+	var $mask = require('mods/view/surface/mask');
+	var $content = require('mods/view/surface/content');
+	var $animate = require('mods/view/surface/animate');
+
+	var SURFACE_LIST = {
+		'background' : $background,
+		'light' : $light,
+		'mask' : $mask,
+		'content' : $content,
+		'animate' : $animate
+	};
 
 	var Surface = $controller.extend({
 		defaults : {
@@ -29,68 +43,33 @@ define('mods/ctrl/surface',function(require,exports,module){
 				return children[name];
 			}
 		},
-		prepare : function(name){
-			if(!this.prepared){
-				this.prepared = {};
-			}
-			if(this.prepared[name]){
-				return;
-			}else{
-				this.prepared[name] = true;
-			}
-			if(!this.prepareCache){
-				this.prepareCache = [];
-			}
-			this.prepareCache.push(name);
-		},
-		load : function(name, spec, callback){
+		load : function(name, spec){
+			if(this.children[name]){return;}
 			var conf = this.conf;
-			var that = this;
-			that.prepare(name);
-			lithe.use('mods/view/surface/' + name, function(ChildSurface){
-				that.prepared[name] = function(){
-					var options = $.extend({}, spec, {
-						path : that.path,
-						env : that.env,
-						parent : conf.parent
-					});
-					if(!that.children[name]){
-						var surface = new ChildSurface(options);
-						that.children[name] = surface;
-					}
-					if($.type(callback) === 'function'){
-						callback();
-					}
-				};
+			var ChildSurface = SURFACE_LIST[name];
+			if(!ChildSurface){return;}
 
-				$.each(that.prepareCache, function(index, childName){
-					var item = that.prepared[childName];
-					if(item === 'ready'){
-						return;
-					}else if(item === true){
-						return false;
-					}if($.type(item) === 'function'){
-						item();
-						that.prepared[childName] = 'ready';
-					}
-				});
+			var options = $.extend({}, spec, {
+				path : this.path,
+				env : this.env,
+				parent : conf.parent
 			});
+			var surface = new ChildSurface(options);
+			this.children[name] = surface;
 		},
 		update : function(data){
-			var that = this;
 			var children = this.children;
 			data = data || {};
 			$.each(data, function(name, item){
 				if(children[name] && children[name].update){
 					children[name].update(item);
 				}else{
-					that.load(name, item, function(){
-						if(children[name] && children[name].update){
-							//为了避免toJSON操作时获取到过量数据
-							//更新数据时避免将parent这样的复杂对象传入
-							children[name].update(item);
-						}
-					});
+					this.load(name, item);
+					if(children[name] && children[name].update){
+						//为了避免toJSON操作时获取到过量数据
+						//更新数据时避免将parent这样的复杂对象传入
+						children[name].update(item);
+					}
 				}
 			});
 		},
