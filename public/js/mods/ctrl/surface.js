@@ -29,11 +29,27 @@ define('mods/ctrl/surface',function(require,exports,module){
 				return children[name];
 			}
 		},
+		getZindex : function(name){
+			if(!this.zIndexHash){
+				this.zIndexHash = {};
+			}
+			if(!this.zIndexHash[name]){
+				if(!this.curZindex){
+					this.curZindex = 1;
+				}else{
+					this.curZindex ++;
+				}
+				this.zIndexHash[name] = this.curZindex;
+			}
+			return this.zIndexHash[name];
+		},
 		load : function(name, spec, callback){
 			var conf = this.conf;
 			var that = this;
+			var zIndex = that.getZindex(name);
 			lithe.use('mods/view/surface/' + name, function(ChildSurface){
 				var options = $.extend({}, spec, {
+					zIndex : zIndex,
 					path : that.path,
 					env : that.env,
 					parent : conf.parent

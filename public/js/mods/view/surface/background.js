@@ -19,6 +19,9 @@ define('mods/view/surface/background',function(require,exports,module){
 		defaults : {
 			name : 'background',
 			path : '',
+			zIndex : 1,
+			//环境对象
+			env : null,
 			template : TPL.box,
 			parent : null
 		},
@@ -40,10 +43,14 @@ define('mods/view/surface/background',function(require,exports,module){
 			var color = model.get('color');
 			var image = model.get('image');
 			var root = this.role('root');
+			var parentModel = this.parent.model;
+			root.css({
+				'z-index' : this.conf.zIndex,
+				'width' : parentModel.get('width') + 'px',
+				'height' : parentModel.get('height') + 'px'
+			});
 			if(image){
-				root.css({
-					'background-image' : 'url(' + image + ')'
-				});
+				root.css('background-image', 'url(' + image + ')');
 			}else if(color){
 				root.css('background-color', color);
 			}

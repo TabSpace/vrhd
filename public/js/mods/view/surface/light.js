@@ -19,6 +19,9 @@ define('mods/view/surface/light',function(require,exports,module){
 		defaults : {
 			name : 'light',
 			path : '',
+			zIndex : 1,
+			//环境对象
+			env : null,
 			template : TPL.box,
 			parent : null
 		},
@@ -28,7 +31,11 @@ define('mods/view/surface/light',function(require,exports,module){
 		setStyles : function(){
 			var model = this.model;
 			var root = this.role('root');
+			var parentModel = this.parent.model;
 			root.css({
+				'z-index' : this.conf.zIndex,
+				'width' : parentModel.get('width') + 'px',
+				'height' : parentModel.get('height') + 'px',
 				'background' : 'radial-gradient(' + [
 					'farthest-corner at 60% 55%',
 					'rgba(255,255,255,0.5)',

@@ -35,9 +35,50 @@ define('mods/view/touchPad',function(require,exports,module){
 				$socket.on('touchpad:sync', proxy('onSync'));
 			}
 			model.on('change:lockAlpha', proxy('computeOffsetAlpha'));
-			root.on('touchstart', proxy('checkAlphaLock'));
-			root.on('touchend', proxy('checkAlphaLock'));
+
+			root.on('touchstart', proxy('onTouchStart'));
+			root.on('touchmove', proxy('onTouchMove'));
+			root.on('touchend', proxy('onTouchEnd'));
+			root.on('gesturestart', proxy('onGestureStart'));
+			root.on('gesturechange', proxy('onGestureChange'));
+			root.on('gestureend', proxy('onGestureEnd'));
+
 			root.on('tap', proxy('triggerTap'));
+			root.on('swipeLeft', function(){
+				console.log('swipeLeft');
+				$socket.trigger('touchpad:event', {
+					type : 'pinch-out'
+				});
+			}.bind(this));
+		},
+		preventDefault : function(evt){
+			if(evt.preventDefault){
+				evt.preventDefault();
+			}
+		},
+		onTouchStart : function(evt){
+			this.preventDefault(evt);
+			this.checkAlphaLock(evt);
+		},
+		onTouchMove : function(evt){
+			this.preventDefault(evt);
+		},
+		onTouchEnd : function(evt){
+			this.preventDefault(evt);
+			this.checkAlphaLock(evt);
+		},
+		onGestureStart : function(evt){
+			this.preventDefault(evt);
+			evt = evt.originalEvent || evt;
+		},
+		onGestureChange : function(evt){
+			this.preventDefault(evt);
+			evt = evt.originalEvent || evt;
+		},
+		onGestureEnd : function(evt){
+			this.preventDefault(evt);
+			evt = evt.originalEvent || evt;
+			this.checkZoomOut(evt);
 		},
 		//计算手机alpha与场景alpha的偏转角度
 		//手机的alpha初始值是随机的，因此需要矫正流程，按下3个指头锁定alpha方向来进行矫正
@@ -78,6 +119,17 @@ define('mods/view/touchPad',function(require,exports,module){
 				data.alpha = alpha;
 			}
 			this.model.set(data);
+		},
+		checkZoomOut : function(evt){
+			if(evt.scale < 0.5){
+				$socket.trigger('touchpad:event', {
+					type : 'pinch-out'
+				});
+			}else if(evt.scale > 2){
+				$socket.trigger('touchpad:event', {
+					type : 'pinch-in'
+				});
+			}
 		},
 		triggerTap : function(){
 			$socket.trigger('touchpad:event', {

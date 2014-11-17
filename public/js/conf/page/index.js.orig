@@ -31,6 +31,7 @@ define('conf/page/index', function(require, exports, module) {
 		});
 	});
 
+<<<<<<< HEAD
 	$('.gallery-box').each(function(){
 		var el = $(this);
 		var pics = ['/images/slide/1.jpg','/images/slide/2.jpg','/images/slide/3.jpg','/images/slide/4.jpg','/images/slide/5.jpg'];
@@ -42,6 +43,8 @@ define('conf/page/index', function(require, exports, module) {
 	});
 	scene.update($demoData);
 
+=======
+>>>>>>> 616d29042c205e62d8e5a301660fb214d874e34c
 	window.scene = scene;
 
 	scene.update($demoData);

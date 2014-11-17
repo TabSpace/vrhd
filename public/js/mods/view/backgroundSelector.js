@@ -40,7 +40,9 @@ define('mods/view/backgroundSelector',function(require,exports,module){
 		toggle : function(plane){
 			var model = this.model;
 			var curPath = model.get('plane');
-			if(plane.path === curPath){
+			if(!plane){
+				model.set('plane', '');
+			}else if(plane.path === curPath){
 				model.set('plane', '');
 			}else{
 				model.set('plane', plane.path);

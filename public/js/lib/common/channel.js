@@ -6,7 +6,9 @@ define('lib/common/channel',function(require,exports,module){
 
 	var $listener = require('lib/common/listener');
 	module.exports = new $listener([
-		//需要登录时触发
-		'need-login'
+		//电视被点击时
+		'on-tv-tap',
+		//桌面被隐藏后
+		'on-desktop-hide'
 	]);
 });

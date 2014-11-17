@@ -53,6 +53,10 @@ define('mods/view/room',function(require,exports,module){
 		},
 		//构建地面
 		buildGround : function(){
+			var that = this;
+			this.env.getRatio = function(){
+				return that.model.get('ratio');
+			};
 			this.ground = $('<div class="ground" name="ground"></div>');
 			this.ground.appendTo(this.coordinateSystem.role('root'));
 		},

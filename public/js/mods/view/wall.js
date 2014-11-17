@@ -14,6 +14,8 @@ define('mods/view/wall',function(require,exports,module){
 	var $plane = require('mods/view/plane');
 	var $wallModel = require('mods/model/wall');
 	var $touchPadModel = require('mods/model/touchPad');
+	var $channel = require('lib/common/channel');
+	var $desktop = require('mods/view/desktop');
 
 	var TPL = $tpl({
 		box : '<div class="plane"></div>'
@@ -41,6 +43,11 @@ define('mods/view/wall',function(require,exports,module){
 				height : conf.height
 			});
 			this.getVertex();
+		},
+		setEvents : function(){
+			Wall.superclass.setEvents.apply(this,arguments);
+			var proxy = this.proxy();
+			$channel.on('on-tv-tap', proxy('showDesktop'));
 		},
 		setPos : function(){
 			//墙面的位置基于方向计算
@@ -144,6 +151,21 @@ define('mods/view/wall',function(require,exports,module){
 				x : model.get('width') / 2,
 				y : model.get('height') - padHeight
 			};
+		},
+		//显示系统桌面
+		showDesktop : function(){
+			if(!this.desktop){
+				var mask = this.surface.get('mask');
+				if(mask && mask.tv){
+					this.desktop = new $desktop({
+						tv : mask.tv,
+						plane : this
+					});
+				}
+			}
+			if(this.desktop){
+				this.desktop.show();
+			}
 		},
 		//获取顶点坐标，该坐标相对于遥控器的位置
 		getVertex : function(){
