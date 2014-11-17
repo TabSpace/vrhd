@@ -9,6 +9,7 @@ define('mods/ctrl/preload',function(require,exports,module){
 	var $ctrl = require('lib/mvc/controller');
 
 	var preLoadImages = [
+		'wallpaper/wp1.jpg',
 		'icon/icon1.png',
 		'icon/icon2.png',
 		'icon/icon3.png',
@@ -17,8 +18,7 @@ define('mods/ctrl/preload',function(require,exports,module){
 		'icon/icon6.png',
 		'icon/icon7.png',
 		'icon/icon8.png',
-		'icon/icon9.png',
-		'wallpaper/wp1.jpg'
+		'icon/icon9.png'
 	];
 
 	var Preloader = $ctrl.extend({

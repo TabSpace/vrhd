@@ -44,12 +44,6 @@ define('mods/view/touchPad',function(require,exports,module){
 			root.on('gestureend', proxy('onGestureEnd'));
 
 			root.on('tap', proxy('triggerTap'));
-			root.on('swipeLeft', function(){
-				console.log('swipeLeft');
-				$socket.trigger('touchpad:event', {
-					type : 'pinch-out'
-				});
-			}.bind(this));
 		},
 		preventDefault : function(evt){
 			if(evt.preventDefault){

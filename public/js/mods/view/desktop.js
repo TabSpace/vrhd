@@ -13,6 +13,23 @@ define('mods/view/desktop',function(require,exports,module){
 	var $socket = require('mods/channel/socket');
 	var $channel = require('lib/common/channel');
 
+	var ICON_SIZE = 72;
+	var ICON_MARGIN = 36;
+
+	var ICONS = {
+		'chrome' : 'images/icon/icon1.png',
+		'draw' : 'images/icon/icon2.png',
+		'star' : 'images/icon/icon3.png',
+		'download' : 'images/icon/icon4.png',
+		'apple' : 'images/icon/icon5.png',
+		'music' : 'images/icon/icon6.png',
+		'tools' : 'images/icon/icon7.png',
+		'weather' : 'images/icon/icon8.png',
+		'entertainment' : 'images/icon/icon9.png'
+	};
+
+	var ICON_COUNT = Object.keys(ICONS).length;
+
 	var TPL = $tpl({
 		box : [
 			'<div class="desktop"></div>'
@@ -43,8 +60,11 @@ define('mods/view/desktop',function(require,exports,module){
 		setEvents : function(){
 			var proxy = this.proxy();
 			var model = this.model;
+			var plane = this.plane;
 			model.on('change:visible', proxy('checkVisible'));
 			$socket.on('touchpad:event', proxy('checkEvent'));
+			plane.pointerModel.on('change', proxy('checkHover'));
+			plane.model.on('change:bePointed', proxy('checkHover'));
 		},
 		setStyles : function(){
 			var root = this.role('root');
@@ -68,33 +88,128 @@ define('mods/view/desktop',function(require,exports,module){
 				'transform-style' : 'preserve-3d'
 			});
 		},
+		checkHover : function(){
+			var plane = this.conf.plane;
+			var pos = plane.pointerModel.get();
+			var planeWidth = plane.model.get('width');
+			var planeHeight = plane.model.get('height');
+
+			if(
+				!plane.model.get('bePointed') ||
+				!this.model.get('visible') ||
+				!this.icons ||
+				pos.x < 0 ||
+				pos.y < 0 ||
+				pos.x > planeWidth ||
+				pos.y > planeHeight
+			){
+				this.unHover();
+				return;
+			}
+
+			var hoverIndex = 0;
+			var size = ICON_SIZE;
+			var margin = ICON_MARGIN;
+			
+			var rowSize = Math.floor( planeWidth / (size + margin) );
+			var rowPos = Math.floor( (pos.x - margin) / (size + margin) );
+			var colPos = Math.floor( (pos.y - margin) / (size + margin) );
+			var rowDelta = (pos.x - margin) % (size + margin);
+			var colDelta = (pos.y - margin) % (size + margin);
+
+			if(rowPos < 0 || colPos < 0){
+				this.unHover();
+				return;
+			}
+
+			if(rowDelta < size && colDelta < size){
+				hoverIndex = ( colPos * rowSize + rowPos ) + 1;
+			}else{
+				this.unHover();
+				return;
+			}
+
+			if(hoverIndex > ICON_COUNT){
+				this.unHover();
+				return;
+			}
+
+			if(hoverIndex){
+				var hoverEl = this.icons.get(hoverIndex - 1);
+				if(!hoverEl){
+					this.unHover();
+					return;
+				}
+				if(this.curHover && this.curHover.get(0) !== hoverEl){
+					this.unHover();
+				}
+				var hoverIcon = $(hoverEl);
+				this.curHover = hoverIcon;
+				hoverIcon.css({
+					'box-shadow' : 'rgba(255,255,255,0.5) 0 0 10px 10px'
+				});
+			}else{
+				this.unHover();
+			}
+		},
+		unHover : function(){
+			if(!this.curHover){return;}
+			this.curHover.css({
+				'box-shadow' : 'none'
+			});
+			this.curHover = null;
+		},
 		checkEvent : function(event){
 			event = event || {};
 			if(!this.model.get('visible')){return;}
 			if(!event.type){return;}
+			if(!this.plane.model.get('bePointed')){return;}
 			if(event.type === 'pinch-out'){
-			//	if(this.plane.model.get('bePointed')){
-					this.hide();
-			//	}
+				this.hide();
+			}else if(event.type === 'tap'){
+				if(this.curHover){
+					var name = this.curHover.attr('iconname');
+					console.log(name,'tapped');
+				}
 			}
 		},
 		fillIcons : function(){
-			var i = 1;
 			var src = '';
 			var html = [];
 			var root = this.role('root');
-			for(i = 1; i < 10; i++){
-				src = 'images/icon/icon' + i + '.png';
-				html.push('<img class="icon" iconid="icon' + i + '" src="images/icon/icon' + i + '.png"/>');
-			}
+			var size = ICON_SIZE;
+			var margin = ICON_MARGIN;
+			var plane = this.plane;
+			var planeWidth = plane.model.get('width');
+			var rowSize = Math.floor( planeWidth / (size + margin) );
+			var rowPos = 0;
+			var colPos = 0;
+			var posX = 0;
+			var posY = 0;
+			var index = 0;
+			$.each(ICONS, function(name, src){
+				rowPos = index % rowSize;
+				colPos = Math.floor(index / rowSize);
+				posX = margin + rowPos * (size + margin);
+				posY = margin + colPos * (size + margin);
+				html.push([
+					'<img',
+						'class="icon"',
+						'iconname="' + name + '"',
+						'src="' + src + '"',
+						'style="left:' + posX + 'px;top:' + posY + 'px"',
+					'/>'
+				].join(' '));
+				index ++;
+			});
+
 			root.html(html.join(''));
-			root.find('.icon').css({
-				'background-repeat' : 'no-repeat',
-				'display' : 'inline-block',
-				'width' : '72px',
-				'height' : '72px',
-				'float' : 'left',
-				'margin' : '36px',
+			this.icons = root.find('.icon');
+			this.icons.css({
+				'border-radius' : size + 'px',
+				'position' : 'absolute',
+				'width' : size + 'px',
+				'height' : size + 'px',
 				'opacity' : 0
 			}).transform({
 				'translateZ' : '150px'
