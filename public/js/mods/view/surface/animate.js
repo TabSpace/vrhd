@@ -36,6 +36,15 @@ define('mods/view/surface/animate',function(require,exports,module){
 			this.setCursorVisibility();
 			this.setCursor();
 		},
+		setStyles : function(){
+			var root = this.role('root');
+			var parentModel = this.parent.model;
+			root.css({
+				'overflow' : 'hidden',
+				'width' : parentModel.get('width') + 'px',
+				'height' : parentModel.get('height') + 'px'
+			});
+		},
 		setEvents : function(){
 			var proxy = this.proxy();
 			var parent = this.parent;

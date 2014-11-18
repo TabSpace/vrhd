@@ -92,6 +92,12 @@ define('mods/view/desktop',function(require,exports,module){
 				'transform-style' : 'preserve-3d'
 			});
 		},
+		focus : function(){
+			this.model.set('focus', true);
+		},
+		blur : function(){
+			this.model.set('focus', false);
+		},
 		getBrowser : function(){
 			if(!this.browser){
 				this.browser = new $browser({
@@ -102,7 +108,7 @@ define('mods/view/desktop',function(require,exports,module){
 			return this.browser;
 		},
 		openBrowser : function(){
-			this.getBrowser().open();
+			this.getBrowser().show();
 		},
 		checkHover : function(){
 			var plane = this.conf.plane;
@@ -114,6 +120,7 @@ define('mods/view/desktop',function(require,exports,module){
 				!plane.model.get('bePointed') ||
 				!this.model.get('visible') ||
 				!this.icons ||
+				!this.model.get('focus') ||
 				pos.x < 0 ||
 				pos.y < 0 ||
 				pos.x > planeWidth ||
@@ -186,6 +193,7 @@ define('mods/view/desktop',function(require,exports,module){
 				if(this.curHover){
 					var name = this.curHover.attr('iconname');
 					if(name === 'chrome'){
+						this.blur();
 						this.openBrowser();
 					}
 				}
@@ -299,6 +307,7 @@ define('mods/view/desktop',function(require,exports,module){
 					'translateZ' : 0,
 				});
 				that.showIcons();
+				that.focus();
 			});
 		},
 		fxOut : function(){
@@ -313,6 +322,8 @@ define('mods/view/desktop',function(require,exports,module){
 			var tvTop = tv.conf.top * ratio;
 			var scaleX = tvWidth / model.get('width');
 			var scaleY  = tvHeight / model.get('height');
+
+			that.blur();
 
 			root.transform({
 				'translateX' : 0,
