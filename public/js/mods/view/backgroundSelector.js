@@ -12,6 +12,9 @@ define('mods/view/backgroundSelector',function(require,exports,module){
 	var $view = require('lib/mvc/view');
 	var $socket = require('mods/channel/socket');
 	var $bgModel = require('mods/model/backgroundSelector');
+	var $slideModel = require('mods/model/slideData');
+	var $operatorGallery = require('mods/view/operatorGallery');
+
 
 	var TPL = $tpl({
 		box : [
@@ -31,11 +34,14 @@ define('mods/view/backgroundSelector',function(require,exports,module){
 			this.model = new $bgModel({
 
 			});
+			this.slideModel = $slideModel;
 		},
 		setEvents : function(){
+			var that = this;
 			var model = this.model;
 			var proxy = this.proxy();
 			model.on('change:plane', proxy('selectPlane'));
+
 		},
 		toggle : function(plane){
 			var model = this.model;
@@ -61,30 +67,42 @@ define('mods/view/backgroundSelector',function(require,exports,module){
 		},
 		//显示幻灯组件
 		showSlides : function(path){
+			var root = this.role('root');
+
 			var plane = this.env.getObjByPath(path);
 			var box = plane.surface.get('content').role('root');
-			var root = this.role('root');
-			var width = plane.model.get('width');
-			var height = plane.model.get('height');
+
+			var width = this.slideModel.get('width');
+			var height = this.slideModel.get('height');
+
 			root.css({
-				'width' : width / 2 + 'px',
-				'height' : Math.min(100, height) + 'px',
+				'width' : width + 'px',
+				'height' : height + 'px'
 			}).appendTo(box);
 			root.transit({
 				'translateX' : '-50%',
 				'translateZ' : '100px'
 			}, 300, 'ease-in');
+
+			this.opGallery = new $operatorGallery({
+				parent: root,
+				hasBtn: false
+			});
 		},
 		//隐藏幻灯组件
 		hideSlides : function(callback){
 			var root = this.role('root');
-			if(!root.parent().get(0)){
+			if (!root.parent().get(0)) {
 				callback();
-			}else{
+			} else {
 				root.transit({
-					'translateX' : '-50%',
-					'translateZ' : 0
-				}, 300, 'ease-in', function(){
+					'translateX': '-50%',
+					'translateZ': 0
+				}, 300, 'ease-in', function () {
+					if (this.opGallery) {
+						this.opGallery.destroy();
+						this.opGallery = null;
+					}
 					root.remove();
 					callback();
 				});

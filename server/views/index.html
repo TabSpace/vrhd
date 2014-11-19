@@ -27,6 +27,14 @@
 
 			</div>
 		</div>
+        <% qrUrls.forEach(function(url){%>
+        <div>
+            <hr>
+            <h3>手机二维码</h3>
+            <p><%=url%></p>
+            <p><img title="<%= url %>" src="<%= url %>"></p>
+        </div>
+        <%});%>
 	</div>
 	<div class="backstage-right">
 		<div class="info-box">
@@ -55,6 +63,8 @@
         <div class="gallery-box"></div>
 	</div>
 </div>
+
+
 <script src="js/lithe.js" data-config="/config.js"></script>
 <script>
 lithe.use('conf/page/index');

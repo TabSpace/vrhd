@@ -1,19 +1,30 @@
 @charset "utf-8";
-.thumbnail-container {
 
+.thb-container {
+    position: relative;
+    padding: 20px 0 20px;
 }
 
-.thumbnail-container .show-area {
-
+.thb-container .thb-wrapper
+{
+    overflow: hidden;
+    width: 460px;
+    padding: 0 10px 0 10px;
 }
 
-.thumbnail-container .show-area li {
+.thb-container .thb-show-area {
+    width: 4000px;
+    -webkit-transition: margin-left .4s ease-in;
+    transition: margin-left .4s ease-in;
+}
+
+.thb-container .thb-show-area li {
     float: left;
     margin: 5px;
     position: relative;
 }
 
-.thumbnail-container .show-area .thl-frame {
+.thb-container .thb-show-area .thb-frame {
     position: absolute;
     top:0px;
     left:0px;
@@ -21,16 +32,60 @@
     height: 85px;
 }
 
-.thumbnail-container .show-area .thl-frame:hover {
+.thb-container .thb-show-area .hover .thb-frame {
     cursor: pointer;
     width: 77px;
     height: 77px;
     border: 4px solid rgba(255, 255, 255, 0.8);
 }
 
-.thumbnail-container .show-area .thl-frame.current {
+.thb-container .thb-show-area .current .thb-frame {
     cursor: pointer;
     width: 77px;
     height: 77px;
-    border: 4px solid rgba(221, 217, 191, 0.8);
+    border: 4px solid rgba(132, 116, 12, 0.8);
+}
+
+/****** font icon stuff ******/
+@font-face {
+    font-family: 'juicebox';
+    src:url('../fonts/juicebox.eot');
+    src:url('../fonts/juicebox.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/juicebox.woff') format('woff'),
+    url('../fonts/juicebox.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Icon Font Ids */
+.thb-container .thb-icons
+{
+    font-family: 'juicebox';
+    cursor: pointer;
+    display: block;
+    text-decoration: none;
+    -webkit-font-smoothing: antialiased;
+
+}
+.thb-container .thb-icons.previous, .thb-container .thb-icons.next
+{
+    position: absolute;
+    border-radius: 10px;
+    font-size:20px;
+    background-color: rgba(111, 111, 111, .8);
+    color: rgba(255, 255, 255, .8);
+}
+
+.thb-container .thb-icons.previous:hover, .thb-container .thb-icons.next:hover
+{
+    background-color: rgba(0, 0, 0, .8);
+}
+
+.thb-container .thb-icons.previous:before
+{
+    content: "\e000";
+}
+.thb-container .thb-icons.next:before
+{
+    content: "\e001";
 }

@@ -7,7 +7,10 @@
 define('mods/ctrl/env',function(require,exports,module){
 
 	var $ctrl = require('lib/mvc/controller');
+	var $socket = require('mods/channel/socket');
 	var $bgSelector = require('mods/view/backgroundSelector');
+
+
 
 	var Env = $ctrl.extend({
 		defaults : {

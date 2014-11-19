@@ -33,13 +33,19 @@ define('conf/page/index', function(require, exports, module) {
 
 	$('.gallery-box').each(function(){
 		var el = $(this);
-		var pics = ['/images/slide/1.jpg','/images/slide/2.jpg','/images/slide/3.jpg','/images/slide/4.jpg','/images/slide/5.jpg'];
-		var gallery = new $operatorGallery({
+		var pics = ['/images/wall/wall1.jpg','/images/wall/wall2.jpg'
+			,'/images/wall/wall3.png','/images/wall/wall4.jpg'
+			,'/images/wall/wall5.jpg','/images/wall/wall6.jpg'
+			,'/images/wall/wall7.jpg','/images/wall/wall8.jpg'
+			,'/images/wall/wall9.jpg','/images/wall/wall10.jpg'
+			,'/images/wall/wall11.jpg','/images/wall/wall12.jpg'];
+		this.mainGallery = new $operatorGallery({
 			parent: el,
 			pics: pics
 		});
-		gallery.show();
+		this.mainGallery.model.set('currentPic', pics[3]);
 	});
+
 	scene.update($demoData);
 
 	window.scene = scene;

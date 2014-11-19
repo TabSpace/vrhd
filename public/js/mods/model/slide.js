@@ -11,7 +11,12 @@ define('mods/model/slide',function(require,exports,module){
 
 	var Slide = $plane.extend({
 		defaults : {
-			pics: null
+			pics: [],
+			currentPic: '',
+			hoverPic: '',
+			width: 0,
+			height: 0,
+			marginLeft: '0px'
 		}
 	});
 
