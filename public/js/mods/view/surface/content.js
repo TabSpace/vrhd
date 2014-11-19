@@ -19,7 +19,6 @@ define('mods/view/surface/content',function(require,exports,module){
 		defaults : {
 			name : 'content',
 			path : '',
-			zIndex : 1,
 			//环境对象
 			env : null,
 			template : TPL.box,

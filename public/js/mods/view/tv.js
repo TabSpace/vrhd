@@ -143,7 +143,7 @@ define('mods/view/tv',function(require,exports,module){
 		},
 		checkEvent : function(event){
 			event = event || {};
-		//	if(!this.state.get('hover')){return;}
+			if(!this.state.get('hover')){return;}
 			if(!event.type){return;}
 			if(event.type === 'tap'){
 				this.hide();

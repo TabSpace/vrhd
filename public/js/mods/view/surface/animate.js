@@ -25,7 +25,6 @@ define('mods/view/surface/animate',function(require,exports,module){
 		defaults : {
 			name : 'animate',
 			path : '',
-			zIndex : 1,
 			//环境对象
 			env : null,
 			template : TPL.box,
@@ -36,6 +35,15 @@ define('mods/view/surface/animate',function(require,exports,module){
 			this.buildCursor();
 			this.setCursorVisibility();
 			this.setCursor();
+		},
+		setStyles : function(){
+			var root = this.role('root');
+			var parentModel = this.parent.model;
+			root.css({
+				'overflow' : 'hidden',
+				'width' : parentModel.get('width') + 'px',
+				'height' : parentModel.get('height') + 'px'
+			});
 		},
 		setEvents : function(){
 			var proxy = this.proxy();

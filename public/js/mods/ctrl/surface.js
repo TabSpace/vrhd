@@ -8,6 +8,20 @@ define('mods/ctrl/surface',function(require,exports,module){
 
 	var $ = require('lib');
 	var $controller = require('lib/mvc/controller');
+	
+	var $background = require('mods/view/surface/background');
+	var $light = require('mods/view/surface/light');
+	var $mask = require('mods/view/surface/mask');
+	var $content = require('mods/view/surface/content');
+	var $animate = require('mods/view/surface/animate');
+
+	var SURFACE_LIST = {
+		'background' : $background,
+		'light' : $light,
+		'mask' : $mask,
+		'content' : $content,
+		'animate' : $animate
+	};
 
 	var Surface = $controller.extend({
 		defaults : {
@@ -29,55 +43,33 @@ define('mods/ctrl/surface',function(require,exports,module){
 				return children[name];
 			}
 		},
-		getZindex : function(name){
-			if(!this.zIndexHash){
-				this.zIndexHash = {};
-			}
-			if(!this.zIndexHash[name]){
-				if(!this.curZindex){
-					this.curZindex = 1;
-				}else{
-					this.curZindex ++;
-				}
-				this.zIndexHash[name] = this.curZindex;
-			}
-			return this.zIndexHash[name];
-		},
-		load : function(name, spec, callback){
+		load : function(name, spec){
+			if(this.children[name]){return;}
 			var conf = this.conf;
-			var that = this;
-			var zIndex = that.getZindex(name);
-			lithe.use('mods/view/surface/' + name, function(ChildSurface){
-				var options = $.extend({}, spec, {
-					zIndex : zIndex,
-					path : that.path,
-					env : that.env,
-					parent : conf.parent
-				});
-				if(!that.children[name]){
-					var surface = new ChildSurface(options);
-					that.children[name] = surface;
-				}
-				if($.type(callback) === 'function'){
-					callback();
-				}
+			var ChildSurface = SURFACE_LIST[name];
+			if(!ChildSurface){return;}
+
+			var options = $.extend({}, spec, {
+				path : this.path,
+				env : this.env,
+				parent : conf.parent
 			});
+			var surface = new ChildSurface(options);
+			this.children[name] = surface;
 		},
 		update : function(data){
-			var that = this;
 			var children = this.children;
 			data = data || {};
 			$.each(data, function(name, item){
 				if(children[name] && children[name].update){
 					children[name].update(item);
 				}else{
-					that.load(name, item, function(){
-						if(children[name] && children[name].update){
-							//为了避免toJSON操作时获取到过量数据
-							//更新数据时避免将parent这样的复杂对象传入
-							children[name].update(item);
-						}
-					});
+					this.load(name, item);
+					if(children[name] && children[name].update){
+						//为了避免toJSON操作时获取到过量数据
+						//更新数据时避免将parent这样的复杂对象传入
+						children[name].update(item);
+					}
 				}
 			});
 		},

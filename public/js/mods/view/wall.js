@@ -42,7 +42,6 @@ define('mods/view/wall',function(require,exports,module){
 				width : conf.width,
 				height : conf.height
 			});
-			this.getVertex();
 		},
 		setEvents : function(){
 			Wall.superclass.setEvents.apply(this,arguments);
@@ -154,8 +153,9 @@ define('mods/view/wall',function(require,exports,module){
 		},
 		//显示系统桌面
 		showDesktop : function(){
+			var surface = this.surface;
 			if(!this.desktop){
-				var mask = this.surface.get('mask');
+				var mask = surface.get('mask');
 				if(mask && mask.tv){
 					this.desktop = new $desktop({
 						tv : mask.tv,
@@ -166,40 +166,6 @@ define('mods/view/wall',function(require,exports,module){
 			if(this.desktop){
 				this.desktop.show();
 			}
-		},
-		//获取顶点坐标，该坐标相对于遥控器的位置
-		getVertex : function(){
-			var data = {};
-			var model = this.model;
-			var type = model.get('type');
-			var width = model.get('width');
-			var height = model.get('height');
-			var distance = model.get('distance');
-			var padHeight = $touchPadModel.get('padHeight');
-
-			if(type === 'left'){
-				data.leftTop = [- distance, width / 2, height - padHeight];
-				data.rightTop = [- distance, - width / 2, height - padHeight];
-				data.rightBottom = [- distance, - width / 2, - padHeight];
-				data.leftBottom = [- distance, width / 2, - padHeight];
-			}else if(type === 'right'){
-				data.leftTop = [distance, - width / 2, height - padHeight];
-				data.rightTop = [distance, width / 2, height - padHeight];
-				data.rightBottom = [distance, width / 2, - padHeight];
-				data.leftBottom = [distance, - width / 2, - padHeight];
-			}else if(type === 'behind'){
-				data.leftTop = [width / 2, distance, height - padHeight];
-				data.rightTop = [- width / 2, distance, height - padHeight];
-				data.rightBottom = [- width / 2, distance, - padHeight];
-				data.leftBottom = [width / 2, distance, - padHeight];
-			}else if(type === 'front'){
-				data.leftTop = [- width / 2, - distance, height - padHeight];
-				data.rightTop = [width / 2, - distance, height - padHeight];
-				data.rightBottom = [width / 2, - distance, - padHeight];
-				data.leftBottom = [- width / 2, - distance, - padHeight];
-			}
-
-			return data;
 		}
 	});
 
