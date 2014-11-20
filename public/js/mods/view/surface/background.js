@@ -10,7 +10,6 @@ define('mods/view/surface/background',function(require,exports,module){
 	var $base = require('mods/view/surface/base');
 	var $tpl = require('lib/kit/util/template');
 	var $backgroundModel = require('mods/model/surface/background');
-	var $slideData = require('mods/model/slideData');
 
 	var TPL = $tpl({
 		box : '<div class="surface" name="background"></div>'
@@ -37,7 +36,6 @@ define('mods/view/surface/background',function(require,exports,module){
 			var model = this.model;
 			model.on('change:color', proxy('setStyles'));
 			model.on('change:image', proxy('setStyles'));
-			$slideData.on('change:currentPic', proxy('updateBackgroundImage'));
 		},
 		setStyles : function(){
 			var model = this.model;

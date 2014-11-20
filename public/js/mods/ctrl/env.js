@@ -10,8 +10,6 @@ define('mods/ctrl/env',function(require,exports,module){
 	var $socket = require('mods/channel/socket');
 	var $bgSelector = require('mods/view/backgroundSelector');
 
-
-
 	var Env = $ctrl.extend({
 		defaults : {
 			scene : null

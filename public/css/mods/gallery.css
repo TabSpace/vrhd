@@ -2,49 +2,40 @@
 
 .thb-container {
     position: relative;
-    padding: 20px 0 20px;
+    width: 490px;
+    height: 100px;
 }
-
-.thb-container .thb-wrapper
-{
-    overflow: hidden;
-    width: 460px;
-    padding: 0 10px 0 10px;
-}
-
-.thb-container .thb-show-area {
-    width: 4000px;
-    -webkit-transition: margin-left .4s ease-in;
-    transition: margin-left .4s ease-in;
-}
-
-.thb-container .thb-show-area li {
-    float: left;
-    margin: 5px;
-    position: relative;
-}
-
-.thb-container .thb-show-area .thb-frame {
+.thb-container .thb-wrapper{
     position: absolute;
-    top:0px;
-    left:0px;
-    width: 85px;
-    height: 85px;
+    width: 490px;
+    height: 100px;
+    -webkit-perspective-origin: 50% 50%;
+    -webkit-transform-style : preserve-3d;
+    -webkit-perspective: 1000px;
 }
 
-.thb-container .thb-show-area .hover .thb-frame {
-    cursor: pointer;
-    width: 77px;
-    height: 77px;
-    border: 4px solid rgba(255, 255, 255, 0.8);
+.thb-container .thb-image {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -50px;
+    margin-top: -50px;
+    background-size: cover;
+    -webkit-transition:0.5s ease-in;
 }
-
-.thb-container .thb-show-area .current .thb-frame {
-    cursor: pointer;
-    width: 77px;
-    height: 77px;
-    border: 4px solid rgba(132, 116, 12, 0.8);
-}
+.thb-container .prev4{opacity: 0; -webkit-transform:translateX(-230px) translateZ(-200px) rotateY(60deg);}
+.thb-container .prev3{opacity: 0.3; -webkit-transform:translateX(-220px) translateZ(-200px) rotateY(60deg);}
+.thb-container .prev2{opacity: 1; -webkit-transform:translateX(-210px) translateZ(-200px) rotateY(60deg);}
+.thb-container .prev1{opacity: 1; -webkit-transform:translateX(-200px) translateZ(-200px) rotateY(60deg);}
+.thb-container .prev0{opacity: 1; -webkit-transform:translateX(-100px) translateZ(-100px) rotateY(45deg);}
+.thb-container .cur{opacity: 1; -webkit-transform:translateX(0) translateZ(0) rotateY(-0);}
+.thb-container .next0{opacity: 1; -webkit-transform:translateX(100px) translateZ(-100px) rotateY(-45deg);}
+.thb-container .next1{opacity: 1; -webkit-transform:translateX(200px) translateZ(-200px) rotateY(-60deg);}
+.thb-container .next2{opacity: 1; -webkit-transform:translateX(210px) translateZ(-200px) rotateY(-60deg);}
+.thb-container .next3{opacity: 0.3; -webkit-transform:translateX(220px) translateZ(-200px) rotateY(-60deg);}
+.thb-container .next4{opacity: 0; -webkit-transform:translateX(230px) translateZ(-200px) rotateY(-60deg);}
 
 /****** font icon stuff ******/
 @font-face {
@@ -58,8 +49,7 @@
 }
 
 /* Icon Font Ids */
-.thb-container .thb-icons
-{
+.thb-container .thb-icons{
     font-family: 'juicebox';
     cursor: pointer;
     display: block;
@@ -67,25 +57,26 @@
     -webkit-font-smoothing: antialiased;
 
 }
-.thb-container .thb-icons.previous, .thb-container .thb-icons.next
-{
+.thb-container .thb-icons.previous, .thb-container .thb-icons.next{
     position: absolute;
     border-radius: 10px;
     font-size:20px;
     background-color: rgba(111, 111, 111, .8);
     color: rgba(255, 255, 255, .8);
+    top:40px;
 }
-
-.thb-container .thb-icons.previous:hover, .thb-container .thb-icons.next:hover
-{
+.thb-container .thb-icons.previous{
+    left: 0;
+}
+.thb-container .thb-icons.next{
+    right: 0;
+}
+.thb-container .thb-icons.previous:hover, .thb-container .thb-icons.next:hover{
     background-color: rgba(0, 0, 0, .8);
 }
-
-.thb-container .thb-icons.previous:before
-{
+.thb-container .thb-icons.previous:before{
     content: "\e000";
 }
-.thb-container .thb-icons.next:before
-{
+.thb-container .thb-icons.next:before{
     content: "\e001";
 }

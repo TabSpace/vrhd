@@ -19,6 +19,7 @@ define('mods/view/plane',function(require,exports,module){
 	var $pointerModel = require('mods/model/pointer');
 	var $touchPadModel = require('mods/model/touchPad');
 	var $socket = require('mods/channel/socket');
+	var $channel = require('lib/common/channel');
 
 	var TPL = $tpl({
 		box : '<div class="plane"></div>'

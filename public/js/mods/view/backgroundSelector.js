@@ -8,17 +8,18 @@ define('mods/view/backgroundSelector',function(require,exports,module){
 
 	var $ = require('lib');
 	var $tpl = require('lib/kit/util/template');
-
+	var $model = require('lib/mvc/model');
 	var $view = require('lib/mvc/view');
 	var $socket = require('mods/channel/socket');
-	var $bgModel = require('mods/model/backgroundSelector');
-	var $slideModel = require('mods/model/slideData');
-	var $operatorGallery = require('mods/view/operatorGallery');
-
+	var $slideModel = require('mods/model/slide');
+	var $mustache = require('lib/more/mustache');
 
 	var TPL = $tpl({
 		box : [
 			'<div class="bg-selector"></div>'
+		],
+		item : [
+			'{{#.}}<div class="item" style="background-image:url({{.}});"></div>{{/.}}'
 		]
 	});
 
@@ -31,17 +32,46 @@ define('mods/view/backgroundSelector',function(require,exports,module){
 		build : function(){
 			var conf = this.conf;
 			this.env = conf.env;
-			this.model = new $bgModel({
-
-			});
-			this.slideModel = $slideModel;
+			this.model = $slideModel;
+			this.render();
 		},
 		setEvents : function(){
 			var that = this;
 			var model = this.model;
 			var proxy = this.proxy();
 			model.on('change:plane', proxy('selectPlane'));
-
+			model.on('change:currentPic', proxy('render'));
+		},
+		render : function(){
+			var model = this.model;
+			var root = this.role('root');
+			var pics = model.get('pics');
+			if(!this.items){
+				var itemHtml = TPL.get('item');
+				var html = $mustache.render(itemHtml, pics);
+				root.html(html);
+				this.items = root.find('.item');
+			}
+			var items = this.items;
+			var prev = [];
+			var next = [];
+			var index = 0;
+			var cur = model.get('currentPic');
+			for(index = 0; index < cur; index ++){
+				prev.push(index);
+			}
+			for(index = cur + 1; index < pics.length; index ++){
+				next.push(index);
+			}
+			prev.reverse().forEach(function(index, i){
+				i = Math.min(i, 2);
+				items.get(index).className = 'item prev' + i;
+			});
+			items.get(cur).className = 'item cur';
+			next.forEach(function(index, i){
+				i = Math.min(i, 2);
+				items.get(index).className = 'item next' + i;
+			});
 		},
 		toggle : function(plane){
 			var model = this.model;
@@ -68,26 +98,17 @@ define('mods/view/backgroundSelector',function(require,exports,module){
 		//显示幻灯组件
 		showSlides : function(path){
 			var root = this.role('root');
-
 			var plane = this.env.getObjByPath(path);
 			var box = plane.surface.get('content').role('root');
 
-			var width = this.slideModel.get('width');
-			var height = this.slideModel.get('height');
-
 			root.css({
-				'width' : width + 'px',
-				'height' : height + 'px'
+				'width' : '400px',
+				'height' : '200px'
 			}).appendTo(box);
 			root.transit({
 				'translateX' : '-50%',
 				'translateZ' : '100px'
 			}, 300, 'ease-in');
-
-			this.opGallery = new $operatorGallery({
-				parent: root,
-				hasBtn: false
-			});
 		},
 		//隐藏幻灯组件
 		hideSlides : function(callback){
@@ -98,11 +119,7 @@ define('mods/view/backgroundSelector',function(require,exports,module){
 				root.transit({
 					'translateX': '-50%',
 					'translateZ': 0
-				}, 300, 'ease-in', function () {
-					if (this.opGallery) {
-						this.opGallery.destroy();
-						this.opGallery = null;
-					}
+				}, 300, 'ease-in', function(){
 					root.remove();
 					callback();
 				});

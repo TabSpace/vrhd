@@ -9,10 +9,12 @@ define('conf/page/index', function(require, exports, module) {
 	var $ = require('lib');
 	var $scene = require('mods/view/scene');
 	var $touchPad = require('mods/view/touchPad');
-	var $operatorGallery = require('mods/view/operatorGallery');
+	
 	var $demoData = require('mods/data/demo');
 	var $socket = require('mods/channel/socket');
 	var $sceneInfo = require('mods/view/sceneInfo');
+
+	var $operatorGallery = require('mods/view/operatorGallery');
 
 	var touchPad = new $touchPad({
 		node : null
@@ -31,19 +33,8 @@ define('conf/page/index', function(require, exports, module) {
 		});
 	});
 
-	$('.gallery-box').each(function(){
-		var el = $(this);
-		var pics = ['/images/wall/wall1.jpg','/images/wall/wall2.jpg'
-			,'/images/wall/wall3.png','/images/wall/wall4.jpg'
-			,'/images/wall/wall5.jpg','/images/wall/wall6.jpg'
-			,'/images/wall/wall7.jpg','/images/wall/wall8.jpg'
-			,'/images/wall/wall9.jpg','/images/wall/wall10.jpg'
-			,'/images/wall/wall11.jpg','/images/wall/wall12.jpg'];
-		this.mainGallery = new $operatorGallery({
-			parent: el,
-			pics: pics
-		});
-		this.mainGallery.model.set('currentPic', pics[3]);
+	var gallery = new $operatorGallery({
+		parent : $('.gallery-box')
 	});
 
 	scene.update($demoData);
