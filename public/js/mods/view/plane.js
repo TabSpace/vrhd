@@ -58,6 +58,7 @@ define('mods/view/plane',function(require,exports,module){
 			model.on('change', proxy('sync'));
 			model.on('change:width', proxy('setSize'));
 			model.on('change:height', proxy('setSize'));
+			model.on('change:visible', proxy('checkVisible'));
 			$touchPadModel.on('change', proxy('updatePointer'));
 			root.on('mouseenter', proxy('onPointerEnter'));
 			root.on('mouseleave', proxy('onPointerLeave'));
@@ -217,6 +218,66 @@ define('mods/view/plane',function(require,exports,module){
 			surface.load('mask');
 			surface.load('content');
 			surface.load('animate');
+		},
+		show : function(){
+			console.log(this.conf.name, 'show');
+			this.model.set('visible', true);
+		},
+		hide : function(){
+			this.model.set('visible', false);
+		},
+		checkVisible : function(){
+			if(this.model.get('visible')){
+				this.fxIn();
+			}else{
+				this.fxOut();
+			}
+		},
+		fxIn : function(){
+			var root = this.role('root');
+			var surface = this.surface;
+			var mask = surface.get('mask');
+			if(mask.door){
+				setTimeout(function(){
+					surface.get('background').fxIn();
+					surface.get('light').fxIn();
+				}, 1500);
+			}else if(this.conf.name === 'floor'){
+				surface.get('background').unfold();
+				surface.get('light').unfold();
+			}else{
+				setTimeout(function(){
+					root.show().css({
+						'opacity' : 0
+					}).transit({
+						'opacity' : 1
+					}, 1000, 'ease');
+				}, 3000);
+			}
+		},
+		fxOut : function(){
+			var root = this.role('root');
+			var surface = this.surface;
+			var mask = surface.get('mask');
+			if(mask.door){
+				setTimeout(function(){
+					surface.get('background').fxOut();
+					surface.get('light').fxOut();
+				}, 1500);
+			}else if(this.conf.name === 'floor'){
+				setTimeout(function(){
+					surface.get('background').fold();
+					surface.get('light').fold();
+				}, 3000);
+			}else{
+				root.css({
+					'opacity' : 1
+				}).transit({
+					'opacity' : 0
+				}, 1000, 'ease', function(){
+					root.hide();
+				});
+			}
 		},
 		update : function(data){
 			data = data || {};

@@ -62,6 +62,50 @@ define('mods/view/surface/base',function(require,exports,module){
 		hide : function(){
 			this.role('root').hide();
 		},
+		fxIn : function(){
+			var root = this.role('root');
+			root.show().css({
+				'opacity' : 0
+			}).transit({
+				'opacity' : 1
+			}, 1000, 'ease');
+		},
+		fxOut : function(){
+			var root = this.role('root');
+			root.css({
+				'opacity' : 1
+			}).transit({
+				'opacity' : 0
+			}, 1000, 'ease', function(){
+				root.hide();
+			});
+		},
+		fold : function(){
+			var root = this.role('root');
+			root.css({
+				'position' : 'absolute',
+				'left' : '50%',
+				'top' : '50%',
+				'border-radius' : 0,
+				'overflow' : 'hidden'
+			}).transform({
+				'translateX' : '-50%',
+				'translateY' : '-50%'
+			}).transit({
+				'width' : '200px',
+				'height' : '200px',
+				'border-radius' : '50%'
+			}, 1000, 'ease');
+		},
+		unfold : function(){
+			var root = this.role('root');
+			var plane = this.conf.parent;
+			root.transit({
+				'width' : plane.model.get('width') + 'px',
+				'height' : plane.model.get('height') + 'px',
+				'border-radius' : 0
+			}, 1000, 'ease');
+		},
 		update : function(data){
 			this.model.set(data);
 		},

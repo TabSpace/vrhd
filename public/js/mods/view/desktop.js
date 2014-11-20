@@ -14,6 +14,7 @@ define('mods/view/desktop',function(require,exports,module){
 	var $channel = require('lib/common/channel');
 
 	var $browser = require('mods/view/browser');
+	var $panorama = require('mods/view/panorama');
 
 	var ICON_SIZE = 72;
 	var ICON_MARGIN = 36;
@@ -49,15 +50,14 @@ define('mods/view/desktop',function(require,exports,module){
 			this.tv = conf.tv;
 			this.plane = conf.plane;
 			this.env = this.plane.env;
+			this.parent = this.plane.surface.get('content').role('root');
 			this.model = new $model({
 				'visible' : false,
 				'width' : this.plane.model.get('width'),
 				'height' : this.plane.model.get('height')
 			});
 			var root = this.role('root');
-			root.appendTo(
-				this.plane.surface.get('content').role('root')
-			);
+			root.appendTo(this.parent);
 			this.setStyles();
 			this.fillIcons();
 		},
@@ -69,6 +69,7 @@ define('mods/view/desktop',function(require,exports,module){
 			$socket.on('touchpad:event', proxy('checkEvent'));
 			plane.pointerModel.on('change', proxy('checkHover'));
 			plane.model.on('change:bePointed', proxy('checkHover'));
+			$channel.on('room-show-face', proxy('checkFocus'));
 		},
 		setStyles : function(){
 			var root = this.role('root');
@@ -82,6 +83,7 @@ define('mods/view/desktop',function(require,exports,module){
 
 			root.css({
 				'background-repeat' : 'no-repeat',
+				'background-size' : 'cover',
 				'background-image' : 'url(images/wallpaper/wp1.jpg)',
 				'position' : 'absolute',
 				'width' : width + 'px',
@@ -89,7 +91,8 @@ define('mods/view/desktop',function(require,exports,module){
 				'left' : 0,
 				'top' : 0,
 				'transform-origin' : '0% 0%',
-				'transform-style' : 'preserve-3d'
+				'transform-style' : 'preserve-3d',
+				'transform' : 'translate3d(0,0,0)'
 			});
 		},
 		focus : function(){
@@ -97,6 +100,18 @@ define('mods/view/desktop',function(require,exports,module){
 		},
 		blur : function(){
 			this.model.set('focus', false);
+		},
+		getPanorama : function(){
+			if(!this.panorama){
+				this.panorama = new $panorama({
+					ground : this.plane.ground
+				});
+			}
+			return this.panorama;
+		},
+		openPanorama : function(){
+			$channel.trigger('room-hide-face');
+			this.getPanorama().show();
 		},
 		getBrowser : function(){
 			if(!this.browser){
@@ -182,6 +197,12 @@ define('mods/view/desktop',function(require,exports,module){
 			});
 			this.curHover = null;
 		},
+		checkFocus : function(){
+			var that = this;
+			setTimeout(function(){
+				that.focus();
+			}, 4000);
+		},
 		checkEvent : function(event){
 			event = event || {};
 			if(!this.model.get('visible')){return;}
@@ -195,6 +216,9 @@ define('mods/view/desktop',function(require,exports,module){
 					if(name === 'chrome'){
 						this.blur();
 						this.openBrowser();
+					}else if(name === 'draw'){
+						this.blur();
+						this.openPanorama();
 					}
 				}
 			}
@@ -303,9 +327,7 @@ define('mods/view/desktop',function(require,exports,module){
 				'scaleX' : 1,
 				'scaleY' : 1
 			}, 1000, 'ease-out', function(){
-				root.transform({
-					'translateZ' : 0,
-				});
+				root.css('transform', '');
 				that.showIcons();
 				that.focus();
 			});

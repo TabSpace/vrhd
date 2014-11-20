@@ -10,6 +10,8 @@ define('mods/view/surface/mask',function(require,exports,module){
 	var $base = require('mods/view/surface/base');
 	var $tpl = require('lib/kit/util/template');
 	var $maskModel = require('mods/model/surface/mask');
+	var $socket = require('mods/channel/socket');
+	var $channel = require('lib/common/channel');
 
 	var $tv = require('mods/view/tv');
 
@@ -39,9 +41,22 @@ define('mods/view/surface/mask',function(require,exports,module){
 		setEvents : function(){
 			var proxy = this.proxy();
 			var model = this.model;
+			var plane = this.conf.parent;
 			model.on('change:door', proxy('setDoor'));
 			model.on('change:window', proxy('setWindow'));
 			model.on('change:tv', proxy('setTV'));
+			plane.pointerModel.on('change', proxy('checkHover'));
+			plane.model.on('change:bePointed', proxy('checkHover'));
+			$socket.on('touchpad:event', proxy('checkEvent'));
+		},
+		setStyles : function(){
+			var root = this.role('root');
+			var parentModel = this.parent.model;
+			root.css({
+				'overflow' : 'hidden',
+				'width' : parentModel.get('width') + 'px',
+				'height' : parentModel.get('height') + 'px'
+			});
 		},
 		setDoor : function(){
 			var model = this.model;
@@ -53,6 +68,8 @@ define('mods/view/surface/mask',function(require,exports,module){
 			if(!this.door){
 				this.door = $(TPL.get('door')).appendTo(root);
 			}
+			var plane = this.conf.parent;
+			var planeHeight = plane.model.get('height');
 			this.door.css({
 				'position' : 'absolute',
 				'bottom' : 0,
@@ -63,6 +80,12 @@ define('mods/view/surface/mask',function(require,exports,module){
 				'width' : data.width * ratio + 'px',
 				'height' : data.height * ratio + 'px'
 			});
+			this.doorOffset = {
+				'left' : data.left * ratio,
+				'top' : planeHeight - data.height * ratio,
+				'right' : data.left * ratio + data.width * ratio,
+				'bottom' : planeHeight
+			};
 		},
 		setWindow : function(){
 			var model = this.model;
@@ -119,6 +142,37 @@ define('mods/view/surface/mask',function(require,exports,module){
 				}, data));
 			}
 			this.tv.update(data);
+		},
+		checkEvent : function(event){
+			event = event || {};
+			if(!event.type){return;}
+			if(!this.door){return;}
+			if(!this.door.attr('hover')){return;}
+			if(event.type === 'tap'){
+				$channel.trigger('back-to-room');
+			}
+		},
+		checkHover : function(){
+			if(!this.door){return;}
+			if(!this.doorOffset){return;}
+			var plane = this.conf.parent;
+			var pos = plane.pointerModel.get();
+			var coordinates = this.doorOffset;
+			if(
+				plane.model.get('bePointed') &&
+				pos.x > coordinates.left &&
+				pos.x < coordinates.right &&
+				pos.y > coordinates.top &&
+				pos.y < coordinates.bottom
+			){
+				this.door.css({
+					'box-shadow' : 'rgba(255,255,255,0.5) 0 0 10px 10px'
+				}).attr('hover', 'y');
+			}else{
+				this.door.css({
+					'box-shadow' : 'none'
+				}).attr('hover', '');
+			}
 		}
 	});
 

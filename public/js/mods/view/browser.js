@@ -58,13 +58,10 @@ define('mods/view/browser',function(require,exports,module){
 				'left' : 0,
 				'width' : model.get('width') + 'px',
 				'height' : model.get('height') + 'px',
-				'overflow' : 'hidden',
-				'transform-origin' : '50% 50%',
-				'transform-style' : 'preserve-3d'
-			}).transform({
-				'translateZ' : 0
+				'overflow' : 'hidden'
 			});
 			this.role('box').css({
+				'overflow' : 'hidden',
 				'position' : 'absolute',
 				'top' : 0,
 				'left' : 0,

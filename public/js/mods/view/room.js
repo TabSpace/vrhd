@@ -13,6 +13,7 @@ define('mods/view/room',function(require,exports,module){
 	var $ceiling = require('mods/view/ceiling');
 	var $roomModel = require('mods/model/room');
 	var $touchPadModel = require('mods/model/touchPad');
+	var $channel = require('lib/common/channel');
 
 	var Room = $view.extend({
 		defaults : {
@@ -48,6 +49,8 @@ define('mods/view/room',function(require,exports,module){
 			model.on('change:heightPx', proxy('updateSize'));
 			model.on('change:extentPx', proxy('updateSize'));
 			personModel.on('change:eyeHeight', proxy('updateEyePos'));
+			$channel.on('room-show-face', proxy('showFace'));
+			$channel.on('room-hide-face', proxy('hideFace'));
 		},
 		//构建地面
 		buildGround : function(){
@@ -160,6 +163,22 @@ define('mods/view/room',function(require,exports,module){
 				'width' : width + 'px',
 				'height' : extent + 'px',
 			});
+		},
+		hideFace : function(){
+			this.floor.hide();
+			this.ceiling.hide();
+			this.left.hide();
+			this.right.hide();
+			this.front.hide();
+			this.behind.hide();
+		},
+		showFace : function(){
+			this.floor.show();
+			this.ceiling.show();
+			this.left.show();
+			this.right.show();
+			this.front.show();
+			this.behind.show();
 		},
 		update : function(data){
 			var that = this;

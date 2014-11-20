@@ -192,16 +192,19 @@ define('mods/view/touchPad',function(require,exports,module){
 				$socket.trigger('touchpad:event', {
 					type : 'pinch-out'
 				});
+				this.endingAction = 'pinch-out';
 			}else if(evt.scale > 2){
 				$socket.trigger('touchpad:event', {
 					type : 'pinch-in'
 				});
+				this.endingAction = 'pinch-in';
 			}
 		},
 		triggerTap : function(){
 			$socket.trigger('touchpad:event', {
 				type : 'tap'
 			});
+			this.endingAction = 'tap';
 		},
 		sync : function(){
 			var data = this.model.get();
