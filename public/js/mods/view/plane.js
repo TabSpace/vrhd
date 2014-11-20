@@ -65,6 +65,7 @@ define('mods/view/plane',function(require,exports,module){
 			root.on('mouseleave', proxy('onPointerLeave'));
 			$socket.on(this.path + ':sync', proxy('onSync'));
 			root.on('click', proxy('toggleBgSelector'));
+			$socket.on('change-background', proxy('changeBackground'));
 		},
 		getModel : function(){
 			var conf = this.conf;
@@ -106,8 +107,13 @@ define('mods/view/plane',function(require,exports,module){
 		},
 		//切换背景选择器的显示与隐藏
 		toggleBgSelector : function(){
-			var bgSelector = this.env.getBackgroundSelector();
-			bgSelector.toggle(this);
+			$socket.trigger('toggle-bg-selector', this.path);
+		},
+		changeBackground : function(data){
+			if(!data){return;}
+			if(data.path === this.path){
+				this.surface.get('background').updateBackgroundImage(data.pic);
+			}
 		},
 		setSize : function(){
 			var model = this.model;
@@ -221,7 +227,6 @@ define('mods/view/plane',function(require,exports,module){
 			surface.load('animate');
 		},
 		show : function(){
-			console.log(this.conf.name, 'show');
 			this.model.set('visible', true);
 		},
 		hide : function(){

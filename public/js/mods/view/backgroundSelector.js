@@ -41,11 +41,15 @@ define('mods/view/backgroundSelector',function(require,exports,module){
 			var proxy = this.proxy();
 			model.on('change:plane', proxy('selectPlane'));
 			model.on('change:currentPic', proxy('render'));
+			$socket.on('gallery', proxy('onSync'));
+		},
+		onSync : function(data){
+			this.model.set(data);
 		},
 		render : function(){
 			var model = this.model;
 			var root = this.role('root');
-			var pics = model.get('pics');
+			var pics = model.pics;
 			if(!this.items){
 				var itemHtml = TPL.get('item');
 				var html = $mustache.render(itemHtml, pics);
@@ -73,15 +77,15 @@ define('mods/view/backgroundSelector',function(require,exports,module){
 				items.get(index).className = 'item next' + i;
 			});
 		},
-		toggle : function(plane){
+		toggle : function(path){
 			var model = this.model;
 			var curPath = model.get('plane');
-			if(!plane){
+			if(!path){
 				model.set('plane', '');
-			}else if(plane.path === curPath){
+			}else if(path === curPath){
 				model.set('plane', '');
 			}else{
-				model.set('plane', plane.path);
+				model.set('plane', path);
 			}
 		},
 		//选择所在的平面
@@ -103,9 +107,11 @@ define('mods/view/backgroundSelector',function(require,exports,module){
 
 			root.css({
 				'width' : '400px',
-				'height' : '200px'
+				'height' : '200px',
+				'opacity' : 0
 			}).appendTo(box);
 			root.transit({
+				'opacity' : 1,
 				'translateX' : '-50%',
 				'translateZ' : '100px'
 			}, 300, 'ease-in');
@@ -117,6 +123,7 @@ define('mods/view/backgroundSelector',function(require,exports,module){
 				callback();
 			} else {
 				root.transit({
+					'opacity' : 0,
 					'translateX': '-50%',
 					'translateZ': 0
 				}, 300, 'ease-in', function(){

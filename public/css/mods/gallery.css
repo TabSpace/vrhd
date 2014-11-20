@@ -24,6 +24,8 @@
     margin-top: -50px;
     background-size: cover;
     -webkit-transition:0.5s ease-in;
+    border : 1px solid #000;
+    background-color: #fff;
 }
 .thb-container .prev4{opacity: 0; -webkit-transform:translateX(-230px) translateZ(-200px) rotateY(60deg);}
 .thb-container .prev3{opacity: 0.3; -webkit-transform:translateX(-220px) translateZ(-200px) rotateY(60deg);}

@@ -10,6 +10,8 @@ define('mods/model/slide',function(require,exports,module){
 	var $model = require('lib/mvc/model');
 
 	var pics = [
+		'',
+		'/images/floor/floor1.jpg',
 		'/images/wall/wall1.jpg',
 		'/images/wall/wall2.jpg',
 		'/images/wall/wall3.png',
@@ -26,15 +28,11 @@ define('mods/model/slide',function(require,exports,module){
 
 	var Slide = $model.extend({
 		defaults : {
-			pics: [],
 			plane : '',
 			currentPic: 0
 		},
 		build : function(){
-			this.loadWallPaper();
-		},
-		loadWallPaper : function(){
-			this.set('pics', pics);
+			this.pics = pics;
 		}
 	});
 

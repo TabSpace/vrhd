@@ -51,12 +51,11 @@ define('mods/view/surface/background',function(require,exports,module){
 			if(image){
 				root.css('background-image', 'url(' + image + ')');
 			}else if(color){
+				root.css('background-image', 'none');
 				root.css('background-color', color);
 			}
 		},
-		updateBackgroundImage: function(){
-			var root = this.role('root');
-			var pic = $slideData.get('currentPic');
+		updateBackgroundImage: function(pic){
 			this.model.set('image', pic);
 		}
 	});

@@ -18,6 +18,10 @@ define('mods/ctrl/env',function(require,exports,module){
 			var conf = this.conf;
 			this.scene = conf.scene;
 		},
+		setEvents : function(){
+			var proxy = this.proxy();
+			$socket.on('toggle-bg-selector', proxy('toggleBgSelector'));
+		},
 		//获取场景比例
 		getRatio : function(){
 			return 200;
@@ -26,14 +30,13 @@ define('mods/ctrl/env',function(require,exports,module){
 		getObjByPath : function(path){
 			return this.scene.getObjByPath(path);
 		},
-		//获取背景选择器
-		getBackgroundSelector : function(){
+		toggleBgSelector : function(path){
 			if(!this.bgSelector){
 				this.bgSelector = new $bgSelector({
 					env : this
 				});
 			}
-			return this.bgSelector;
+			this.bgSelector.toggle(path);
 		}
 	});
 

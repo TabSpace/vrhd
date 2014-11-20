@@ -12,6 +12,7 @@ define('mods/view/operatorGallery', function(require,exports,module){
 	var $limit = require('lib/kit/num/limit');
 	var $socket = require('mods/channel/socket');
 	var $slideModel = require('mods/model/slide');
+	var $channel = require('lib/common/channel');
 
 	var TPL = $tpl({
 		box : [
@@ -50,14 +51,18 @@ define('mods/view/operatorGallery', function(require,exports,module){
 			root.delegate('[data-role="prev"]', 'click', proxy('prev'));
 			root.delegate('[data-role="next"]', 'click', proxy('next'));
 			model.on('change:currentPic', proxy('render'));
+			model.on('change', proxy('sync'));
 		},
 		setStyles : function(){
 
 		},
+		sync : function(){
+			$socket.trigger('gallery', this.model.get());
+		},
 		render : function(){
 			var model = this.model;
 			var root = this.role('root');
-			var pics = model.get('pics');
+			var pics = model.pics;
 			if(!this.items){
 				var itemHtml = TPL.get('item');
 				var html = $mustache.render(itemHtml, pics);
@@ -91,10 +96,15 @@ define('mods/view/operatorGallery', function(require,exports,module){
 		//选择该墙纸
 		selectPic : function(evt){
 			var el = $(evt.currentTarget);
+			var model = this.model;
 			if(el.hasClass('cur')){
 				var pid = el.attr('pid');
 				var index = parseInt(pid, 10);
-
+				index = $limit(index, 0, model.pics.length - 1);
+				$socket.trigger('change-background', {
+					path : model.get('plane'),
+					pic : model.pics[index]
+				});
 			}
 		},
 		next : function(){
@@ -119,7 +129,7 @@ define('mods/view/operatorGallery', function(require,exports,module){
 		//移动图册到指定序号的墙纸
 		slideTo : function(index){
 			var model = this.model;
-			var pics = model.get('pics');
+			var pics = model.pics;
 			index = index || 0;
 			index = $limit(index, 0, pics.length - 1);
 			model.set('currentPic', index);
