@@ -14,7 +14,7 @@ define('mods/model/slide',function(require,exports,module){
 		'/images/floor/floor1.jpg',
 		'/images/wall/wall1.jpg',
 		'/images/wall/wall2.jpg',
-		'/images/wall/wall3.png',
+		'/images/wall/wall3.jpg',
 		'/images/wall/wall4.jpg',
 		'/images/wall/wall5.jpg',
 		'/images/wall/wall6.jpg',
