@@ -16,7 +16,9 @@
   "ejs":"*",
   "express":"4.0",
   "lodash":"*",
-  "async":"*"
+  "async":"*",
+  "lithe" : "0.3.0",
+  "grunt": "~0.4.1"
   },
   "engines": {
     "node": "0.10.x"
