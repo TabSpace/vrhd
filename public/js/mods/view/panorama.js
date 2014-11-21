@@ -13,6 +13,8 @@ define('mods/view/panorama',function(require,exports,module){
 	var $socket = require('mods/channel/socket');
 	var $channel = require('lib/common/channel');
 	var $arcToDeg = require('lib/kit/math/arcToDeg');
+	var $degToArc = require('lib/kit/math/degToArc');
+	var $touchPadModel = require('mods/model/touchPad');
 
 	var TPL = $tpl({
 		box : [
@@ -25,26 +27,46 @@ define('mods/view/panorama',function(require,exports,module){
 				'<div class="panorama-item"></div>',
 				'<div class="panorama-item"></div>',
 				'<div class="panorama-item"></div>',
+				'<div class="panorama-item"></div>',
+				'<div class="panorama-item"></div>',
+				'<div class="panorama-item"></div>',
+				'<div class="panorama-item"></div>',
+				'<div class="panorama-item"></div>',
+				'<div class="panorama-item"></div>',
+				'<div class="panorama-item"></div>',
+				'<div class="panorama-item"></div>',
 			'</div>'
 		]
 	});
 
+	var PANO_IMAGES = [
+		'/images/pano/pano1.jpg',
+		'/images/pano/pano2.jpg',
+		'/images/pano/pano3.jpg',
+		'/images/pano/pano4.jpg'
+	];
+
 	var Panorama = $view.extend({
 		defaults : {
 			ground : null,
+			env : null,
 			template : TPL.box
 		},
 		build : function(){
 			var conf = this.conf;
 			var root = this.role('root');
+			this.env = conf.env;
 			this.model = new $model({
-
+				panoSrc : '',
+				panoAngle : 180,
+				panoWidth : 0,
+				panoHeight : 0
 			});
 			this.ground = conf.ground;
 			root.appendTo(this.ground);
 			this.screens = root.find('.panorama-item');
 			this.setStyles();
-			this.buildScreen();
+			this.loadPano();
 		},
 		setEvents : function(){
 			var model = this.model;
@@ -54,6 +76,13 @@ define('mods/view/panorama',function(require,exports,module){
 		},
 		setStyles : function(){
 			var root = this.role('root');
+			var ratio = this.env.getRatio();
+			var room = this.env.getObjByPath('vr.scene.house.room');
+			var eyeHeight = 1.4;
+			if(room && room.personModel){
+				eyeHeight = room.personModel.get('eyeHeight');
+			}
+			var eyeHeightPx = eyeHeight * ratio;
 			root.css({
 				'position' : 'absolute',
 				'width' : '200px',
@@ -64,33 +93,65 @@ define('mods/view/panorama',function(require,exports,module){
 				'margin-left' : '-100px',
 				'transform-origin' : '50% 50%',
 				'transform-style' : 'preserve-3d',
-				'transform' : 'rotateX(90deg) rotateZ(180deg)'
+				'transform' : 'rotateX(90deg) rotateZ(180deg) translateY(-' + eyeHeightPx + 'px)'
 			});
 		},
-		buildScreen : function(){
+		render : function(){
+			var model = this.model;
 			var screenCount = this.screens.length;
-			var viewingAngle = 180;
-			var distance = 400;
-			var itemHeight = 400;
+			var panoSrc = model.get('panoSrc');
+			var viewingAngle = model.get('panoAngle');
+			var itemWidth = model.get('panoWidth') / screenCount;
+			var itemHeight = model.get('panoHeight');
 			var itemAngle = viewingAngle / screenCount;
-			var itemWidth = 2 * Math.sin( $arcToDeg(itemAngle / 2) ) * distance;
+			var distance = itemWidth / (2 * Math.sin( $degToArc(itemAngle / 2) ));
+			var startDeg = (screenCount / 2) * itemAngle - itemAngle / 2;
+
+			distance = distance - distance / 45;
+
 			this.screens.each(function(index){
 				var el = $(this);
+				var deg = startDeg - index * itemAngle;
+				var posX = - index * itemWidth;
 				el.css({
+					'position' : 'absolute',
+					'top' : '50%',
+					'left' : '50%',
+					'margin-left' : itemWidth / 2 + 'px',
+					'margin-top' : itemHeight / 2 + 'px',
 					'background-color' : '#fff',
+					'background-image' : 'url(' + panoSrc + ')',
+					'background-repeat' : 'no-repeat',
+					'background-position' : posX + 'px 0',
 					'width' : itemWidth + 'px',
 					'height' : itemHeight + 'px'
 				}).transform({
-					// 'rotateY' : '',
-					'translateZ' : - distance + 'px'
+					'rotateY' : deg + 'deg',
+					'translateZ' : - distance + 'px',
+					'translateY' : - itemHeight + 'px'
 				});
 			});
 		},
+		loadPano : function(){
+			var that = this;
+			var model = this.model;
+			var src = PANO_IMAGES[3];
+			var img = new Image();
+			img.onload = function(){
+				model.set({
+					panoSrc : src,
+					panoWidth : img.width,
+					panoHeight : img.height
+				});
+				that.render();
+			};
+			img.src = src;
+		},
 		fxIn : function(){
-
+			this.role('root').show();
 		},
 		fxOut : function(){
-
+			this.role('root').hide();
 		},
 		checkVisible : function(){
 			if(this.model.get('visible')){

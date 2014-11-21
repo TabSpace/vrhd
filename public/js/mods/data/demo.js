@@ -118,7 +118,7 @@ define('mods/data/demo',function(require,exports,module){
 							"tv" : {
 								"style" : "images/tv/tv1.png",
 								"top" : 1,
-								"left" : 0,
+								"left" : 1,
 								"width" : 1.092,
 								"height" : 0.64,
 								"screenHeight" : 0.62

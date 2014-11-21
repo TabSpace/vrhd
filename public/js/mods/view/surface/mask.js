@@ -17,7 +17,11 @@ define('mods/view/surface/mask',function(require,exports,module){
 
 	var TPL = $tpl({
 		'box' : '<div class="surface" name="mask"></div>',
-		'door' : '<div class="mask" name="door"></div>',
+		'door' : [
+			'<div class="mask" name="door">',
+				'<div class="door-surface"></div>',
+			'</div>'
+		],
 		'window' : [
 			'<div class="mask" name="window">',
 				'<div class="inner"></div>',
@@ -73,6 +77,7 @@ define('mods/view/surface/mask',function(require,exports,module){
 			this.door.css({
 				'position' : 'absolute',
 				'bottom' : 0,
+				'overflow' : 'hidden',
 				'left' : data.left * ratio + 'px',
 				'background-image' : 'url(' + data.style + ')',
 				'background-size' : 'cover',
@@ -86,6 +91,13 @@ define('mods/view/surface/mask',function(require,exports,module){
 				'right' : data.left * ratio + data.width * ratio,
 				'bottom' : planeHeight
 			};
+			this.door.find('.door-surface').css({
+				'position' : 'absolute',
+				'top' : 0,
+				'left' : 0,
+				'width' : data.width * ratio + 'px',
+				'height' : data.height * ratio + 'px'
+			});
 		},
 		setWindow : function(){
 			var model = this.model;
@@ -165,13 +177,13 @@ define('mods/view/surface/mask',function(require,exports,module){
 				pos.y > coordinates.top &&
 				pos.y < coordinates.bottom
 			){
-				this.door.css({
-					'box-shadow' : 'rgba(255,255,255,0.5) 0 0 10px 10px'
-				}).attr('hover', 'y');
+				this.door.attr('hover', 'y').find('.door-surface').css({
+					'background-color' : 'rgba(255,255,255,0.5)'
+				});
 			}else{
-				this.door.css({
-					'box-shadow' : 'none'
-				}).attr('hover', '');
+				this.door.attr('hover', '').find('.door-surface').css({
+					'background-color' : ''
+				});
 			}
 		}
 	});

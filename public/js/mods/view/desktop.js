@@ -104,6 +104,7 @@ define('mods/view/desktop',function(require,exports,module){
 		getPanorama : function(){
 			if(!this.panorama){
 				this.panorama = new $panorama({
+					env : this.env,
 					ground : this.plane.ground
 				});
 			}
